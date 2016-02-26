@@ -161,6 +161,8 @@ namespace NotesOnBand.Models
         }
 
 
+
+
         /// <summary>
         /// Load up an icon (png) file and convert it to an actual BandIcon object to be used with creating a new tile.
         /// </summary>
