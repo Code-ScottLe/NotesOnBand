@@ -8,6 +8,7 @@ using Microsoft.Band;
 using Microsoft.Band.Tiles;
 using Microsoft.Band.Tiles.Pages;
 using NotesOnBand.Models;
+using System.Xml;
 
 namespace NotesOnBand.ViewModels
 {
@@ -20,6 +21,7 @@ namespace NotesOnBand.ViewModels
 
         private Band currentBand;
         private List<string> notesList;
+        private XmlDocument previousSyncedNotes;
 
         #endregion
 

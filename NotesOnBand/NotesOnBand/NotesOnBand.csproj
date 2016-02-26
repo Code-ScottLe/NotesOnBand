@@ -92,7 +92,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="SavedNotes\XMLFile1.xml" />
+    <Content Include="SavedNotes\PreviousSyncedNotes.xml" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>

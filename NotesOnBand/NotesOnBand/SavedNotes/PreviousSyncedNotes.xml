@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Band currently not supporting getting the page data back, so we have to save it from somewhere else. -->
 <Notes>
   <Note index ="0">
     
