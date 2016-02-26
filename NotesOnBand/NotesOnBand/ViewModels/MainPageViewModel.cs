@@ -9,6 +9,8 @@ using Microsoft.Band.Tiles;
 using Microsoft.Band.Tiles.Pages;
 using NotesOnBand.Models;
 using System.Xml;
+using System.Xml.Linq;
+using Windows.Storage.Streams;
 
 namespace NotesOnBand.ViewModels
 {
@@ -21,8 +23,9 @@ namespace NotesOnBand.ViewModels
 
         private Band currentBand;
         private List<string> notesList;
-        private XmlDocument previousSyncedNotes;
-
+        private XElement previousSyncedNotes;
+        private string errorMessage;
+        private string message;
         #endregion
 
         #region events
@@ -51,6 +54,21 @@ namespace NotesOnBand.ViewModels
             }
         }
 
+        public string ErrorMessage
+        {
+            get
+            {
+                return errorMessage;
+            }
+
+            set
+            {
+                errorMessage = value;
+                OnPropertyChanged("ErrorMessage");
+            }
+        }
+
+        #region Notes Properties
         public string Note1
         {
             get
@@ -170,15 +188,82 @@ namespace NotesOnBand.ViewModels
 
             }
         }
-
+        #endregion
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Default Constructor of the MainPageViewModel
+        /// </summary>
+        public MainPageViewModel()
+        {
+            //Because the Band can store up to 8 individual pages only. We set the list of strings to have only 8 values.
+            for(int i = 0; i < 8; i++)
+            {
+                notesList.Add(string.Empty);
+            }
+
+            //Open up the XML document to load back on the previously saved notes.
+
+        }
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Load up previously synced notes to the band.
+        /// </summary>
+        /// <returns></returns>
+        private async Task LoadPreviousSyncedNotes()
+        {
+            //Open up the in-app XML Documents that we saves all the notes.
+            Windows.Storage.StorageFile savedNotesXMLStorageFile = 
+                await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SavedNotes/PreviousSyncedNotes.xml"));
+            
+            
+
+            //Open up for both read and write.
+            using (Windows.Storage.Streams.IRandomAccessStream fileStream = await savedNotesXMLStorageFile.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite))
+            {
+                //Get an input stream from the RandomAccessStream
+                var readStream = fileStream.GetInputStreamAt(0);
+
+                //Using a data reader to read off an input stream
+                using (DataReader reader = new DataReader(readStream))
+                {
+                    //Read the entire stream
+                    var fileSize = await reader.LoadAsync((uint)fileStream.Size);
+
+                    //Ask the reader to parse the stream and return it as string, or XML in string form.
+                    string xml = reader.ReadString(fileSize);
+
+                    //Load it up as XElement (LINQ with XML)
+                    previousSyncedNotes = XElement.Parse(xml);                  
+                }
+                
+            }
+
+
+            //check if we actually loaded it up successfully
+            if(previousSyncedNotes == null)
+            {
+                ErrorMessage = "Can't load up previous synced notes!";
+                return;
+            }
+           
+            //Populate back the List of messages.
+            foreach(XElement element in previousSyncedNotes.Descendants("note"))
+            {
+                notesList[(int)element.Attribute("index")] = element.Value;
+            }
+            
+            
+        }
+
+
         /// <summary>
         /// Fire up the PropertyChanged event and notify all the listener about the changed property.
         /// </summary>
