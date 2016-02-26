@@ -258,6 +258,13 @@ namespace NotesOnBand.ViewModels
             foreach(XElement element in previousSyncedNotes.Descendants("note"))
             {
                 notesList[(int)element.Attribute("index")] = element.Value;
+
+                //Because we are saving that to the list itself, not through the Property, have to manually ring the event.
+                //Index in XML and list are 0 based,  have to add 1 first.
+                string propertyName = "Note" + ((int)element.Attribute("index") + 1).ToString();
+
+                //Manually ring the event
+                OnPropertyChanged(propertyName);
             }
             
             
