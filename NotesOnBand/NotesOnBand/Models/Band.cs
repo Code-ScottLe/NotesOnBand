@@ -28,7 +28,7 @@ namespace NotesOnBand.Models
 
         private IBandClient currentBandClient;
 
-        private BandVersion currentVersion;
+        private BandVersion currentVersion = BandVersion.MicrosoftBand2;
         #endregion
 
         #region events
@@ -43,7 +43,7 @@ namespace NotesOnBand.Models
         #region Properties
         
         /// <summary>
-        /// Enum represent the current version of Microsoft Band that we are dealing with.
+        /// Enum represent the current version of Microsoft Band that we are dealing with. Default is Band 2
         /// </summary>
         public BandVersion CurrentVersion
         {
@@ -63,6 +63,24 @@ namespace NotesOnBand.Models
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor for the Band class.
+        /// </summary>
+        public Band()
+        {
+
+        }
+
+        /// <summary>
+        /// Constructor for the Band class.
+        /// </summary>
+        /// <param name="bandInfo">Paired Band</param>
+        /// <param name="version">Version of Paired Band</param>
+        public Band(IBandInfo bandInfo, BandVersion version)
+        {
+            currentBandInfo = bandInfo;
+            currentVersion = version;
+        }
       
         #endregion
 
