@@ -29,6 +29,8 @@ namespace NotesOnBand.Models
         private IBandClient currentBandClient;
 
         private BandVersion currentVersion = BandVersion.MicrosoftBand2;
+
+        private string uniqueIDString = "b40d28db-a774-4b6f-a97a-76272146a174";
         #endregion
 
         #region events
@@ -59,6 +61,9 @@ namespace NotesOnBand.Models
             }
         }
 
+
+        
+
         #endregion
 
         #region Constructors
@@ -68,7 +73,7 @@ namespace NotesOnBand.Models
         /// </summary>
         public Band()
         {
-
+            
         }
 
         /// <summary>
@@ -76,10 +81,11 @@ namespace NotesOnBand.Models
         /// </summary>
         /// <param name="bandInfo">Paired Band</param>
         /// <param name="version">Version of Paired Band</param>
-        public Band(IBandInfo bandInfo, BandVersion version)
+        public Band(IBandInfo bandInfo, BandVersion version): this()
         {
             currentBandInfo = bandInfo;
             currentVersion = version;
+            
         }
       
         #endregion
@@ -154,6 +160,31 @@ namespace NotesOnBand.Models
             }
         }
 
+
+        /// <summary>
+        /// Load up an icon (png) file and convert it to an actual BandIcon object to be used with creating a new tile.
+        /// </summary>
+        /// <param name="url"> Url to the icon</param>
+        /// <returns>The BandIcon object that can be used to set the Icon on the band for the tile.</returns>
+        private async Task<BandIcon> LoadIcon(string url)
+        {
+
+            //Get the Image file from disk.
+            Windows.Storage.StorageFile iconFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri(url));
+
+            //Open up the file for random access (but stay with read>)
+            using (Windows.Storage.Streams.IRandomAccessStream fileStream = await iconFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
+            {
+                //Create a new bitmap 
+                Windows.UI.Xaml.Media.Imaging.WriteableBitmap iconWriteableBitmap = new Windows.UI.Xaml.Media.Imaging.WriteableBitmap(1, 1);
+
+                //Process the picture to useable bitmap.
+                await iconWriteableBitmap.SetSourceAsync(fileStream);
+
+                //Extension method is written to convert a bitmap to an BandIcon that we can use with the Band
+                return iconWriteableBitmap.ToBandIcon();
+            }
+        }
 
 
         /// <summary>
