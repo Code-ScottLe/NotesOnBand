@@ -126,14 +126,14 @@ namespace NotesOnBand.Models
         public async Task<bool> ConnectToBandAsync()
         {
             //Do this only if we haven't connected to a Band.
-            if(currentBandClient != null)
+            if (currentBandClient != null)
             {
                 return true;
             }
 
 
             //We haven't connected yet. Only connect if we already know which band we are connecting to.
-            if(currentBandInfo == null)
+            if (currentBandInfo == null)
             {
                 //Have not acquire which band yet.
                 return false;
@@ -153,14 +153,14 @@ namespace NotesOnBand.Models
                 return true;
             }
 
-            catch(BandException ex)
+            catch (BandException ex)
             {
                 //Something is wrong.
                 return false;
             }
         }
-
-
+        
+        
 
 
         /// <summary>
