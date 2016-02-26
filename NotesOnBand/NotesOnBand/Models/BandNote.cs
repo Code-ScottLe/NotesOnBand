@@ -4,33 +4,20 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Band;
-using Microsoft.Band.Tiles;
-using Microsoft.Band.Tiles.Pages;
 
-namespace NotesOnBand.ViewModels
+namespace NotesOnBand.Models
 {
-    /// <summary>
-    /// ViewModel for the MainPage (MainPage.xaml)
-    /// </summary>
-    public class MainPageViewModel : INotifyPropertyChanged
+    public class BandNote : INotifyPropertyChanged
     {
         #region Fields
-        /// <summary>
-        /// Representing the info of the current Band that we are connected to.
-        /// </summary>
-        private IBandInfo currentBandInfo;
 
-        /// <summary>
-        /// Representing the Band Client that we are working with.
-        /// </summary>
-        private IBandClient currentBandClient;
+
         #endregion
 
         #region events
 
         /// <summary>
-        /// Implement the INotifyPropertyChanged Interface. Use this to notify the View about the property that was changed to perform updates.
+        /// Implement the INotifyPropertyChanged Interface. Use this to notify the View and others about the property that was changed to perform updates.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -63,6 +50,5 @@ namespace NotesOnBand.ViewModels
 
 
         #endregion
-
     }
 }
