@@ -124,6 +124,12 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="SavedNotes\PreviousSyncedNotes.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NotesOnBand\NotesOnBand.csproj">
+      <Project>{4fbfb2d4-5289-4a55-86c4-0b8899d5af6c}</Project>
+      <Name>NotesOnBand</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
