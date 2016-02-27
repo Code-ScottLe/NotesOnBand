@@ -218,7 +218,7 @@ namespace NotesOnBand.ViewModels
         /// Load up previously synced notes to the band asynchronously
         /// </summary>
         /// <returns></returns>
-        private async Task LoadPreviousSyncedNotes()
+        public async Task LoadNotesFromXML()
         {
             //Open up the in-app XML Documents that we saves all the notes.
             Windows.Storage.StorageFile savedNotesXMLStorageFile = 
@@ -275,7 +275,7 @@ namespace NotesOnBand.ViewModels
         /// Save the current notes in the note list to the PreviousSyncedNotes.xml just in case. This will be called everytime the user syncs the note to the band
         /// </summary>
         /// <returns></returns>
-        private async Task SaveNotesToXML()
+        public async Task SaveNotesToXML()
         {
 
             //Get the list of notes and put it back to the XElement.
