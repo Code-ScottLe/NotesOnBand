@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using NotesOnBand.Models;
 
-namespace NotesOnBandUnitTest.BandUnitTest
+namespace NotesOnBandUnitTest.ModelUnitTests
 {
     [TestClass]
     public class BandUnitTest
