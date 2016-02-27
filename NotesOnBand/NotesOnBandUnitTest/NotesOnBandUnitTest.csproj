@@ -123,13 +123,15 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="SavedNotes\PreviousSyncedNotes.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NotesOnBand\NotesOnBand.csproj">
       <Project>{4fbfb2d4-5289-4a55-86c4-0b8899d5af6c}</Project>
       <Name>NotesOnBand</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

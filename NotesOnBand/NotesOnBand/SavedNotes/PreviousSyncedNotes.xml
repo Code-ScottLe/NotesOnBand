@@ -2,27 +2,27 @@
 <!-- Band currently not supporting getting the page data back, so we have to save it from somewhere else. -->
 <Notes>
   <Note index ="0">
-    
+    Test Note 1
   </Note>
   <Note index ="1">
-
+    Test Note 2
   </Note>
   <Note index="2">
-
+    Test Note 3
   </Note>
   <Note index="3">
-
+    Test Note 4
   </Note>
   <Note index="4">
-
+    Test Note 5
   </Note>
   <Note index="5">
-
+    Test Note 6
   </Note>
   <Note index="6">
-
+    Test Note 7
   </Note>
   <Note index="7">
-
+    Test Note 8
   </Note>
 </Notes>
