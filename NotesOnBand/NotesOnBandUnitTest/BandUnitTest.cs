@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 namespace NotesOnBandUnitTest
 {
     [TestClass]
-    public class UnitTest1
+    public class BandUnitTest
     {
         [TestMethod]
         public void TestMethod1()
