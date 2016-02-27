@@ -256,7 +256,7 @@ namespace NotesOnBand.ViewModels
             }
            
             //Populate back the List of messages.
-            foreach(XElement element in previousSyncedNotes.Descendants("note"))
+            foreach(XElement element in previousSyncedNotes.Descendants("Note"))
             {
                 notesList[(int)element.Attribute("index")] = element.Value;
 
@@ -277,6 +277,15 @@ namespace NotesOnBand.ViewModels
         /// <returns></returns>
         private async Task SaveNotesToXML()
         {
+
+            //Get the list of notes and put it back to the XElement.
+            for(int i = 0; i < notesList.Count; i++)
+            {
+                XElement currentNode = previousSyncedNotes.Descendants("Note").Where(n => (int)n.Attribute("index") == (i + 1)).Select(n => n).FirstOrDefault();
+                currentNode.SetValue(notesList[i]);
+            }
+
+
             //Open up the in-app XML Documents that we saves all the notes.
             StorageFile savedNotesXMLStorageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SavedNotes/PreviousSyncedNotes.xml"));
 
