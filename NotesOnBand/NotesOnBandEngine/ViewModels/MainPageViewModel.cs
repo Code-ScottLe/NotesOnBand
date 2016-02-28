@@ -4,16 +4,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Band;
-using Microsoft.Band.Tiles;
-using Microsoft.Band.Tiles.Pages;
-using NotesOnBand.Models;
 using System.Xml;
 using System.Xml.Linq;
-using Windows.Storage;
+using NotesOnBandEngine.Models;
 using Windows.Storage.Streams;
+using Windows.Storage;
 
-namespace NotesOnBand.ViewModels
+namespace NotesOnBandEngine.ViewModels
 {
     /// <summary>
     /// ViewModel for the MainPage (MainPage.xaml)
@@ -201,7 +198,7 @@ namespace NotesOnBand.ViewModels
         public MainPageViewModel()
         {
             //Because the Band can store up to 8 individual pages only. We set the list of strings to have only 8 values.
-            for(int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 notesList.Add(string.Empty);
             }
@@ -221,10 +218,10 @@ namespace NotesOnBand.ViewModels
         public async Task LoadNotesFromXML()
         {
             //Open up the in-app XML Documents that we saves all the notes.
-            Windows.Storage.StorageFile savedNotesXMLStorageFile = 
+            Windows.Storage.StorageFile savedNotesXMLStorageFile =
                 await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SavedNotes/PreviousSyncedNotes.xml"));
-            
-            
+
+
 
             //Open up for both read and write.
             using (Windows.Storage.Streams.IRandomAccessStream fileStream = await savedNotesXMLStorageFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
@@ -242,21 +239,21 @@ namespace NotesOnBand.ViewModels
                     string xml = reader.ReadString(fileSize);
 
                     //Load it up as XElement (LINQ with XML)
-                    previousSyncedNotes = XElement.Parse(xml);                  
+                    previousSyncedNotes = XElement.Parse(xml);
                 }
-                
+
             }
 
 
             //check if we actually loaded it up successfully
-            if(previousSyncedNotes == null)
+            if (previousSyncedNotes == null)
             {
                 ErrorMessage = "Can't load up previous synced notes!";
                 return;
             }
-           
+
             //Populate back the List of messages.
-            foreach(XElement element in previousSyncedNotes.Descendants("Note"))
+            foreach (XElement element in previousSyncedNotes.Descendants("Note"))
             {
                 notesList[(int)element.Attribute("index")] = element.Value;
 
@@ -267,8 +264,8 @@ namespace NotesOnBand.ViewModels
                 //Manually ring the event
                 OnPropertyChanged(propertyName);
             }
-            
-            
+
+
         }
 
         /// <summary>
@@ -279,7 +276,7 @@ namespace NotesOnBand.ViewModels
         {
 
             //Get the list of notes and put it back to the XElement.
-            for(int i = 0; i < notesList.Count; i++)
+            for (int i = 0; i < notesList.Count; i++)
             {
                 XElement currentNode = previousSyncedNotes.Descendants("Note").Where(n => (int)n.Attribute("index") == (i + 1)).Select(n => n).FirstOrDefault();
                 currentNode.SetValue(notesList[i]);
