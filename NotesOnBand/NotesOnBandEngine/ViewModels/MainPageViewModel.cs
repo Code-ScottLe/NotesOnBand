@@ -197,6 +197,9 @@ namespace NotesOnBandEngine.ViewModels
         /// </summary>
         public MainPageViewModel()
         {
+            //Initialze List.
+            notesList = new List<string>();
+
             //Because the Band can store up to 8 individual pages only. We set the list of strings to have only 8 values.
             for (int i = 0; i < 8; i++)
             {
