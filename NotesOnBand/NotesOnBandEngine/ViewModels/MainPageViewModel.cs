@@ -241,12 +241,14 @@ namespace NotesOnBandEngine.ViewModels
                     //Ask the reader to parse the stream and return it as string, or XML in string form.
                     string xml = reader.ReadString(fileSize);
 
+                    XDocument myDoc = XDocument.Parse(xml);
+
                     //Load it up as XElement (LINQ with XML)
                     previousSyncedNotes = XElement.Parse(xml);
                 }
 
             }
-
+          
 
             //check if we actually loaded it up successfully
             if (previousSyncedNotes == null)

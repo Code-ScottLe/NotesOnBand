@@ -17,5 +17,19 @@ namespace NotesOnBandEngineUnitTest.ViewModelTests
         {
             Assert.Fail("Fail me 2");
         }
+
+        [TestMethod]
+        public async Task LoadNotesFromXMLTest_Success()
+        {
+            //Create the instance.
+            MainPageViewModel viewModel = new MainPageViewModel();
+
+            //Load.
+            await viewModel.LoadNotesFromXML();
+
+            //Check.
+
+            Assert.AreEqual(viewModel.Note1, "Test Note 1");
+        }
     }
 }
