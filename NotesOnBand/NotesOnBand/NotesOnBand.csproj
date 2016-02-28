@@ -134,6 +134,12 @@
   <ItemGroup>
     <Folder Include="ViewModels\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NotesOnBandEngine\NotesOnBandEngine.csproj">
+      <Project>{cb4e2d34-f667-4c16-853e-836058569900}</Project>
+      <Name>NotesOnBandEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
