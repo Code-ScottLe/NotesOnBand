@@ -235,16 +235,28 @@ namespace NotesOnBandEngine.ViewModels
                 //Using a data reader to read off an input stream
                 using (DataReader reader = new DataReader(readStream))
                 {
+
+                    //Create the buffer.
+                    byte[] buffer = new byte[(uint)fileStream.Size];
+                    System.IO.Stream actualFileStream = null;
+
+                    
                     //Read the entire stream
                     var fileSize = await reader.LoadAsync((uint)fileStream.Size);
 
-                    //Ask the reader to parse the stream and return it as string, or XML in string form.
-                    string xml = reader.ReadString(fileSize);
+                    for (int i = 0; i < (uint)fileStream.Size; i++)
+                    {
+                        buffer[i] = reader.ReadByte();
+                    }
 
-                    XDocument myDoc = XDocument.Parse(xml);
+                    //Load up the stream
+                    actualFileStream = new System.IO.MemoryStream(buffer);
+
+                    //Ask the reader to parse the stream and return it as string, or XML in string form.
+                    //string xml = reader.ReadString(fileSize);
 
                     //Load it up as XElement (LINQ with XML)
-                    previousSyncedNotes = XElement.Parse(xml);
+                    previousSyncedNotes = XElement.Load(actualFileStream);
                 }
 
             }
@@ -260,7 +272,7 @@ namespace NotesOnBandEngine.ViewModels
             //Populate back the List of messages.
             foreach (XElement element in previousSyncedNotes.Descendants("Note"))
             {
-                notesList[(int)element.Attribute("index")] = element.Value;
+                notesList[(int)element.Attribute("index")] = element.Value.Trim();
 
                 //Because we are saving that to the list itself, not through the Property, have to manually ring the event.
                 //Index in XML and list are 0 based,  have to add 1 first.
