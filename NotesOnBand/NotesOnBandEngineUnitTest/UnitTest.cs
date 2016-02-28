@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using NotesOnBandEngine.ViewModels;
 
 namespace NotesOnBandEngineUnitTest
 {
@@ -10,6 +11,14 @@ namespace NotesOnBandEngineUnitTest
         public void FailMeTest()
         {
             Assert.Fail("fail on purpose");
+        }
+
+        [TestMethod]
+        public void InitTest_Success()
+        {
+            var viewModel = new MainPageViewModel();
+
+            Assert.IsTrue(true);
         }
     }
 }
