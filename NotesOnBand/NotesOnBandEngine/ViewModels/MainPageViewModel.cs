@@ -23,6 +23,7 @@ namespace NotesOnBandEngine.ViewModels
         private List<string> notesList;
         private XElement previousSyncedNotes;
         private string errorMessage;
+        private string saveFileName = "PreviousSyncedNotes.xml";
         private string message;
         #endregion
 
@@ -221,7 +222,7 @@ namespace NotesOnBandEngine.ViewModels
         public async Task LoadNotesFromXML()
         {
             //Open up the in-app XML Documents that we saves all the notes.
-            StorageFile savedNotesXMLStorageFile = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("PreviousSyncedNotes.xml");
+            StorageFile savedNotesXMLStorageFile = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync(saveFileName);
 
             //Load up the stream
             string xml = await FileIO.ReadTextAsync(savedNotesXMLStorageFile);
@@ -276,13 +277,13 @@ namespace NotesOnBandEngine.ViewModels
             try
             {
                 //Try to get the file.
-                savedNotesXMLStorageFile = await AppFileHandler.Instance.GetFileFromLocalFolder("PreviousSyncedNotes.xml");
+                savedNotesXMLStorageFile = await AppFileHandler.Instance.GetFileFromLocalFolder(saveFileName);
             }
             
             catch (System.IO.FileNotFoundException e)
             {
                 //Not found/not created file.
-                savedNotesXMLStorageFile = await AppFileHandler.Instance.CreateFileFromLocalFolder("PreviousSyncedNotes.xml");
+                savedNotesXMLStorageFile = await AppFileHandler.Instance.CreateFileFromLocalFolder(saveFileName);
             }
 
             //write.
