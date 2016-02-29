@@ -29,6 +29,12 @@ namespace NotesOnBandEngineUnitTest.ViewModelTests
             //Create the instance.
             MainPageViewModel viewModel = new MainPageViewModel();
 
+            //Load up the pre-defiend notes.
+            StorageFile testXML = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SavedNotes/PreviousSyncedNotes.xml"));
+
+            //Copy to the local folder.
+            await testXML.CopyAsync(Windows.Storage.ApplicationData.Current.LocalFolder);
+
             //Load.
             await viewModel.LoadNotesFromXML();
 
@@ -47,6 +53,26 @@ namespace NotesOnBandEngineUnitTest.ViewModelTests
         [TestMethod]
         public async Task SaveNotesToXMLTest_Success()
         {
+            //Load up the pre-defiend notes.
+            StorageFile testXML = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SavedNotes/PreviousSyncedNotes.xml"));
+
+            //Try to guess?
+            try
+            {
+                StorageFile oldFIle = await ApplicationData.Current.LocalFolder.GetFileAsync("PreviousSyncedNotes.xml");
+
+                //If reach here, mean we found the damn thing.
+                await oldFIle.DeleteAsync();
+            }
+
+            catch
+            {
+                //All good.
+            }
+
+            //Copy to the local folder.
+            await testXML.CopyAsync(Windows.Storage.ApplicationData.Current.LocalFolder);
+
             //Create the instance. 
             MainPageViewModel viewModel = new MainPageViewModel();
 
@@ -64,12 +90,12 @@ namespace NotesOnBandEngineUnitTest.ViewModelTests
             await viewModel.SaveNotesToXML();
 
             //Load up the thingy.
-            StorageFile xmlStorageFile = await AppFileHandler.Instance.GetFileFromLocalFolder("SavedNotes/PreviousSyncedNotes.xml");
+            StorageFile xmlStorageFile = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("PreviousSyncedNotes.xml");
 
-            var readStream = await AppFileHandler.Instance.GetReadStreamToFile(xmlStorageFile);
+            string xml = await FileIO.ReadTextAsync(xmlStorageFile);
 
             //Load up the XML and verify.
-            XElement myXML = System.Xml.Linq.XElement.Load(readStream);
+            XElement myXML = XElement.Parse(xml);
 
             XElement note1 = (from element in myXML.Descendants("Note")
                                  where (int)element.Attribute("index") == 0
