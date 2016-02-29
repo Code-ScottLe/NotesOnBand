@@ -11,7 +11,7 @@
         <ProgressBar x:Name="SyncProgressBar" Height="10" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="Visible" IsIndeterminate="False"/>
 
         <StackPanel>
-            <TextBlock x:Name="AppHeaderTextBlock" Height="Auto" Width="Auto" FontSize="21.333" Margin="10" FontFamily="Segoe WP Semibold">
+            <TextBlock x:Name="AppHeaderTextBlock" Height="Auto" Width="Auto" FontSize="21.333" Margin="10 15 10 0" FontFamily="Segoe WP Semibold">
                 Notes on Band
             </TextBlock>
 
