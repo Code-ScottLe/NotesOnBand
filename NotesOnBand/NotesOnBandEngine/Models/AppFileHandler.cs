@@ -59,7 +59,7 @@ namespace NotesOnBandEngine.Models
         }
 
         /// <summary>
-        /// 
+        /// Create the file with the given name at the local folder.
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>

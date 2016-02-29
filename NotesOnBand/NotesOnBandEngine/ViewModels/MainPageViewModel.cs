@@ -221,43 +221,13 @@ namespace NotesOnBandEngine.ViewModels
         public async Task LoadNotesFromXML()
         {
             //Open up the in-app XML Documents that we saves all the notes.
-            Windows.Storage.StorageFile savedNotesXMLStorageFile =
-                await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SavedNotes/PreviousSyncedNotes.xml"));
+            StorageFile savedNotesXMLStorageFile = await AppFileHandler.Instance.GetFileFromLocalFolder("PreviousSyncedNotes.xml");
+          
+            //Load up the stream
+            System.IO.Stream actualFileStream = await AppFileHandler.Instance.GetReadStreamFromStorageFile(savedNotesXMLStorageFile);
 
-
-
-            //Open up for both read and write.
-            using (Windows.Storage.Streams.IRandomAccessStream fileStream = await savedNotesXMLStorageFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
-            {
-                //Get an input stream from the RandomAccessStream
-                var readStream = fileStream.GetInputStreamAt(0);
-
-                //Using a data reader to read off an input stream
-                using (DataReader reader = new DataReader(readStream))
-                {
-
-                    //Create the buffer.
-                    byte[] buffer = new byte[(uint)fileStream.Size];
-                    
-                    //Read the entire stream
-                    var fileSize = await reader.LoadAsync((uint)fileStream.Size);
-
-                    for (int i = 0; i < (uint)fileStream.Size; i++)
-                    {
-                        buffer[i] = reader.ReadByte();
-                    }
-
-                    //Load up the stream
-                    System.IO.Stream actualFileStream = new System.IO.MemoryStream(buffer);
-
-                    //Ask the reader to parse the stream and return it as string, or XML in string form.
-                    //string xml = reader.ReadString(fileSize);
-
-                    //Load it up as XElement (LINQ with XML)
-                    previousSyncedNotes = XElement.Load(actualFileStream);
-                }
-
-            }
+            //Load it up as XElement (LINQ with XML)
+            previousSyncedNotes = XElement.Load(actualFileStream);                                
           
 
             //check if we actually loaded it up successfully
@@ -302,19 +272,18 @@ namespace NotesOnBandEngine.ViewModels
             //StorageFile savedNotesXMLStorageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SavedNotes/PreviousSyncedNotes.xml"));
 
             //Get the current folder.
-            StorageFolder localStorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             StorageFile savedNotesXMLStorageFile = null;
 
             try
             {
                 //Try to get the file.
-                savedNotesXMLStorageFile = await localStorageFolder.GetFileAsync("PreviousSyncedNotes.xml");
+                savedNotesXMLStorageFile = await AppFileHandler.Instance.GetFileFromLocalFolder("PreviousSyncedNotes.xml");
             }
             
             catch (System.IO.FileNotFoundException e)
             {
                 //Not found/not created file.
-                savedNotesXMLStorageFile = await localStorageFolder.CreateFileAsync("PreviousSyncedNotes.xml");
+                savedNotesXMLStorageFile = await AppFileHandler.Instance.CreateFileFromLocalFolder("PreviousSyncedNotes.xml");
             }
 
             //write.
