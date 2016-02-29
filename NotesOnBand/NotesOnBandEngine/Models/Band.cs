@@ -248,6 +248,9 @@ namespace NotesOnBandEngine.Models
                 myTile.PageLayouts.Add(myPageLayout);
             }
 
+            //Set it to curren tile
+            currentTile = myTile;
+
             //done with tile. return it
             return myTile;
             
