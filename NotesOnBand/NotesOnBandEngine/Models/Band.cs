@@ -161,6 +161,111 @@ namespace NotesOnBandEngine.Models
         }
 
 
+        /// <summary>
+        /// Create the tile for notes
+        /// </summary>
+        /// <param name="pagesCount"> Number of pages/notes insides the tile. Can't be more than 8</param>
+        /// <returns></returns>
+        public async Task<BandTile> CreateBandTileAsync(int pagesCount)
+        {
+            //Create the Tile's Page layout.
+            //Would look like this:
+            // +--------------------+
+            // | Note #1            |       <=== Header Textblock
+            // | Angel is the best  |       <=== Wrapperd TextBlock for the Note
+            // | girl. Ever <3      |
+            // +--------------------+
+
+
+            //Step 1: Create the TextBlock for the Header
+            TextBlock myHeaderTextBlock = new TextBlock();
+            myHeaderTextBlock.ElementId = 1;                //ElementID starts from 1.
+
+            //TO CHANGE: This is currently fixed to Microsoft band 2.
+            //Band 1 Workable Width : 245px;
+            //Band 2 Workable Width : 258px
+            myHeaderTextBlock.Rect = new PageRect(0, 0, 200, 25);       //Because we have to store everything in a ScrollFlowPanel, we leave the offset (x,y) to the scroll panel.
+
+
+            //Color of the header will match with the color theme of the band for consistency. This will change with the user choice of color.
+            myHeaderTextBlock.ColorSource = ElementColorSource.BandBase;
+
+
+            //Step 2: Create the WrappedTextBlock below for the note.
+            WrappedTextBlock myNoteWrappedTextBlock = new WrappedTextBlock();
+            myNoteWrappedTextBlock.ElementId = 2;
+
+            //TO CHANGE: This is currently fixed to Microsoft band 2.
+            //Band 1 Workable Width : 245px;
+            //Band 2 Workable Width : 258px
+            //WARNING: WrappedTextBlock seems not to respect the width setting of the PageRect().
+            myNoteWrappedTextBlock.Rect = new PageRect(0, 0, 250, 100);
+
+
+
+            //Step 3: Create the container for the controllers. We use SCrollFlowPanel for long texts. This is much like grid on the WPF's window
+            ScrollFlowPanel myPageScrollFlowPanel = new ScrollFlowPanel(myHeaderTextBlock, myNoteWrappedTextBlock);
+
+            //Set the flow of the panel to be vertically as we will be scrolling down for more texts
+            myPageScrollFlowPanel.Orientation = FlowPanelOrientation.Vertical;
+
+            //Set the color of the scroll bar to match with the theme as well
+            myPageScrollFlowPanel.ScrollBarColorSource = ElementColorSource.BandBase;
+
+            //TO CHANGE: This is currently fixed to Microsoft band 2.
+            //Band 1 Workable Width : 245px;
+            //Band 2 Workable Width : 258px
+            //Band 1 Workable Height: 106px;
+            //Band 2 Workable Height: 128px;
+            myPageScrollFlowPanel.Rect = new PageRect(0, 0, 250, 128);
+
+
+            //Step 4: Create the page layout from the container with all the controllers  that we just defined.
+            PageLayout myPageLayout = new PageLayout(myPageScrollFlowPanel);
+
+
+            //Step 5: Create the actual BandTile
+            //Each Tile need a GUID, this uses the Windows Store ID 
+            Guid myGuid = new Guid(uniqueIDString);
+
+            //Create the Band TIle.
+            BandTile myTile = new BandTile(myGuid);
+
+            //Setup the tile.
+
+            //Name
+            myTile.Name = "Notes on Band";
+
+            //Small and Large Icon
+            myTile.SmallIcon = await LoadIcon("ms-appx:///Assets/TileIconSmall.png");
+            myTile.TileIcon = await LoadIcon("ms-appx:///Assets/TileIconLarge.png");
+
+            //Add the layout to the tile. One tile can hold up to 8 different pages, we add no more than that.
+            for(int i = 0; i < 8 && i < pagesCount; i++)
+            {
+                myTile.PageLayouts.Add(myPageLayout);
+            }
+
+            //done with tile. return it
+            return myTile;
+            
+        }
+
+        /// <summary>
+        /// Sync the given tile over to the phone.
+        /// </summary>
+        /// <param name="myTile">Band Tile that we want to sync</param>
+        /// <returns></returns>
+        public async Task<bool> SyncTileToBandAsync(BandTile myTile)
+        {
+            //We want to start fresh and without any collision. so we remove the old one first (if we have one)
+            await currentBandClient.TileManager.RemoveTileAsync(myTile.TileId);
+
+            //Sync it over to phone.
+            bool status = await currentBandClient.TileManager.AddTileAsync(myTile);
+
+            return status;
+        }
 
 
         /// <summary>
