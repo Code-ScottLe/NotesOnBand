@@ -238,8 +238,6 @@ namespace NotesOnBandEngine.ViewModels
 
                     //Create the buffer.
                     byte[] buffer = new byte[(uint)fileStream.Size];
-                    System.IO.Stream actualFileStream = null;
-
                     
                     //Read the entire stream
                     var fileSize = await reader.LoadAsync((uint)fileStream.Size);
@@ -250,7 +248,7 @@ namespace NotesOnBandEngine.ViewModels
                     }
 
                     //Load up the stream
-                    actualFileStream = new System.IO.MemoryStream(buffer);
+                    System.IO.Stream actualFileStream = new System.IO.MemoryStream(buffer);
 
                     //Ask the reader to parse the stream and return it as string, or XML in string form.
                     //string xml = reader.ReadString(fileSize);
@@ -295,7 +293,7 @@ namespace NotesOnBandEngine.ViewModels
             //Get the list of notes and put it back to the XElement.
             for (int i = 0; i < notesList.Count; i++)
             {
-                XElement currentNode = previousSyncedNotes.Descendants("Note").Where(n => (int)n.Attribute("index") == (i + 1)).Select(n => n).FirstOrDefault();
+                XElement currentNode = previousSyncedNotes.Descendants("Note").Where(n => (int)n.Attribute("index") == (i)).Select(n => n).FirstOrDefault();
                 currentNode.SetValue(notesList[i]);
             }
 
@@ -303,20 +301,12 @@ namespace NotesOnBandEngine.ViewModels
             //Open up the in-app XML Documents that we saves all the notes.
             StorageFile savedNotesXMLStorageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SavedNotes/PreviousSyncedNotes.xml"));
 
-            //Open it up for Both Read and write (as we are writing)
-            using (var XMLRandomStream = await savedNotesXMLStorageFile.OpenAsync(FileAccessMode.ReadWrite))
-            {
-                //WriteStream is a RandomAccessStream interface. Now ask for a write stream.
-                var writeStream = XMLRandomStream.GetOutputStreamAt(0);
+            //write.
 
-                //Use a data writer to write to this stream
-                using (DataWriter writer = new DataWriter(writeStream))
-                {
-                    writer.WriteString(previousSyncedNotes.ToString());
-                }
+            string xml = previousSyncedNotes.ToString();
+            await FileIO.WriteTextAsync(savedNotesXMLStorageFile, xml);
 
-            }
-
+            
 
         }
 
