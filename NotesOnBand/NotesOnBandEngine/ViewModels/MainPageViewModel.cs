@@ -277,13 +277,13 @@ namespace NotesOnBandEngine.ViewModels
             try
             {
                 //Try to get the file.
-                savedNotesXMLStorageFile = await AppFileHandler.Instance.GetFileFromLocalFolder(saveFileName);
+                savedNotesXMLStorageFile = await ApplicationData.Current.LocalFolder.GetFileAsync(saveFileName);
             }
             
             catch (System.IO.FileNotFoundException e)
             {
                 //Not found/not created file.
-                savedNotesXMLStorageFile = await AppFileHandler.Instance.CreateFileFromLocalFolder(saveFileName);
+                savedNotesXMLStorageFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(saveFileName);
             }
 
             //write.
