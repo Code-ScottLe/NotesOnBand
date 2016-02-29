@@ -221,14 +221,13 @@ namespace NotesOnBandEngine.ViewModels
         public async Task LoadNotesFromXML()
         {
             //Open up the in-app XML Documents that we saves all the notes.
-            StorageFile savedNotesXMLStorageFile = await AppFileHandler.Instance.GetFileFromLocalFolder("PreviousSyncedNotes.xml");
-          
+            StorageFile savedNotesXMLStorageFile = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("PreviousSyncedNotes.xml");
+
             //Load up the stream
-            System.IO.Stream actualFileStream = await AppFileHandler.Instance.GetReadStreamFromStorageFile(savedNotesXMLStorageFile);
+            string xml = await FileIO.ReadTextAsync(savedNotesXMLStorageFile);
 
             //Load it up as XElement (LINQ with XML)
-            previousSyncedNotes = XElement.Load(actualFileStream);                                
-          
+            previousSyncedNotes = XElement.Parse(xml);
 
             //check if we actually loaded it up successfully
             if (previousSyncedNotes == null)

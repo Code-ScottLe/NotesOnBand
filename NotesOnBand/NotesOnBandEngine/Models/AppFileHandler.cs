@@ -77,8 +77,9 @@ namespace NotesOnBandEngine.Models
         {
             //Get the RandomAccessStream to the file.
             IRandomAccessStream fileRandomAccessStream = await fileToRead.OpenAsync(FileAccessMode.Read);
+            IInputStream inputStream = fileRandomAccessStream.GetInputStreamAt(0);
 
-            using (DataReader reader = new DataReader(fileRandomAccessStream.GetInputStreamAt(0)))
+            using (DataReader reader = new DataReader(inputStream))
             {
                 //Read the data bytes by bytes
 
