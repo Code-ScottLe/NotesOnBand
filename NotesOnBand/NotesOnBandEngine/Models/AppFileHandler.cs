@@ -18,7 +18,7 @@ namespace NotesOnBandEngine.Models
         
         private static AppFileHandler instance;
         private string pathPrefix = "ms-appx:///";
-
+        private StorageFolder localStorageFolder;
 
         /// <summary>
         /// Access the current instance of the Handler.
@@ -43,22 +43,29 @@ namespace NotesOnBandEngine.Models
         /// </summary>
         protected AppFileHandler()
         {
-
+            localStorageFolder = ApplicationData.Current.LocalFolder;
         }
 
         /// <summary>
         /// Open and return the internal file within the app local folder
         /// </summary>
-        /// <param name="url">The relative url to the file within the application.</param>
+        /// <param name="fileName">The relative url to the file within the application local folder.</param>
         /// <returns></returns>
         public async Task<StorageFile> GetFileFromLocalFolder(string fileName)
         {
-            //Get to the local folder
-            StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-
             //Get the file.
-            return await localFolder.GetFileAsync(fileName);
+            return await localStorageFolder.GetFileAsync(fileName);
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public async Task<StorageFile> CreateFileFromLocalFolder(string fileName)
+        {
+            return await localStorageFolder.CreateFileAsync(fileName);
         }
 
         /// <summary>
