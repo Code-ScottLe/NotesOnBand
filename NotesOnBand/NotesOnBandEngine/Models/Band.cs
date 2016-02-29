@@ -164,7 +164,7 @@ namespace NotesOnBandEngine.Models
 
 
         /// <summary>
-        /// Create the tile for notes
+        /// Create the tile for notes. This will set the current Tile to this new one.
         /// </summary>
         /// <param name="pagesCount"> Number of pages/notes insides the tile. Can't be more than 8</param>
         /// <returns></returns>
