@@ -299,14 +299,29 @@ namespace NotesOnBandEngine.ViewModels
 
 
             //Open up the in-app XML Documents that we saves all the notes.
-            StorageFile savedNotesXMLStorageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SavedNotes/PreviousSyncedNotes.xml"));
+            //StorageFile savedNotesXMLStorageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SavedNotes/PreviousSyncedNotes.xml"));
+
+            //Get the current folder.
+            StorageFolder localStorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            StorageFile savedNotesXMLStorageFile = null;
+
+            try
+            {
+                //Try to get the file.
+                savedNotesXMLStorageFile = await localStorageFolder.GetFileAsync("PreviousSyncedNotes.xml");
+            }
+            
+            catch (System.IO.FileNotFoundException e)
+            {
+                //Not found/not created file.
+                savedNotesXMLStorageFile = await localStorageFolder.CreateFileAsync("PreviousSyncedNotes.xml");
+            }
 
             //write.
 
             string xml = previousSyncedNotes.ToString();
             await FileIO.WriteTextAsync(savedNotesXMLStorageFile, xml);
-
-            
+                     
 
         }
 

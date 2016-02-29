@@ -64,7 +64,7 @@ namespace NotesOnBandEngineUnitTest.ViewModelTests
             await viewModel.SaveNotesToXML();
 
             //Load up the thingy.
-            StorageFile xmlStorageFile = await AppFileHandler.Instance.GetFileFromApplicationUrl("SavedNotes/PreviousSyncedNotes.xml");
+            StorageFile xmlStorageFile = await AppFileHandler.Instance.GetFileFromLocalFolder("SavedNotes/PreviousSyncedNotes.xml");
 
             var readStream = await AppFileHandler.Instance.GetReadStreamToFile(xmlStorageFile);
 

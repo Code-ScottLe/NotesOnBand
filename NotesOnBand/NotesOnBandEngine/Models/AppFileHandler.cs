@@ -47,18 +47,17 @@ namespace NotesOnBandEngine.Models
         }
 
         /// <summary>
-        /// Open and return the internal file within the app package
+        /// Open and return the internal file within the app local folder
         /// </summary>
         /// <param name="url">The relative url to the file within the application.</param>
         /// <returns></returns>
-        public async Task<StorageFile> GetFileFromApplicationUrl(string url)
+        public async Task<StorageFile> GetFileFromLocalFolder(string fileName)
         {
-            //Build up the string to get to.
-            string fullPath = pathPrefix + url;
-            Uri fullpathUri = new Uri(fullPath);
+            //Get to the local folder
+            StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
 
             //Get the file.
-            return await StorageFile.GetFileFromApplicationUriAsync(fullpathUri);
+            return await localFolder.GetFileAsync(fileName);
 
         }
 
@@ -67,7 +66,7 @@ namespace NotesOnBandEngine.Models
         /// </summary>
         /// <param name="fileToRead"> File to get stream from</param>
         /// <returns></returns>
-        public async Task<Stream> GetReadStreamToFile(StorageFile fileToRead)
+        public async Task<Stream> GetReadStreamFromStorageFile(StorageFile fileToRead)
         {
             //Get the RandomAccessStream to the file.
             IRandomAccessStream fileRandomAccessStream = await fileToRead.OpenAsync(FileAccessMode.Read);
