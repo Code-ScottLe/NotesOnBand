@@ -45,5 +45,6 @@ namespace NotesOnBandEngineUnitTest.ModelTests
 
             Assert.IsTrue(status);
         }
+    
     }
 }
