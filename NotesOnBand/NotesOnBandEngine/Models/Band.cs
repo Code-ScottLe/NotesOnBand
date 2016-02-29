@@ -263,6 +263,11 @@ namespace NotesOnBandEngine.Models
         /// <returns></returns>
         public async Task<bool> SyncTileToBandAsync()
         {
+            if (currentTile == null)
+            {
+                throw new ArgumentNullException("CurrentTile", "No Tile available. Please create tile first");
+            }
+
             //We want to start fresh and without any collision. so we remove the old one first (if we have one)
             await currentBandClient.TileManager.RemoveTileAsync(currentTile.TileId);
 
@@ -275,6 +280,11 @@ namespace NotesOnBandEngine.Models
 
         public async Task<bool> SyncNotesToBandAsync(List<string> notes)
         {
+            if (currentTile == null)
+            {
+                throw new ArgumentNullException("CurrentTile", "No Tile available. Please create tile first");
+            }
+
             //We only sync over the notes that actually have data.
             string headerPrefix = "Note #";
             PageData[] pagesData = new PageData[notes.Count];
