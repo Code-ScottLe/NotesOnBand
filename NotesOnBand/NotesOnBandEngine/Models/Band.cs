@@ -32,6 +32,8 @@ namespace NotesOnBandEngine.Models
 
         private BandTile currentTile;
 
+        private int currentTilePagesCount = 0;
+
         private string uniqueIDString = "b40d28db-a774-4b6f-a97a-76272146a174";
         #endregion
 
@@ -63,9 +65,18 @@ namespace NotesOnBandEngine.Models
             }
         }
 
+        public int CurrentTilePagesCount
+        {
+            get
+            {
+                return currentTilePagesCount;
+            }
 
-
-
+            private set
+            {
+                currentTilePagesCount = value;
+            }
+        }
         #endregion
 
         #region Constructors
@@ -168,7 +179,7 @@ namespace NotesOnBandEngine.Models
         /// </summary>
         /// <param name="pagesCount"> Number of pages/notes insides the tile. Can't be more than 8</param>
         /// <returns></returns>
-        public async Task<BandTile> CreateBandTileAsync(int pagesCount)
+        private async Task<BandTile> CreateBandTileAsync(int pagesCount)
         {
             //Create the Tile's Page layout.
             //Would look like this:
@@ -243,10 +254,13 @@ namespace NotesOnBandEngine.Models
             myTile.TileIcon = await LoadIcon("ms-appx:///Assets/TileIconLarge.png");
 
             //Add the layout to the tile. One tile can hold up to 8 different pages, we add no more than that.
-            for(int i = 0; i < 8 && i < pagesCount; i++)
+            for(int i = 0; i < pagesCount; i++)
             {
                 myTile.PageLayouts.Add(myPageLayout);
             }
+
+            //Save back this.
+            currentTilePagesCount = myTile.PageLayouts.Count;
 
             //Set it to curren tile
             currentTile = myTile;
@@ -261,7 +275,7 @@ namespace NotesOnBandEngine.Models
         /// </summary>
         /// <param name="myTile">Band Tile that we want to sync</param>
         /// <returns></returns>
-        public async Task<bool> SyncTileToBandAsync()
+        private async Task<bool> SyncTileToBandAsync()
         {
             if (currentTile == null)
             {
@@ -277,8 +291,12 @@ namespace NotesOnBandEngine.Models
             return status;
         }
 
-
-        public async Task<bool> SyncNotesToBandAsync(List<string> notes)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="notes"></param>
+        /// <returns></returns>
+        private async Task<bool> SyncNotesToBandAsync(List<string> notes)
         {
             if (currentTile == null)
             {
@@ -289,7 +307,7 @@ namespace NotesOnBandEngine.Models
             string headerPrefix = "Note #";
             PageData[] pagesData = new PageData[notes.Count];
 
-            for(int i = 0; i < notes.Count && i < 8;i++)
+            for(int i = 0; i < notes.Count;i++)
             {
 
                 //Create the header
@@ -309,6 +327,33 @@ namespace NotesOnBandEngine.Models
             return status;
         }
 
+        /// <summary>
+        /// Sync the given notes to the band
+        /// </summary>
+        /// <param name="notes">List of notes.</param>
+        /// <returns></returns>
+        public async Task<bool> SyncToBandAsync(List<string>notes)
+        {
+            if(notes.Count > 8)
+            {
+                throw new ArgumentOutOfRangeException("notes.Count", "Can't have more than 8 notes!");
+            }
+
+            //Create and set the tile + tile's layout
+            await CreateBandTileAsync(notes.Count);
+
+            //Sync over to the phone.
+            bool syncStatus = await SyncTileToBandAsync();
+
+            if(syncStatus == false)
+            {
+                return false;
+            }
+
+            syncStatus = await SyncNotesToBandAsync(notes);
+
+            return syncStatus;
+        }
 
         /// <summary>
         /// Load up an icon (png) file and convert it to an actual BandIcon object to be used with creating a new tile.
