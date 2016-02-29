@@ -30,6 +30,8 @@ namespace NotesOnBandEngine.Models
 
         private BandVersion currentVersion = BandVersion.MicrosoftBand2;
 
+        private BandTile currentTile;
+
         private string uniqueIDString = "b40d28db-a774-4b6f-a97a-76272146a174";
         #endregion
 
@@ -256,13 +258,40 @@ namespace NotesOnBandEngine.Models
         /// </summary>
         /// <param name="myTile">Band Tile that we want to sync</param>
         /// <returns></returns>
-        public async Task<bool> SyncTileToBandAsync(BandTile myTile)
+        public async Task<bool> SyncTileToBandAsync()
         {
             //We want to start fresh and without any collision. so we remove the old one first (if we have one)
-            await currentBandClient.TileManager.RemoveTileAsync(myTile.TileId);
+            await currentBandClient.TileManager.RemoveTileAsync(currentTile.TileId);
 
             //Sync it over to phone.
-            bool status = await currentBandClient.TileManager.AddTileAsync(myTile);
+            bool status = await currentBandClient.TileManager.AddTileAsync(currentTile);
+
+            return status;
+        }
+
+
+        public async Task<bool> SyncNotesToBandAsync(List<string> notes)
+        {
+            //We only sync over the notes that actually have data.
+            string headerPrefix = "Note #";
+            PageData[] pagesData = new PageData[notes.Count];
+
+            for(int i = 0; i < notes.Count && i < 8;i++)
+            {
+
+                //Create the header
+                TextBlockData headerText = new TextBlockData(1, headerPrefix + (i + 1).ToString());
+
+                //Create the notetext.
+                WrappedTextBlockData noteText = new WrappedTextBlockData(2, notes[i]);
+
+                //Wrap them in a page data.
+                pagesData[i] = new PageData(Guid.NewGuid(), i, headerText, noteText);
+
+            }
+
+            //Done creating data, sync over.
+            bool status = await currentBandClient.TileManager.SetPagesAsync(currentTile.TileId, pagesData);
 
             return status;
         }
