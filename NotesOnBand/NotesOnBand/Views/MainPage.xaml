@@ -8,8 +8,68 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ProgressBar x:Name="SyncProgressBar" Height="10" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="Visible" IsIndeterminate="False"/>
+        
         <StackPanel>
-            
+            <TextBlock x:Name="AppHeaderTextBlock" Height="Auto" Width="Auto" FontSize="21.333" Margin="10" FontFamily="Segoe WP Semibold">
+                Notes on Band
+            </TextBlock>
+
+            <!--Note 1-->
+            <TextBlock x:Name="Note1LabelTextBlock" Height="Auto" Width="Auto" Foreground="Gray" Margin="10 5 0 0" >
+                Note #1
+            </TextBlock>
+            <TextBox x:Name="Note1TextBox" Height="Auto" Width="Auto" Foreground="White" Margin="10 5 10 0" Text="Haha" HorizontalAlignment="Stretch"></TextBox>
+
+            <!--Note 2-->
+            <TextBlock x:Name="Note2LabelTextBlock" Height="Auto" Width="Auto" Foreground="Gray" Margin="10 10 0 0" >
+                Note #2
+            </TextBlock>
+            <TextBox x:Name="Note2TextBox" Height="Auto" Width="Auto" Foreground="White" Margin="10 5 10 0" Text="Haha" HorizontalAlignment="Stretch"></TextBox>
+
+            <!--Note 3-->
+            <TextBlock x:Name="Note3LabelTextBlock" Height="Auto" Width="Auto" Foreground="Gray" Margin="10 10 0 0" >
+                Note #3
+            </TextBlock>
+            <TextBox x:Name="Note3TextBox" Height="Auto" Width="Auto" Foreground="White" Margin="10 5 10 0" Text="Haha" HorizontalAlignment="Stretch"></TextBox>
+
+            <!--Note 4-->
+            <TextBlock x:Name="Note4LabelTextBlock" Height="Auto" Width="Auto" Foreground="Gray" Margin="10 10 0 0" >
+                Note #4
+            </TextBlock>
+            <TextBox x:Name="Note4TextBox" Height="Auto" Width="Auto" Foreground="White" Margin="10 5 10 0" Text="Haha" HorizontalAlignment="Stretch"></TextBox>
+
+            <!--Note 5-->
+            <TextBlock x:Name="Note5LabelTextBlock" Height="Auto" Width="Auto" Foreground="Gray" Margin="10 10 0 0" >
+                Note #5
+            </TextBlock>
+            <TextBox x:Name="Note5TextBox" Height="Auto" Width="Auto" Foreground="White" Margin="10 5 10 0" Text="Haha" HorizontalAlignment="Stretch"></TextBox>
+
+            <!--Note 6-->
+            <TextBlock x:Name="Note6LabelTextBlock" Height="Auto" Width="Auto" Foreground="Gray" Margin="10 10 0 0" >
+                Note #6
+            </TextBlock>
+            <TextBox x:Name="Note6TextBox" Height="Auto" Width="Auto" Foreground="White" Margin="10 5 10 0" Text="Haha" HorizontalAlignment="Stretch"></TextBox>
+
+            <!--Note 7-->
+            <TextBlock x:Name="Note7LabelTextBlock" Height="Auto" Width="Auto" Foreground="Gray" Margin="10 10 0 0" >
+                Note #7
+            </TextBlock>
+            <TextBox x:Name="Note7TextBox" Height="Auto" Width="Auto" Foreground="White" Margin="10 5 10 0" Text="Haha" HorizontalAlignment="Stretch"></TextBox>
+
+            <!--Note 8-->
+            <TextBlock x:Name="Note8LabelTextBlock" Height="Auto" Width="Auto" Foreground="Gray" Margin="10 10 0 0" >
+                Note #8
+            </TextBlock>
+            <TextBox x:Name="Note8TextBox" Height="Auto" Width="Auto" Foreground="White" Margin="10 5 10 0" Text="Haha" HorizontalAlignment="Stretch"></TextBox>
         </StackPanel>
+
+        <AppBar VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal">
+                <Button>
+                    Test
+                </Button>
+            </StackPanel>
+        </AppBar>
     </Grid>
 </Page>
