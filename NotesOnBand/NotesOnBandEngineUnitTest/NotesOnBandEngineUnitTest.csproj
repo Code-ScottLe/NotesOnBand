@@ -116,6 +116,8 @@
     <None Include="NotesOnBandEngineUnitTest_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\TileIconLarge.png" />
+    <Content Include="Assets\TileIconSmall.png" />
     <Content Include="Properties\UnitTestApp.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
