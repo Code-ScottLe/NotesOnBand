@@ -26,5 +26,61 @@ namespace NotesOnBand
         {
             this.InitializeComponent();
         }
+
+        //Nope.
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Add a new notes on to the view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void AddNote_Click(object sender, RoutedEventArgs e)
+        {
+            //Ask how many notes we have so far.
+            int notesCount = ((MainStackPanel.Children.Count / 2) - 1) + 1;
+
+            //We can't add more than 8.
+            if (notesCount >= 8)
+            {
+                Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog("Can't have more than 8 notes!");
+                await dialog.ShowAsync();
+                return;
+            }
+
+            //Create a new TextBlock for the label
+            TextBlock noteLabelTextBlock = new TextBlock();
+            noteLabelTextBlock.Foreground = new SolidColorBrush(Windows.UI.Colors.Gray);
+            noteLabelTextBlock.Text = "Note #" + (notesCount + 1).ToString();
+            noteLabelTextBlock.Margin = new Thickness(10, 10, 0, 0);
+            noteLabelTextBlock.Name = "Note" + (notesCount + 1).ToString() + "LabelTextBlock";
+
+            //Create the textBox for the label.
+            TextBox noteTextBox = new TextBox();
+            noteTextBox.Foreground = new SolidColorBrush(Windows.UI.Colors.White);
+            noteTextBox.Text = "Haha";
+            noteTextBox.Margin = new Thickness(10, 5, 10, 0);
+            noteTextBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            noteTextBox.AcceptsReturn = true;
+            noteTextBox.TextWrapping = TextWrapping.Wrap;
+            noteTextBox.Name = "Note" + (notesCount + 1).ToString() + "TextBox";
+
+            //Add them onto the stack panel.
+            MainStackPanel.Children.Add(noteLabelTextBlock);
+            MainStackPanel.Children.Add(noteTextBox);         
+        }
+
+        /// <summary>
+        /// Sync the Notes to the band
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SyncNote_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
