@@ -41,7 +41,7 @@ namespace NotesOnBand
         private async void AddNote_Click(object sender, RoutedEventArgs e)
         {
             //Ask how many notes we have so far.
-            int notesCount = ((MainStackPanel.Children.Count / 2) - 1) + 1;
+            int notesCount = (MainStackPanel.Children.Count -1) / 2;
 
             //We can't add more than 8.
             if (notesCount >= 8)
@@ -86,9 +86,13 @@ namespace NotesOnBand
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SyncNote_Click(object sender, RoutedEventArgs e)
+        private async void SyncNote_Click(object sender, RoutedEventArgs e)
         {
-            
+            //Get the number of notes.
+            int notesCount = (MainStackPanel.Children.Count - 1) / 2;
+
+            //Sync it over.
+            await mainPageViewModel.SyncNotesToBandAsync(notesCount);
         }
 
         /// <summary>
