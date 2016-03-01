@@ -204,7 +204,7 @@ namespace NotesOnBandEngine.ViewModels
             //Because the Band can store up to 8 individual pages only. We set the list of strings to have only 8 values.
             for (int i = 0; i < 8; i++)
             {
-                notesList.Add(string.Empty);
+                notesList.Add("Note #" + (i+1).ToString());
             }
 
             //Open up the XML document to load back on the previously saved notes.
@@ -214,6 +214,16 @@ namespace NotesOnBandEngine.ViewModels
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Sync the current given notes to band.
+        /// </summary>
+        /// <returns></returns>
+        public async Task SyncNotesToBandAsync()
+        {
+
+        }
+
 
         /// <summary>
         /// Load up previously synced notes to the band asynchronously

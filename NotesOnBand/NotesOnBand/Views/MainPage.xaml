@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:NotesOnBand"
+    xmlns:viewModel="using:NotesOnBandEngine.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -12,6 +13,13 @@
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="MainStackPanel">
+                <!--Declare the viewModel for data binding-->
+                <StackPanel.DataContext>
+                    <viewModel:MainPageViewModel x:Name="mainPageViewModel"></viewModel:MainPageViewModel>
+                </StackPanel.DataContext>
+
+                
+                    <!--Header-->
                 <TextBlock x:Name="AppHeaderTextBlock" Height="Auto" Width="Auto" FontSize="21.333" Margin="10 15 10 0" FontFamily="Segoe WP Semibold">
                 Notes on Band
                 </TextBlock>
@@ -20,7 +28,7 @@
                 <TextBlock x:Name="Note1LabelTextBlock" Height="Auto" Width="Auto" Foreground="Gray" Margin="10 5 0 0" >
                 Note #1
                 </TextBlock>
-                <TextBox x:Name="Note1TextBox" Height="Auto" Width="Auto" Foreground="White" Margin="10 5 10 0" Text="Haha" HorizontalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
+                <TextBox x:Name="Note1TextBox" Height="Auto" Width="Auto" Foreground="White" Margin="10 5 10 0" Text="{Binding Path=Note1, Mode=TwoWay}" HorizontalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
 
             </StackPanel>
         </ScrollViewer>

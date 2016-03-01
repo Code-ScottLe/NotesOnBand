@@ -58,15 +58,23 @@ namespace NotesOnBand
             noteLabelTextBlock.Margin = new Thickness(10, 10, 0, 0);
             noteLabelTextBlock.Name = "Note" + (notesCount + 1).ToString() + "LabelTextBlock";
 
+           
+
             //Create the textBox for the label.
             TextBox noteTextBox = new TextBox();
             noteTextBox.Foreground = new SolidColorBrush(Windows.UI.Colors.White);
-            noteTextBox.Text = "Haha";
             noteTextBox.Margin = new Thickness(10, 5, 10, 0);
             noteTextBox.HorizontalAlignment = HorizontalAlignment.Stretch;
             noteTextBox.AcceptsReturn = true;
             noteTextBox.TextWrapping = TextWrapping.Wrap;
             noteTextBox.Name = "Note" + (notesCount + 1).ToString() + "TextBox";
+
+            //Set the binding for the text element.
+            Binding textBind = new Binding();
+            textBind.Path = new PropertyPath("Note" + (notesCount + 1).ToString());
+            textBind.Source = mainPageViewModel;
+            textBind.Mode = BindingMode.TwoWay;
+            noteTextBox.SetBinding(TextBox.TextProperty, textBind);
 
             //Add them onto the stack panel.
             MainStackPanel.Children.Add(noteLabelTextBlock);
@@ -80,7 +88,7 @@ namespace NotesOnBand
         /// <param name="e"></param>
         private void SyncNote_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         /// <summary>
