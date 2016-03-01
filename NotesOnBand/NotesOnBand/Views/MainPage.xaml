@@ -31,7 +31,7 @@
         <AppBar>
             <StackPanel Orientation="Horizontal">
                 <AppBarButton x:Name="AddNote" Icon="Add" Label="Add Note" Click="AddNote_Click"></AppBarButton>
-                <AppBarButton x:Name="SyncNote" Icon="Download" Label="Sync" Click="SyncNote_Click"></AppBarButton>
+                <AppBarButton x:Name="SyncNote" Icon="Sync" Label="Sync" Click="SyncNote_Click"></AppBarButton>
             </StackPanel>
         </AppBar>
     </Page.BottomAppBar>
