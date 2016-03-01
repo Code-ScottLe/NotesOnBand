@@ -25,22 +25,12 @@ namespace NotesOnBandEngineUnitTest.ModelTests
             Assert.IsNotNull(myBand);
         }
 
-        [TestMethod]
-        public async Task GetBandInfoAsyncTest_Success()
-        {
-            Band myband = new Band();
-
-            bool status = await myband.GetBandInfoAsync();
-
-            Assert.IsTrue(status);
-        }
 
         [TestMethod]
         public async Task ConnectToBandAsyncTest_Success()
         {
             Band myBand = new Band();
-            await myBand.GetBandInfoAsync();
-
+            
             bool status = await myBand.ConnectToBandAsync();
 
             Assert.IsTrue(status);

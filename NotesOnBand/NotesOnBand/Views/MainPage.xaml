@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ProgressBar x:Name="SyncProgressBar" Height="10" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="Visible" IsIndeterminate="False"/>
+        <ProgressBar x:Name="SyncProgressBar" Height="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="Collapsed" IsIndeterminate="False"/>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="MainStackPanel">

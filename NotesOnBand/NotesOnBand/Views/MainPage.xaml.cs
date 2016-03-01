@@ -91,8 +91,17 @@ namespace NotesOnBand
             //Get the number of notes.
             int notesCount = (MainStackPanel.Children.Count - 1) / 2;
 
+            //Enable the progressbar
+            SyncProgressBar.Visibility = Visibility.Visible;
+            SyncProgressBar.IsIndeterminate = true;
+            
+
             //Sync it over.
             await mainPageViewModel.SyncNotesToBandAsync(notesCount);
+
+            //Done. 
+            SyncProgressBar.IsIndeterminate = false;
+            SyncProgressBar.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>

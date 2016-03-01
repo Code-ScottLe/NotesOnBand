@@ -109,7 +109,7 @@ namespace NotesOnBandEngine.Models
         /// Get an information about paired Band from Device asynchronously
         /// </summary>
         /// <returns>Boolean value. True indicate that Info of Band was returned successfully, False indicates failure</returns>
-        public async Task<bool> GetBandInfoAsync()
+        private async Task<bool> GetBandInfoAsync()
         {
             //Do this only if we don't already have a band information.
             if (currentBandInfo != null)
@@ -149,7 +149,12 @@ namespace NotesOnBandEngine.Models
             if (currentBandInfo == null)
             {
                 //Have not acquire which band yet.
-                return false;
+                bool status = await GetBandInfoAsync();
+
+                if(status == false)
+                {
+                    throw new InvalidOperationException("Can't find band info!");
+                }
             }
 
             try
