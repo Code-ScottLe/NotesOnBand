@@ -207,7 +207,8 @@ namespace NotesOnBandEngine.ViewModels
                 notesList.Add("Note #" + (i+1).ToString());
             }
 
-            //Open up the XML document to load back on the previously saved notes.
+            //Initalize Band
+            currentBand = new Band();
 
         }
 
@@ -216,14 +217,58 @@ namespace NotesOnBandEngine.ViewModels
         #region Methods
 
         /// <summary>
-        /// Sync the current given notes to band.
+        /// Sync the notes to Band
+        /// </summary>
+        /// <param name="notesCount"> number of notes to sync</param>
+        /// <returns></returns>
+        public async Task SyncNotesToBandAsync(int notesCount)
+        {
+            //Saves the notes first.
+            //await SaveNotesToXML();
+
+            //Reverse List.
+            List<string> actualNote = NotesListHandler();
+
+            //Done adding reverse stuffs.
+            //Connect to Band.
+            bool connectStatus = await CurrentBand.ConnectToBandAsync();
+
+            if(connectStatus == false)
+            {
+                //something is wrong.
+                return;
+            }
+
+            await CurrentBand.SyncToBandAsync(actualNote);
+               
+        }
+        
+        /// <summary>
+        /// 
         /// </summary>
         /// <returns></returns>
-        public async Task SyncNotesToBandAsync()
+        private List<string> NotesListHandler()
         {
+            List<string> actualNote = new List<string>();
+            //Reorder the list, as the Band sync them in the reverse order.
+            for (int i = notesList.Count - 1; i >= 0; i--)
+            {
+                if (string.IsNullOrEmpty(notesList[i]) == false)
+                {
+                    if (notesList[i].Contains("Note #") == false)
+                    {
+                        actualNote.Add(notesList[i]);
+                    }
 
+                    else if (notesList[i].Trim().Count() > 7)
+                    {
+                        actualNote.Add(notesList[i]);
+                    }
+                }
+            }
+
+            return actualNote;
         }
-
 
         /// <summary>
         /// Load up previously synced notes to the band asynchronously
