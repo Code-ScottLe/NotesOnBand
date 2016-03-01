@@ -82,5 +82,25 @@ namespace NotesOnBand
         {
 
         }
+
+        /// <summary>
+        /// Delete the note. From bottom up.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void DeleteNote_Click(object sender, RoutedEventArgs e)
+        {
+            //we only remove up to the first note.
+            if (MainStackPanel.Children.Count == 3)
+            {
+                Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog("Can't remove the first note! Just leave it be. Pls.");
+                await dialog.ShowAsync();
+                return;
+            }
+            //Remove the last 2.
+            MainStackPanel.Children.RemoveAt(MainStackPanel.Children.Count - 1);
+            MainStackPanel.Children.RemoveAt(MainStackPanel.Children.Count - 1);
+
+        }
     }
 }
