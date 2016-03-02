@@ -118,7 +118,12 @@ namespace NotesOnBand
                 await dialog.ShowAsync();
                 return;
             }
+
+            //Reset the note first.
+            ((TextBox)MainStackPanel.Children.Last()).Text = "";
+
             //Remove the last 2.
+
             MainStackPanel.Children.RemoveAt(MainStackPanel.Children.Count - 1);
             MainStackPanel.Children.RemoveAt(MainStackPanel.Children.Count - 1);
 
