@@ -27,25 +27,8 @@ namespace NotesOnBand
         {
             this.InitializeComponent();
 
-            //Add the error event handler onto the Error Occurred
-            mainPageViewModel.ErrorOccurred += ErrorOccurredInViewModel;
             
         }
-
-
-        /// <summary>
-        /// Event handler for the event of error occurred. 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void ErrorOccurredInViewModel(object sender, NotesOnBandEngine.Events.ErrorOccurredEventArgs e)
-        {
-            //Create a textbox and let the user know about the error.
-            Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog(e.Message, "Unexpected Error has occurred");
-
-            //show it
-            await dialog.ShowAsync();
-        } 
 
         /// <summary>
         /// Add a new notes on to the view.

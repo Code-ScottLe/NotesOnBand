@@ -31,9 +31,9 @@ namespace NotesOnBandEngineUnitTest.ModelTests
         {
             Band myBand = new Band();
             
-            bool status = await myBand.ConnectToBandAsync();
+            await myBand.ConnectToBandAsync();
 
-            Assert.IsTrue(status);
+            Assert.IsTrue(true);
         }
     
     }

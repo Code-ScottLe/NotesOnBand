@@ -34,10 +34,6 @@ namespace NotesOnBandEngine.ViewModels
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //Delegate.
-        public delegate void ErrorOccurredEventHandler(object sender, ErrorOccurredEventArgs e);
-        public event ErrorOccurredEventHandler ErrorOccurred;
-
         #endregion
 
         #region Properties
@@ -234,12 +230,14 @@ namespace NotesOnBandEngine.ViewModels
 
             //Done adding reverse stuffs.
             //Connect to Band.
-            bool connectStatus = await CurrentBand.ConnectToBandAsync();
+            bool connectStatus = false;
+
+            await CurrentBand.ConnectToBandAsync();
 
             if(connectStatus == false)
             {
                 //something is wrong.
-                OnErrorOccurred("Can't connect to your Band! Please make sure you have Bluetooth turned on and the Band is paired");
+                
                 return;
             }
 
@@ -300,7 +298,7 @@ namespace NotesOnBandEngine.ViewModels
             //check if we actually loaded it up successfully
             if (previousSyncedNotes == null)
             {
-                OnErrorOccurred("Can't load up previous synced notes!");
+                
                 return;
             }
 
@@ -375,19 +373,6 @@ namespace NotesOnBandEngine.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
-        /// <summary>
-        /// Fire up the ErrorOccurred event and notify all the listener for the error.
-        /// </summary>
-        /// <param name="message"></param>
-        public void OnErrorOccurred(string message)
-        {
-            if (ErrorOccurred != null)
-            {
-                ErrorOccurred(this, new ErrorOccurredEventArgs(message));
-            }
-        }
-
 
         #endregion
 
