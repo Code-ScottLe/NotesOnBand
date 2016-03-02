@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.ComponentModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -25,7 +26,22 @@ namespace NotesOnBand
         public MainPage()
         {
             this.InitializeComponent();
+
+            //Add the error event handler onto the Error Occurred
+            mainPageViewModel.ErrorOccurred += ErrorOccurredInViewModel;
+            
         }
+
+
+        /// <summary>
+        /// Event handler for the event of error occurred. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ErrorOccurredInViewModel(object sender, NotesOnBandEngine.Events.ErrorOccurredEventArgs e)
+        {
+
+        } 
 
         //Nope.
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
@@ -164,6 +180,7 @@ namespace NotesOnBand
             //Change the text value of the version to Band 2.
             BandVersionTextBlock.Text = "Band 2";
             BandVersionTextBlock.Foreground = new SolidColorBrush(Windows.UI.Colors.DeepSkyBlue);
+            mainPageViewModel.CurrentBand.CurrentVersion = NotesOnBandEngine.Models.BandVersion.MicrosoftBand2;
         }
 
 
@@ -177,6 +194,7 @@ namespace NotesOnBand
             //Change the text value of the version to band 1
             BandVersionTextBlock.Text = "Band 1";
             BandVersionTextBlock.Foreground = new SolidColorBrush(Windows.UI.Colors.Purple);
+            mainPageViewModel.CurrentBand.CurrentVersion = NotesOnBandEngine.Models.BandVersion.MicrosoftBand1;
         }
     }
 }
