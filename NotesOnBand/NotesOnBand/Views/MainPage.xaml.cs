@@ -206,8 +206,6 @@ namespace NotesOnBand
         private async void About_Click(object sender, RoutedEventArgs e)
         {
             //Show a messege box consist of Application name, Author name and link.
-
-            string name = "CodeScottLe";
             string appName = "Notes On Band";
             string appVersion = "v1.0";
             string redditLink = "u/AMRAAM_Missiles/";
