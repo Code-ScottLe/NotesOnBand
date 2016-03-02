@@ -18,12 +18,26 @@
                     <viewModel:MainPageViewModel x:Name="mainPageViewModel"></viewModel:MainPageViewModel>
                 </StackPanel.DataContext>
 
-                
-                    <!--Header-->
-                <TextBlock x:Name="AppHeaderTextBlock" Height="Auto" Width="Auto" FontSize="21.333" Margin="10 15 10 0" FontFamily="Segoe WP Semibold">
-                Notes on Band
-                </TextBlock>
 
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <!--Header-->
+                    <TextBlock x:Name="AppHeaderTextBlock" Grid.Column="0" Height="Auto" Width="Auto" FontSize="21.333" Margin="10 15 10 0" FontFamily="Segoe WP Semibold">
+                Notes on Band
+                    </TextBlock>
+
+                    <!--The Toggle for Band version-->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <!--Margin is Left, Top, Right, Bottom-->
+                        <TextBlock x:Name="BandVersionTextBlock" Text="Band 2" Foreground="DeepSkyBlue" Margin="0 15 20 0"></TextBlock>
+                        <ToggleButton x:Name="BandChoiceToggleButton" Grid.Column="1" Height="Auto" Width="Auto" Margin="0 8 20 0" IsChecked="True" Checked="BandChoiceToggleButton_Checked" Unchecked="BandChoiceToggleButton_Unchecked"></ToggleButton>
+                    </StackPanel>
+                </Grid>
+
+                
                 <!--Note 1-->
                 <TextBlock x:Name="Note1LabelTextBlock" Height="Auto" Width="Auto" Foreground="Gray" Margin="10 5 0 0" >
                 Note #1

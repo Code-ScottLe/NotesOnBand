@@ -153,5 +153,30 @@ namespace NotesOnBand
             //Show it.
             await dialog.ShowAsync();
         }
+
+        /// <summary>
+        /// Event handler for checked button. = Band 2
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BandChoiceToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            //Change the text value of the version to Band 2.
+            BandVersionTextBlock.Text = "Band 2";
+            BandVersionTextBlock.Foreground = new SolidColorBrush(Windows.UI.Colors.DeepSkyBlue);
+        }
+
+
+        /// <summary>
+        /// Event handler for unchecked button = Band 1
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BandChoiceToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            //Change the text value of the version to band 1
+            BandVersionTextBlock.Text = "Band 1";
+            BandVersionTextBlock.Foreground = new SolidColorBrush(Windows.UI.Colors.Purple);
+        }
     }
 }
