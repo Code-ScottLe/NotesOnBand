@@ -93,6 +93,19 @@ namespace NotesOnBand
             //Add them onto the stack panel.
             MainStackPanel.Children.Add(noteLabelTextBlock);
             MainStackPanel.Children.Add(noteTextBox);         
+
+            //Check if we already have 8, disable the button
+            if (((MainStackPanel.Children.Count - 1) / 2) >= 8)
+            {
+                AddNote.IsEnabled = false;
+            }
+
+            //Check if we have more than 2 notes, to re-enable the deleteButton
+
+            else if((((MainStackPanel.Children.Count - 1) / 2)) > 1)
+            {
+                DeleteNote.IsEnabled = true;
+            }
         }
 
         /// <summary>
@@ -107,7 +120,7 @@ namespace NotesOnBand
             DeleteNote.IsEnabled = false;
             SyncNote.IsEnabled = false;
 
-            //Disable changint text on every textBox
+            //Disable changing text on every textBox
             foreach( var element in MainStackPanel.Children)
             {
                 if(element is TextBox)
@@ -138,7 +151,7 @@ namespace NotesOnBand
 
             //Re-enable the textbox for editing
 
-            //Disable changint text on every textBox
+            //Disable changing text on every textBox
             foreach (var element in MainStackPanel.Children)
             {
                 if (element is TextBox)
@@ -170,6 +183,18 @@ namespace NotesOnBand
 
             MainStackPanel.Children.RemoveAt(MainStackPanel.Children.Count - 1);
             MainStackPanel.Children.RemoveAt(MainStackPanel.Children.Count - 1);
+
+            //Check if we only have 1 notes left. then disable the button
+            if(((MainStackPanel.Children.Count - 1) / 2) <= 1)
+            {
+                DeleteNote.IsEnabled = false;
+            }
+
+            //Check if we have less than 8 notes, to enable the add  button. 
+            else if (((MainStackPanel.Children.Count -1) / 2) < 8)
+            {
+                AddNote.IsEnabled = true;
+            }
 
         }
 

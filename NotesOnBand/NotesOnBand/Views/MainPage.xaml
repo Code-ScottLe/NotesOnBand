@@ -54,7 +54,7 @@
         <AppBar>
             <StackPanel Orientation="Horizontal">
                 <AppBarButton x:Name="AddNote" Icon="Add" Label="Add Note" Click="AddNote_Click"></AppBarButton>
-                <AppBarButton x:Name="DeleteNote" Icon="Remove" Label="Delete Note" Click="DeleteNote_Click"></AppBarButton>
+                <AppBarButton x:Name="DeleteNote" Icon="Remove" Label="Delete Note" Click="DeleteNote_Click" IsEnabled="False"></AppBarButton>
                 <AppBarButton x:Name="SyncNote" Icon="Sync" Label="Sync" Click="SyncNote_Click"></AppBarButton>
                 <AppBarButton x:Name="About" Icon="Help" Label="About" Click="About_Click"></AppBarButton>
             </StackPanel>
