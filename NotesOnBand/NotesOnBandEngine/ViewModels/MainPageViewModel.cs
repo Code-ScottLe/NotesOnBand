@@ -227,7 +227,7 @@ namespace NotesOnBandEngine.ViewModels
             //await SaveNotesToXML();
 
             //Reverse List.
-            List<string> actualNote = NotesListHandler();
+            List<string> actualNote = NotesListHandler(notesCount);
 
             //Done adding reverse stuffs.
             //Connect to Band.
@@ -244,28 +244,36 @@ namespace NotesOnBandEngine.ViewModels
         }
         
         /// <summary>
-        /// 
+        ///    Handling the note list for the band. It reverse the original note list due to the nature of the band displaying stuffs
+        ///    in backward order.
         /// </summary>
         /// <returns></returns>
-        private List<string> NotesListHandler()
+        private List<string> NotesListHandler(int notesCount)
         {
             List<string> actualNote = new List<string>();
             //Reorder the list, as the Band sync them in the reverse order.
-            for (int i = notesList.Count - 1; i >= 0; i--)
-            {
-                if (string.IsNullOrEmpty(notesList[i]) == false)
-                {
-                    if (notesList[i].Contains("Note #") == false)
-                    {
-                        actualNote.Add(notesList[i]);
-                    }
 
-                    else if (notesList[i].Trim().Count() > 7)
-                    {
-                        actualNote.Add(notesList[i]);
-                    }
-                }
+            for (int i = notesCount - 1; i >= 0; i --)
+            {
+                actualNote.Add(notesList[i]);
             }
+
+
+            //for (int i = notesList.Count - 1; i >= 0; i--)
+            //{
+            //    if (string.IsNullOrEmpty(notesList[i]) == false)
+            //    {
+            //        if (notesList[i].Contains("Note #") == false)
+            //        {
+            //            actualNote.Add(notesList[i]);
+            //        }
+
+            //        else if (notesList[i].Trim().Count() > 7)
+            //        {
+            //            actualNote.Add(notesList[i]);
+            //        }
+            //    }
+            //}
 
             return actualNote;
         }
