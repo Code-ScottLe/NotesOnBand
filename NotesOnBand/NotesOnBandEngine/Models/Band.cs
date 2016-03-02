@@ -108,13 +108,12 @@ namespace NotesOnBandEngine.Models
         /// <summary>
         /// Get an information about paired Band from Device asynchronously
         /// </summary>
-        /// <returns>Boolean value. True indicate that Info of Band was returned successfully, False indicates failure</returns>
-        private async Task<bool> GetBandInfoAsync()
+        private async Task GetBandInfoAsync()
         {
             //Do this only if we don't already have a band information.
             if (currentBandInfo != null)
             {
-                return true;
+                return;
             }
 
             //We don't have a band info yet, get it from the phone.
@@ -123,25 +122,24 @@ namespace NotesOnBandEngine.Models
             if (pairedBands.Count() < 1)
             {
                 //we don't have a band yet.
-                return false;
+                throw new InvalidOperationException("No paired Band detected!");
             }
 
             //Get the band info. Default is the first one.
-            currentBandInfo = pairedBands[0];
-
-            return true;
+            currentBandInfo = pairedBands[0];         
         }
+
+
 
         /// <summary>
         /// Connect to the Microsoft Band asynchronously. 
         /// </summary>
-        /// <returns>True indicate success. False indicate failure</returns>
-        public async Task<bool> ConnectToBandAsync()
+        public async Task ConnectToBandAsync()
         {
             //Do this only if we haven't connected to a Band.
             if (currentBandClient != null)
             {
-                return true;
+                return;
             }
 
 
@@ -149,12 +147,7 @@ namespace NotesOnBandEngine.Models
             if (currentBandInfo == null)
             {
                 //Have not acquire which band yet.
-                bool status = await GetBandInfoAsync();
-
-                if(status == false)
-                {
-                    throw new InvalidOperationException("Can't find band info!");
-                }
+                await GetBandInfoAsync();             
             }
 
             try
@@ -165,18 +158,18 @@ namespace NotesOnBandEngine.Models
                 if (currentBandClient == null)
                 {
                     //something is wrong.
-                    return false;
+                    throw new InvalidOperationException("Can't connect to this Band: " + currentBandInfo.Name);
                 }
-
-                return true;
+              
             }
 
             catch (BandException ex)
             {
                 //Something is wrong.
-                return false;
+                throw new AggregateException("Can't connect to this Band: " + currentBandInfo.Name, ex);
             }
         }
+
 
 
         /// <summary>
@@ -275,12 +268,13 @@ namespace NotesOnBandEngine.Models
             
         }
 
+
+
         /// <summary>
         /// Sync the given tile over to the phone.
         /// </summary>
         /// <param name="myTile">Band Tile that we want to sync</param>
-        /// <returns></returns>
-        private async Task<bool> SyncTileToBandAsync()
+        private async Task SyncTileToBandAsync()
         {
             if (currentTile == null)
             {
@@ -291,21 +285,45 @@ namespace NotesOnBandEngine.Models
             await currentBandClient.TileManager.RemoveTileAsync(currentTile.TileId);
 
             //Sync it over to phone.
-            bool status = await currentBandClient.TileManager.AddTileAsync(currentTile);
+            try
+            {
+                bool status = await currentBandClient.TileManager.AddTileAsync(currentTile);
 
-            return status;
+                if (status == false)
+                {
+                    throw new InvalidOperationException("Can't add tile to Band!");
+                }
+            }
+            catch (BandException e)
+            {
+
+                throw new AggregateException("Can't Add tile to Band!", e) ;
+            }
         }
 
+
+
         /// <summary>
-        /// 
+        /// Create the page data with the notes and sync it over to the band,
         /// </summary>
-        /// <param name="notes"></param>
+        /// <param name="notes">List of notes to sync to band</param>
         /// <returns></returns>
-        private async Task<bool> SyncNotesToBandAsync(List<string> notes)
+        private async Task SyncNotesToBandAsync(List<string> notes)
         {
             if (currentTile == null)
             {
                 throw new ArgumentNullException("CurrentTile", "No Tile available. Please create tile first");
+            }
+
+            if (notes == null)
+            {
+                throw new ArgumentNullException("notes", "List of notes can't be null");
+            }
+
+            else if (notes.Count == 0)
+            {
+                //no notes, do nothing.
+                return;
             }
 
             //We only sync over the notes that actually have data.
@@ -327,37 +345,50 @@ namespace NotesOnBandEngine.Models
             }
 
             //Done creating data, sync over.
-            bool status = await currentBandClient.TileManager.SetPagesAsync(currentTile.TileId, pagesData);
+            try
+            {
+                bool status = await currentBandClient.TileManager.SetPagesAsync(currentTile.TileId, pagesData);
 
-            return status;
+                if (status == false)
+                {
+                    throw new InvalidOperationException("Can't set the pages on Band");
+                }
+            }
+            catch (BandException e)
+            {
+
+                throw new AggregateException("Can't set the pages on Band", e);
+            }
+
         }
 
         /// <summary>
         /// Sync the given notes to the band
         /// </summary>
-        /// <param name="notes">List of notes.</param>
+        /// <param name="notes">List of notes to sync to band</param>
         /// <returns></returns>
-        public async Task<bool> SyncToBandAsync(List<string>notes)
+        public async Task SyncToBandAsync(List<string>notes)
         {
             if(notes.Count > 8)
             {
                 throw new ArgumentOutOfRangeException("notes.Count", "Can't have more than 8 notes!");
             }
 
+            else if (notes.Count == 0)
+            {
+                return;
+            }
+
             //Create and set the tile + tile's layout
             await CreateBandTileAsync(notes.Count);
 
             //Sync over to the phone.
-            bool syncStatus = await SyncTileToBandAsync();
 
-            if(syncStatus == false)
-            {
-                return false;
-            }
+            //Sync the Tile first.
+            await SyncTileToBandAsync();
 
-            syncStatus = await SyncNotesToBandAsync(notes);
-
-            return syncStatus;
+            //Then sync the notes.
+            await SyncNotesToBandAsync(notes);
         }
 
         /// <summary>
