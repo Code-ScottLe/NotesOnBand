@@ -128,5 +128,30 @@ namespace NotesOnBand
             MainStackPanel.Children.RemoveAt(MainStackPanel.Children.Count - 1);
 
         }
+
+        /// <summary>
+        /// Event handler for the About Button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void About_Click(object sender, RoutedEventArgs e)
+        {
+            //Show a messege box consist of Application name, Author name and link.
+
+            string name = "CodeScottLe";
+            string appName = "Notes On Band";
+            string appVersion = "v1.0";
+            string redditLink = "u/AMRAAM_Missiles/";
+            string twitterLink = "CodeScottLe";
+
+            //Create the message box for popup.
+            Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog(appName + " " + appVersion, "About");
+
+            dialog.Content += (System.Environment.NewLine + "Reddit: " + redditLink + System.Environment.NewLine + "Twitter: " + twitterLink);
+
+
+            //Show it.
+            await dialog.ShowAsync();
+        }
     }
 }
