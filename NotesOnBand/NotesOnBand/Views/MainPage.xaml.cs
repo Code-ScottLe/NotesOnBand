@@ -104,6 +104,20 @@ namespace NotesOnBand
         /// <param name="e"></param>
         private async void SyncNote_Click(object sender, RoutedEventArgs e)
         {
+            //Disable the add/remove/sync button.
+            AddNote.IsEnabled = false;
+            DeleteNote.IsEnabled = false;
+            SyncNote.IsEnabled = false;
+
+            //Disable changint text on every textBox
+            foreach( var element in MainStackPanel.Children)
+            {
+                if(element is TextBox)
+                {
+                    ((TextBox)element).IsReadOnly = true;
+                }
+            }
+
             //Get the number of notes.
             int notesCount = (MainStackPanel.Children.Count - 1) / 2;
 
@@ -118,6 +132,22 @@ namespace NotesOnBand
             //Done. 
             SyncProgressBar.IsIndeterminate = false;
             SyncProgressBar.Visibility = Visibility.Collapsed;
+
+            //Re-Enable the add/remove/sync button.
+            AddNote.IsEnabled = true;
+            DeleteNote.IsEnabled = true;
+            SyncNote.IsEnabled = true;
+
+            //Re-enable the textbox for editing
+
+            //Disable changint text on every textBox
+            foreach (var element in MainStackPanel.Children)
+            {
+                if (element is TextBox)
+                {
+                    ((TextBox)element).IsReadOnly = false;
+                }
+            }
         }
 
         /// <summary>
