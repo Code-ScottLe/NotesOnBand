@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using NotesOnBandEngine.Models;
+using NotesOnBandEngine.Events;
 using Windows.Storage.Streams;
 using Windows.Storage;
 
@@ -22,7 +23,6 @@ namespace NotesOnBandEngine.ViewModels
         private Band currentBand;
         private List<string> notesList;
         private XElement previousSyncedNotes;
-        private string errorMessage;
         private string saveFileName = "PreviousSyncedNotes.xml";
         private string message;
         #endregion
@@ -34,6 +34,9 @@ namespace NotesOnBandEngine.ViewModels
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        //Delegate.
+        public delegate void ErrorOccurredEventHandler(object sender, ErrorOccurredEventArgs e);
+        public event ErrorOccurredEventHandler ErrorOccurred;
 
         #endregion
 
@@ -53,17 +56,17 @@ namespace NotesOnBandEngine.ViewModels
             }
         }
 
-        public string ErrorMessage
+        public string Message
         {
             get
             {
-                return errorMessage;
+                return message;
             }
 
             set
             {
-                errorMessage = value;
-                OnPropertyChanged("ErrorMessage");
+                message = value;
+                OnPropertyChanged("Message");
             }
         }
 
@@ -236,6 +239,7 @@ namespace NotesOnBandEngine.ViewModels
             if(connectStatus == false)
             {
                 //something is wrong.
+                OnErrorOccurred("Can't connect to your Band! Please make sure you have Bluetooth turned on and the Band is paired");
                 return;
             }
 
@@ -296,7 +300,7 @@ namespace NotesOnBandEngine.ViewModels
             //check if we actually loaded it up successfully
             if (previousSyncedNotes == null)
             {
-                ErrorMessage = "Can't load up previous synced notes!";
+                OnErrorOccurred("Can't load up previous synced notes!");
                 return;
             }
 
@@ -372,6 +376,17 @@ namespace NotesOnBandEngine.ViewModels
             }
         }
 
+        /// <summary>
+        /// Fire up the ErrorOccurred event and notify all the listener for the error.
+        /// </summary>
+        /// <param name="message"></param>
+        public void OnErrorOccurred(string message)
+        {
+            if (ErrorOccurred != null)
+            {
+                ErrorOccurred(this, new ErrorOccurredEventArgs(message));
+            }
+        }
 
 
         #endregion
