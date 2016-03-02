@@ -38,16 +38,14 @@ namespace NotesOnBand
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ErrorOccurredInViewModel(object sender, NotesOnBandEngine.Events.ErrorOccurredEventArgs e)
+        private async void ErrorOccurredInViewModel(object sender, NotesOnBandEngine.Events.ErrorOccurredEventArgs e)
         {
+            //Create a textbox and let the user know about the error.
+            Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog(e.Message, "Unexpected Error has occurred");
 
+            //show it
+            await dialog.ShowAsync();
         } 
-
-        //Nope.
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         /// <summary>
         /// Add a new notes on to the view.
@@ -62,7 +60,7 @@ namespace NotesOnBand
             //We can't add more than 8.
             if (notesCount >= 8)
             {
-                Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog("Can't have more than 8 notes!");
+                Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog("Can't have more than 8 notes!", "Caution!");
                 await dialog.ShowAsync();
                 return;
             }
@@ -160,7 +158,7 @@ namespace NotesOnBand
             //we only remove up to the first note.
             if (MainStackPanel.Children.Count == 3)
             {
-                Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog("Can't remove the first note! Just leave it be. Pls.");
+                Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog("Can't remove the first note! Just leave it be. Pls.", "Caution!");
                 await dialog.ShowAsync();
                 return;
             }
