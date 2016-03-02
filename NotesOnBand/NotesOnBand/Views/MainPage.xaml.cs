@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -29,6 +30,34 @@ namespace NotesOnBand
 
             
         }
+
+
+
+        /// <summary>
+        ///     Create the popup message for the user.
+        /// </summary>
+        /// <param name="message">Main message to show the user</param>
+        /// <param name="title">Optional title for the message</param>
+        /// <returns></returns>
+        private async Task CreatePopupMessage(string message, string title = "")
+        {
+            Windows.UI.Popups.MessageDialog dialog = null;
+
+            if (string.IsNullOrEmpty(title))
+            {
+               dialog = new Windows.UI.Popups.MessageDialog(message);
+            }
+
+            else
+            {
+                dialog = new Windows.UI.Popups.MessageDialog(message, title);
+            }
+
+            await dialog.ShowAsync();
+            
+        }
+
+
 
         /// <summary>
         /// Add a new notes on to the view.
@@ -91,6 +120,9 @@ namespace NotesOnBand
             }
         }
 
+
+
+
         /// <summary>
         /// Sync the Notes to the band
         /// </summary>
@@ -118,10 +150,30 @@ namespace NotesOnBand
             //Enable the progressbar
             SyncProgressBar.Visibility = Visibility.Visible;
             SyncProgressBar.IsIndeterminate = true;
-            
+
 
             //Sync it over.
-            await mainPageViewModel.SyncNotesToBandAsync(notesCount);
+            try
+            {
+                await mainPageViewModel.SyncNotesToBandAsync(notesCount);
+            }
+            
+
+            catch (Exception ex)
+            {
+                //Something is wrong. Display message
+                string title = "Whoops :( Something is wrong";
+                string message = ex.Message;
+
+                if(ex.InnerException != null)
+                {
+                    message += System.Environment.NewLine;
+                    message += "Inner Exception:";
+                    message += ex.InnerException.Message;
+                }
+
+                await CreatePopupMessage(message, title);
+            }
 
             //Done. 
             SyncProgressBar.IsIndeterminate = false;
@@ -143,6 +195,9 @@ namespace NotesOnBand
                 }
             }
         }
+
+
+
 
         /// <summary>
         /// Delete the note. From bottom up.
@@ -181,6 +236,9 @@ namespace NotesOnBand
 
         }
 
+
+
+
         /// <summary>
         /// Event handler for the About Button.
         /// </summary>
@@ -204,6 +262,9 @@ namespace NotesOnBand
             await dialog.ShowAsync();
         }
 
+
+
+
         /// <summary>
         /// Event handler for checked button. = Band 2
         /// </summary>
@@ -216,6 +277,7 @@ namespace NotesOnBand
             BandVersionTextBlock.Foreground = new SolidColorBrush(Windows.UI.Colors.DeepSkyBlue);
             mainPageViewModel.CurrentBand.CurrentVersion = NotesOnBandEngine.Models.BandVersion.MicrosoftBand2;
         }
+
 
 
         /// <summary>

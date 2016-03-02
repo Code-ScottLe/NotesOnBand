@@ -230,17 +230,9 @@ namespace NotesOnBandEngine.ViewModels
 
             //Done adding reverse stuffs.
             //Connect to Band.
-            bool connectStatus = false;
-
             await CurrentBand.ConnectToBandAsync();
 
-            if(connectStatus == false)
-            {
-                //something is wrong.
-                
-                return;
-            }
-
+            //Sync notes to band
             await CurrentBand.SyncToBandAsync(actualNote);
                
         }
