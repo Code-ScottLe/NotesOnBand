@@ -12,13 +12,13 @@ namespace NotesOnBandEngine.Events
     public class ErrorOccurredEventArgs : EventArgs
     {
         public string Message { get; set; }
-
+        public Exception InnerException { get; set; }
         /// <summary>
-        /// Default constructor, hidden.
+        /// Default constructor.
         /// </summary>
-        private ErrorOccurredEventArgs()
+        public ErrorOccurredEventArgs()
         {
-            
+            Message = "Something went wrong!";
         }
 
         /// <summary>
@@ -28,6 +28,16 @@ namespace NotesOnBandEngine.Events
         public ErrorOccurredEventArgs(string message)
         {
             Message = message;
+        }
+
+        /// <summary>
+        /// Constructor for the ErrorOccurredEventArgs. To be used with the ErrorOccurred Event.
+        /// </summary>
+        /// <param name="message">Error message to pass through</param>
+        /// <param name="innerException">The inner exception to encapsulate with this exception.</param>
+        public ErrorOccurredEventArgs(string message, Exception innerException) :this(message)
+        {
+            InnerException = innerException;
         }
     }
 }
