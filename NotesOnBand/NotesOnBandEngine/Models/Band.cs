@@ -192,9 +192,10 @@ namespace NotesOnBandEngine.Models
             TextBlock myHeaderTextBlock = new TextBlock();
             myHeaderTextBlock.ElementId = 1;                //ElementID starts from 1.
 
-            //TO CHANGE: This is currently fixed to Microsoft band 2.
             //Band 1 Workable Width : 245px;
             //Band 2 Workable Width : 258px
+            //Band 1 Workable Height: 106px;
+            //Band 2 Workable Height: 128px;
             myHeaderTextBlock.Rect = new PageRect(0, 0, 200, 25);       //Because we have to store everything in a ScrollFlowPanel, we leave the offset (x,y) to the scroll panel.
 
 
@@ -206,11 +207,21 @@ namespace NotesOnBandEngine.Models
             WrappedTextBlock myNoteWrappedTextBlock = new WrappedTextBlock();
             myNoteWrappedTextBlock.ElementId = 2;
 
-            //TO CHANGE: This is currently fixed to Microsoft band 2.
             //Band 1 Workable Width : 245px;
             //Band 2 Workable Width : 258px
+            //Band 1 Workable Height: 106px;
+            //Band 2 Workable Height: 128px;
             //WARNING: WrappedTextBlock seems not to respect the width setting of the PageRect().
-            myNoteWrappedTextBlock.Rect = new PageRect(0, 0, 250, 100);
+            if (CurrentVersion == BandVersion.MicrosoftBand2)
+            {
+                myNoteWrappedTextBlock.Rect = new PageRect(0, 0, 250, 100);
+            }
+
+
+            else
+            {
+                myNoteWrappedTextBlock.Rect = new PageRect(0, 0, 250, 80);
+            }
 
 
 
@@ -223,12 +234,19 @@ namespace NotesOnBandEngine.Models
             //Set the color of the scroll bar to match with the theme as well
             myPageScrollFlowPanel.ScrollBarColorSource = ElementColorSource.BandBase;
 
-            //TO CHANGE: This is currently fixed to Microsoft band 2.
             //Band 1 Workable Width : 245px;
             //Band 2 Workable Width : 258px
             //Band 1 Workable Height: 106px;
             //Band 2 Workable Height: 128px;
-            myPageScrollFlowPanel.Rect = new PageRect(0, 0, 250, 128);
+            if (CurrentVersion == BandVersion.MicrosoftBand2)
+            {
+                myPageScrollFlowPanel.Rect = new PageRect(0, 0, 250, 128);
+            }
+            
+            else
+            {
+                myPageScrollFlowPanel.Rect = new PageRect(0, 0, 250, 106);
+            }
 
 
             //Step 4: Create the page layout from the container with all the controllers  that we just defined.
