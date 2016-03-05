@@ -1,13 +1,37 @@
 ﻿<Page
-    x:Class="NotesOnBand.SettingPage"
+    x:Class="NotesOnBand.Views.SettingPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:NotesOnBand"
+    xmlns:local="using:NotesOnBand.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="ContentGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+        <!--A scroll viewer so we can scroll if necessarily-->
+        <ScrollViewer>
+            <StackPanel x:Name="mainStackPanel">
+
+                <!--Header-->
+                <TextBlock x:Name="HeaderTextBlock" Height="Auto" Width="Auto" FontSize="21.333" Margin="10 15 10 0" FontFamily="Segoe WP Semibold" Text="Setting"></TextBlock>
+
+                <!--Setting Items-->
+                <!--Each Setting item will have a label/header and its content.-->
+
+                <!--Setting Item 1 : Theme switcher-->
+                <!--Margin is Left, Top, Right, Bottom-->
+                <ToggleSwitch x:Name="ThemeSettingToggleSwitch" Header="Theme" Margin="10 10 0 0" OffContent="Dark" OnContent="Light" ></ToggleSwitch>
+
+                <!--About section-->
+                <TextBlock x:Name="AboutLabelTextBlock" Text="About" Margin="10 10 0 0"></TextBlock>
+                <StackPanel x:Name="AboutStackPanel">
+                    <TextBlock x:Name="AppnameTextBlock" Text="Notes on Band" Foreground="Gray" FontSize="13" Margin="10 5 0 0"></TextBlock>
+                    <TextBlock x:Name="VersionTextBlock" Text="Version: " Foreground="Gray" FontSize="13" Margin="10 5 0 0"></TextBlock>
+                    <TextBlock x:Name="NotesTextBlock" Foreground="Gray" FontSize="13" Margin="10 5 0 0" TextWrapping="WrapWholeWords"> Please don't cheat in school (or anywhere). It's not cool.</TextBlock>
+                    <TextBlock x:Name="AuthorTextBlock" Text="© 2016 Code.ScottLe" Foreground="Gray" FontSize="13" Margin="10 5 0 0"></TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
