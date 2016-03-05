@@ -52,12 +52,14 @@
     <!--Each page has this and top AppBar as well-->
     <Page.BottomAppBar>
         <AppBar>
-            <StackPanel Orientation="Horizontal">
-                <AppBarButton x:Name="AddNote" Icon="Add" Label="Add Note" Click="AddNote_Click"></AppBarButton>
-                <AppBarButton x:Name="DeleteNote" Icon="Remove" Label="Delete Note" Click="DeleteNote_Click" IsEnabled="False"></AppBarButton>
-                <AppBarButton x:Name="SyncNote" Icon="Sync" Label="Sync" Click="SyncNote_Click"></AppBarButton>
-                <AppBarButton x:Name="Setting" Icon="Setting" Label="Setting" Click="Setting_Click"></AppBarButton>
-            </StackPanel>
+            <Grid>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Width="Auto" Height="Auto" HorizontalAlignment="Right">
+                    <AppBarButton x:Name="AddNote" Icon="Add" Label="Add Note" Click="AddNote_Click"></AppBarButton>
+                    <AppBarButton x:Name="DeleteNote" Icon="Remove" Label="Delete Note" Click="DeleteNote_Click" IsEnabled="False"></AppBarButton>
+                    <AppBarButton x:Name="SyncNote" Icon="Sync" Label="Sync" Click="SyncNote_Click"></AppBarButton>
+                    <AppBarButton x:Name="Setting" Icon="Setting" Label="Setting" Click="Setting_Click"></AppBarButton>
+                </StackPanel>
+            </Grid>
         </AppBar>
     </Page.BottomAppBar>
 </Page>
