@@ -25,6 +25,41 @@ namespace NotesOnBand.Views
         public SettingPage()
         {
             this.InitializeComponent();
+
+            //Register back button
+            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += SettingPage_BackRequested;
+
+            //Grab the version of the application
+            var packageVersion = Windows.ApplicationModel.Package.Current.Id.Version;
+            string version = string.Format("{0}.{1}.{2}.{3}", packageVersion.Major, packageVersion.Minor, packageVersion.Build, packageVersion.Revision);
+            VersionTextBlock.Text += version;
+        }
+
+        /// <summary>
+        /// Event handler for the back pressed button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SettingPage_BackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)
+        {
+            //Get the current frame that is being displayed in the current window.
+            Frame currentFrame = Window.Current.Content as Frame;
+
+            if (currentFrame == null)
+            {
+                //something wrong
+                return;
+            }
+
+            //Handled  indicate if the back button has been handled or not.
+            //We only handle it here if it is not already handled (usually by the system)
+            if (currentFrame.CanGoBack == true && e.Handled == false)
+            {
+                //set the event as already being handled
+                e.Handled = true;
+
+                currentFrame.GoBack();
+            }
         }
     }
 }

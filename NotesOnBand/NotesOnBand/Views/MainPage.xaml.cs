@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using NotesOnBand.Views;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -28,7 +29,8 @@ namespace NotesOnBand
         {
             this.InitializeComponent();
 
-            
+            //Enable cache.
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
 
@@ -291,6 +293,17 @@ namespace NotesOnBand
             BandVersionTextBlock.Text = "Band 1";
             BandVersionTextBlock.Foreground = new SolidColorBrush(Windows.UI.Colors.Purple);
             mainPageViewModel.CurrentBand.CurrentVersion = NotesOnBandEngine.Models.BandVersion.MicrosoftBand1;
+        }
+
+
+        /// <summary>
+        /// Event handler for the SEtting click, send the user to the setting page.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Setting_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(SettingPage));
         }
     }
 }
