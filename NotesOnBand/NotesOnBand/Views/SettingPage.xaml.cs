@@ -36,6 +36,29 @@ namespace NotesOnBand.Views
         }
 
         /// <summary>
+        /// Override the NavigatedTo Event Handler. This will fire up when the page is being navigated to from the main UI.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            //base.OnNavigatedTo(e);
+
+            //Ask what kind of theme are we in and then set the correct toggle status
+            var currentTheme = Application.Current.RequestedTheme;
+
+            if (currentTheme == ApplicationTheme.Light)
+            {
+                ThemeSettingToggleSwitch.IsOn = true;
+            }
+
+            else
+            {
+                ThemeSettingToggleSwitch.IsOn = false;
+            }
+
+        }
+
+        /// <summary>
         /// Event handler for the back pressed button
         /// </summary>
         /// <param name="sender"></param>
@@ -59,6 +82,27 @@ namespace NotesOnBand.Views
                 e.Handled = true;
 
                 currentFrame.GoBack();
+            }
+        }
+
+
+        /// <summary>
+        /// Event handler for the toggled theme setting
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ThemeSettingToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            //On indicate light theme
+            if(ThemeSettingToggleSwitch.IsOn == true)
+            {
+               
+            }
+             
+            //Not on is dark.
+            else
+            {
+                
             }
         }
     }

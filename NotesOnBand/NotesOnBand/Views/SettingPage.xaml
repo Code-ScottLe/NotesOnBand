@@ -21,7 +21,7 @@
 
                 <!--Setting Item 1 : Theme switcher-->
                 <!--Margin is Left, Top, Right, Bottom-->
-                <ToggleSwitch x:Name="ThemeSettingToggleSwitch" Header="Theme" Margin="10 10 0 0" OffContent="Dark" OnContent="Light" ></ToggleSwitch>
+                <ToggleSwitch x:Name="ThemeSettingToggleSwitch" Header="Theme" Margin="10 10 0 0" OffContent="Dark" OnContent="Light" Toggled="ThemeSettingToggleSwitch_Toggled"  ></ToggleSwitch>
 
                 <!--About section-->
                 <TextBlock x:Name="AboutLabelTextBlock" Text="About" Margin="10 10 0 0"></TextBlock>
