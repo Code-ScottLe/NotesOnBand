@@ -309,7 +309,7 @@ namespace NotesOnBandEngine.Models
 
                 if (status == false)
                 {
-                    throw new InvalidOperationException("Can't add tile to Band!");
+                    throw new InvalidOperationException("Can't add tile to Band!" + System.Environment.NewLine + "Detail: AddTileAsync() from currentBandClient return false!");
                 }
             }
             catch (BandException e)
