@@ -269,11 +269,8 @@ namespace NotesOnBandEngine.Models
             myTile.SmallIcon = await LoadIcon("ms-appx:///Assets/TileIconSmall.png");
             myTile.TileIcon = await LoadIcon("ms-appx:///Assets/TileIconLarge.png");
 
-            //Add the layout to the tile. One tile can hold up to 8 different pages, we add no more than that.
-            for(int i = 0; i < pagesCount; i++)
-            {
-                myTile.PageLayouts.Add(myPageLayout);
-            }
+            //Add the layout to the tile. One tile can hold up to 5 different layout.
+            myTile.PageLayouts.Add(myPageLayout);
 
             //Save back this.
             currentTilePagesCount = myTile.PageLayouts.Count;
@@ -358,7 +355,8 @@ namespace NotesOnBandEngine.Models
                 WrappedTextBlockData noteText = new WrappedTextBlockData(2, notes[i]);
 
                 //Wrap them in a page data.
-                pagesData[i] = new PageData(Guid.NewGuid(), i, headerText, noteText);
+                //the pageLayoutIndex is the layout index that will be used to create this page with the given data. the layout the blueprint for a page, not an actual page.
+                pagesData[i] = new PageData(Guid.NewGuid(), 0, headerText, noteText);
 
             }
 
