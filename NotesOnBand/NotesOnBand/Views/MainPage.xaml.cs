@@ -84,18 +84,17 @@ namespace NotesOnBand
             noteLabelTextBlock.Foreground = new SolidColorBrush(Windows.UI.Colors.Gray);
             noteLabelTextBlock.Text = "Note #" + (notesCount + 1).ToString();
             noteLabelTextBlock.Margin = new Thickness(10, 10, 0, 0);
-            noteLabelTextBlock.Name = "Note" + (notesCount + 1).ToString() + "LabelTextBlock";
+            noteLabelTextBlock.Name = "Note" + (notesCount + 1).ToString() + "LabelTextBlock";          
 
-           
-
-            //Create the textBox for the label.
+            //Create the textBox for the notes
             TextBox noteTextBox = new TextBox();
             noteTextBox.Foreground = new SolidColorBrush(Windows.UI.Colors.White);
-            noteTextBox.Margin = new Thickness(10, 5, 10, 0);
+            //noteTextBox.Margin = new Thickness(10, 5, 10, 0);
             noteTextBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            noteTextBox.VerticalAlignment = VerticalAlignment.Stretch;
             noteTextBox.AcceptsReturn = true;
             noteTextBox.TextWrapping = TextWrapping.Wrap;
-            noteTextBox.Name = "Note" + (notesCount + 1).ToString() + "TextBox";
+            noteTextBox.Name = "Note" + (notesCount + 1).ToString() + "TextBox";          
 
             //Set the binding for the text element.
             Binding textBind = new Binding();
@@ -104,9 +103,52 @@ namespace NotesOnBand
             textBind.Mode = BindingMode.TwoWay;
             noteTextBox.SetBinding(TextBox.TextProperty, textBind);
 
+
+            //Create the delete button.
+            Button deleteButton = new Button();
+            deleteButton.Name = "Note" + (notesCount + 1).ToString() + "DeleteButton";
+            deleteButton.Margin = new Thickness(0);
+            deleteButton.Padding = new Thickness(0);
+            deleteButton.HorizontalAlignment = HorizontalAlignment.Right;
+            deleteButton.VerticalAlignment = VerticalAlignment.Center;
+
+            //The button will have the cancel (X) symbol.
+            deleteButton.Content = new SymbolIcon(Symbol.Cancel);
+
+            //Add in the event handler for the click event
+            deleteButton.Click += DeleteButton_Click;
+
+
+            //Create the Grid for the note and the button.
+            Grid noteGrid = new Grid();
+            noteGrid.Margin = new Thickness(10, 5, 10, 0);
+            noteGrid.Name = "Note" + (notesCount + 1).ToString() + "Grid";
+
+            //Create 2 column definitions to hold the textbox and the button
+            //We reuse the one that was defined in the XAML for ease of access.
+            ColumnDefinition noteColumnDefinition = new ColumnDefinition() { Width = Note1Grid.ColumnDefinitions[0].Width };
+
+            ColumnDefinition noteDeleteButtonColumnDefinition = new ColumnDefinition() { Width = Note1Grid.ColumnDefinitions[1].Width };
+
+            //Add them on to the ColumnsDefinition of the new grid
+            noteGrid.ColumnDefinitions.Add(noteColumnDefinition);
+            noteGrid.ColumnDefinitions.Add(noteDeleteButtonColumnDefinition);
+
+            //Add the TextBox and the Button to be the child of the note grid
+            noteGrid.Children.Add(noteTextBox);
+            noteGrid.Children.Add(deleteButton);
+
+            //Set the column of the note textbox to 0.
+            Grid.SetColumn(noteTextBox, 0);
+
+            //Set the column of the button to 1
+            Grid.SetColumn(deleteButton, 1);
+            
+
+
             //Add them onto the stack panel.
             MainStackPanel.Children.Add(noteLabelTextBlock);
-            MainStackPanel.Children.Add(noteTextBox);         
+            MainStackPanel.Children.Add(noteGrid);         
 
             //Check if we already have 8, disable the button
             if (((MainStackPanel.Children.Count - 1) / 2) >= 8)
@@ -122,6 +164,16 @@ namespace NotesOnBand
             }
         }
 
+
+        /// <summary>
+        /// Event handler for clicking the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
 
 
