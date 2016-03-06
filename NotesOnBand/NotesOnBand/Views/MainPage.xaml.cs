@@ -269,7 +269,7 @@ namespace NotesOnBand
             }
 
             //Reset the note first.
-            ((TextBox)MainStackPanel.Children.Last()).Text = "";
+            ((MainStackPanel.Children.Last() as Grid).Children[0] as TextBox).Text = "";
 
             //Remove the last 2.
 
