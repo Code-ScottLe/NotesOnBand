@@ -43,8 +43,30 @@
                 <TextBlock x:Name="Note1LabelTextBlock" Height="Auto" Width="Auto" Foreground="Gray" Margin="10 5 0 0" >
                 Note #1
                 </TextBlock>
-                <TextBox x:Name="Note1TextBox" Height="Auto" Width="Auto" Foreground="White" Margin="10 5 10 0" Text="{Binding Path=Note1, Mode=TwoWay}" HorizontalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
 
+                <!--Margin is Left, Top, Right, Bottom-->
+                <Grid Margin="10 5 10 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.9*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="Note1TextBox" Height="Auto" Width="Auto" 
+                         Foreground="White" 
+                         Text="{Binding Path=Note1, Mode=TwoWay}" 
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True"
+                             Grid.Column="0"></TextBox>
+
+                    <Button x:Name="Note1CancelButton" Height="Auto" Width="Auto" Margin="0" Padding="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <SymbolIcon Height="Auto" Width="Auto" Symbol="Cancel"></SymbolIcon>
+                    </Button>
+                </Grid>
+                
+                
+                
+                
+                
+                
             </StackPanel>
         </ScrollViewer>
     </Grid>
