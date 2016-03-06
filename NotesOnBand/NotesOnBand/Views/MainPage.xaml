@@ -57,7 +57,9 @@
                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True"
                              Grid.Column="0"></TextBox>
 
-                    <Button x:Name="Note1DeleteButton" Height="Auto" Width="Auto" Margin="0" Padding="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Click="DeleteButton_Click">
+                    <Button x:Name="Note1DeleteButton" Height="Auto" Width="Auto" Margin="0" Padding="0" 
+                            Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Click="DeleteButton_Click"
+                            IsEnabled="False">
                         <SymbolIcon Height="Auto" Width="Auto" Symbol="Cancel"></SymbolIcon>
                     </Button>
                 </Grid>

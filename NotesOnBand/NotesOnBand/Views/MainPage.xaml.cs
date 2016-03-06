@@ -156,11 +156,12 @@ namespace NotesOnBand
                 AddNote.IsEnabled = false;
             }
 
-            //Check if we have more than 2 notes, to re-enable the deleteButton
+            //Check if we have more than 2 notes, to re-enable the deleteButton (in app-bar) and delete button right next to the note.
 
             else if((((MainStackPanel.Children.Count - 1) / 2)) > 1)
             {
                 DeleteNote.IsEnabled = true;
+                Note1DeleteButton.IsEnabled = true;
             }
         }
 
@@ -280,6 +281,7 @@ namespace NotesOnBand
             if(((MainStackPanel.Children.Count - 1) / 2) <= 1)
             {
                 DeleteNote.IsEnabled = false;
+                Note1DeleteButton.IsEnabled = false;
             }
 
             //Check if we have less than 8 notes, to enable the add  button. 
