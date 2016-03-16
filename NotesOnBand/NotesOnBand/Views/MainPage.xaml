@@ -39,7 +39,7 @@
                 </Grid>
 
                 <!--Note 1-->
-                <StackPanel>
+                <StackPanel x:Name="Note1StackPanel">
                     <!--Label-->
                     <TextBlock x:Name="Note1LabelTextBlock" Height="Auto" Width="Auto" Foreground="Gray" Margin="10 5 0 0" >
                 Note #1

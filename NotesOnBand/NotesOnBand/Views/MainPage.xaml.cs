@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using NotesOnBand.Views;
+using Windows.UI.Xaml.Media.Animation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -147,11 +148,26 @@ namespace NotesOnBand
 
             //Create a new stack panel to house the label and the actual note grid
             StackPanel noteStackpanel = new StackPanel();
+            noteStackpanel.Name = "Note" + (notesCount + 1).ToString() + "StackPanel";
             noteStackpanel.Children.Add(noteLabelTextBlock);
             noteStackpanel.Children.Add(noteGrid);
+            noteStackpanel.Opacity = 0.0;
+
+            //Try to animate the opacity.
+            Storyboard myStoryBoard = new Storyboard();
+            DoubleAnimation myDoubleAnimation = new DoubleAnimation();
+            Storyboard.SetTarget(myDoubleAnimation, noteStackpanel);
+            Storyboard.SetTargetProperty(myDoubleAnimation, "Opacity");
+            myDoubleAnimation.From = 0.0;
+            myDoubleAnimation.To = 1.0;
+            myDoubleAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 350));   //350ms
+            myStoryBoard.Children.Add(myDoubleAnimation);
 
             //Add them onto the main stack panel.
-            MainStackPanel.Children.Add(noteStackpanel);  
+            MainStackPanel.Children.Add(noteStackpanel);
+
+            //Now, try to animate
+            myStoryBoard.Begin();
 
             //Check if we already have 8, disable the button
             if ((MainStackPanel.Children.Count - 1) >= 8)
