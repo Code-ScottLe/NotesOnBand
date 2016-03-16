@@ -69,7 +69,7 @@ namespace NotesOnBand
         private async void AddNote_Click(object sender, RoutedEventArgs e)
         {
             //Ask how many notes we have so far.
-            int notesCount = (MainStackPanel.Children.Count -1) / 2;
+            int notesCount = MainStackPanel.Children.Count -1;
 
             //We can't add more than 8.
             if (notesCount >= 8)
@@ -143,22 +143,25 @@ namespace NotesOnBand
 
             //Set the column of the button to 1
             Grid.SetColumn(deleteButton, 1);
-            
 
 
-            //Add them onto the stack panel.
-            MainStackPanel.Children.Add(noteLabelTextBlock);
-            MainStackPanel.Children.Add(noteGrid);         
+            //Create a new stack panel to house the label and the actual note grid
+            StackPanel noteStackpanel = new StackPanel();
+            noteStackpanel.Children.Add(noteLabelTextBlock);
+            noteStackpanel.Children.Add(noteGrid);
+
+            //Add them onto the main stack panel.
+            MainStackPanel.Children.Add(noteStackpanel);  
 
             //Check if we already have 8, disable the button
-            if (((MainStackPanel.Children.Count - 1) / 2) >= 8)
+            if ((MainStackPanel.Children.Count - 1) >= 8)
             {
                 AddNote.IsEnabled = false;
             }
 
             //Check if we have more than 2 notes, to re-enable the deleteButton (in app-bar) and delete button right next to the note.
 
-            else if((((MainStackPanel.Children.Count - 1) / 2)) > 1)
+            else if(((MainStackPanel.Children.Count - 1) ) > 1)
             {
                 DeleteNote.IsEnabled = true;
                 Note1DeleteButton.IsEnabled = true;
@@ -262,7 +265,7 @@ namespace NotesOnBand
         private async void DeleteNote_Click(object sender, RoutedEventArgs e)
         {
             //we only remove up to the first note.
-            if (MainStackPanel.Children.Count == 3)
+            if (MainStackPanel.Children.Count == 2)
             {
                 Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog("Can't remove the first note! Just leave it be. Pls.", "Caution!");
                 await dialog.ShowAsync();
@@ -270,22 +273,20 @@ namespace NotesOnBand
             }
 
             //Reset the note first.
-            ((MainStackPanel.Children.Last() as Grid).Children[0] as TextBox).Text = "";
+            (((MainStackPanel.Children.Last() as StackPanel).Children[1] as Grid).Children[0] as TextBox).Text = "";
 
-            //Remove the last 2.
-
-            MainStackPanel.Children.RemoveAt(MainStackPanel.Children.Count - 1);
+            //Remove the last one
             MainStackPanel.Children.RemoveAt(MainStackPanel.Children.Count - 1);
 
             //Check if we only have 1 notes left. then disable the button
-            if(((MainStackPanel.Children.Count - 1) / 2) <= 1)
+            if((MainStackPanel.Children.Count - 1)  <= 1)
             {
                 DeleteNote.IsEnabled = false;
                 Note1DeleteButton.IsEnabled = false;
             }
 
             //Check if we have less than 8 notes, to enable the add  button. 
-            else if (((MainStackPanel.Children.Count -1) / 2) < 8)
+            else if ((MainStackPanel.Children.Count -1)  < 8)
             {
                 AddNote.IsEnabled = true;
             }
