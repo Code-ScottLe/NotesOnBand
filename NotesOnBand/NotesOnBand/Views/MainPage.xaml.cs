@@ -160,7 +160,7 @@ namespace NotesOnBand
             Storyboard.SetTargetProperty(myDoubleAnimation, "Opacity");
             myDoubleAnimation.From = 0.0;
             myDoubleAnimation.To = 1.0;
-            myDoubleAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 350));   //350ms
+            myDoubleAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 400));   //400ms
             myStoryBoard.Children.Add(myDoubleAnimation);
 
             //Add them onto the main stack panel.
@@ -287,6 +287,26 @@ namespace NotesOnBand
                 await dialog.ShowAsync();
                 return;
             }
+
+            //We animate hiding it. 
+            Storyboard myStoryBoard = new Storyboard();
+            DoubleAnimation myAnimation = new DoubleAnimation();
+
+            //Set the target element to be the last stack panel
+            Storyboard.SetTarget(myAnimation, (StackPanel)MainStackPanel.Children.Last());
+            Storyboard.SetTargetProperty(myAnimation, "Opacity");
+
+            //Set the animation to run from fully visible to not visible in 0.4 sec
+            myAnimation.From = 1.0;
+            myAnimation.To = 0.0;
+            myAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 400));
+
+            //Now run.
+            myStoryBoard.Children.Add(myAnimation);
+            myStoryBoard.Begin();
+
+            //Because StoryBoard.Begin() is a fire and forget, delay the removal for 400ms so the animation can be shown.
+            await Task.Delay(400);
 
             //Reset the note first.
             (((MainStackPanel.Children.Last() as StackPanel).Children[1] as Grid).Children[0] as TextBox).Text = "";
