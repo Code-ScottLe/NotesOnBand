@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -74,7 +75,7 @@ namespace NotesOnBand.Views
                 return;
             }
 
-            //Handled  indicate if the back button has been handled or not.
+            //Handled property indicate if the back button has been handled or not.
             //We only handle it here if it is not already handled (usually by the system)
             if (currentFrame.CanGoBack == true && e.Handled == false)
             {
@@ -91,19 +92,36 @@ namespace NotesOnBand.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ThemeSettingToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        private async void ThemeSettingToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             //On indicate light theme
             if(ThemeSettingToggleSwitch.IsOn == true)
             {
-               
+                MessageDialog myPopUp = new MessageDialog("Restart the app now?");
+                myPopUp.Commands.Add(new UICommand("Yep", this.AppKillIUICommandEventHandler));
+                await myPopUp.ShowAsync();
             }
              
             //Not on is dark.
             else
             {
-                
+                MessageDialog myPopUp = new MessageDialog("Restart the app now?");
+                myPopUp.Commands.Add(new UICommand("Yep", this.AppKillIUICommandEventHandler));
+                myPopUp.Commands.Add(new UICommand("Nope"));
+                await myPopUp.ShowAsync();
             }
+
+            
+        }
+
+
+        /// <summary>
+        /// Handler for the app restart on the popup upon theme change.
+        /// </summary>
+        /// <param name="command"></param>
+        private void AppKillIUICommandEventHandler(IUICommand command)
+        {
+            Application.Current.Exit();
         }
     }
 }

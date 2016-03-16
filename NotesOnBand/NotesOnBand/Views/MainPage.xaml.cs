@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using NotesOnBand.Views;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Popups;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
