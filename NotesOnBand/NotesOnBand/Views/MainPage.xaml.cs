@@ -113,6 +113,7 @@ namespace NotesOnBand
             deleteButton.Padding = new Thickness(0);
             deleteButton.HorizontalAlignment = HorizontalAlignment.Right;
             deleteButton.VerticalAlignment = VerticalAlignment.Center;
+            deleteButton.Tag = (notesCount + 1);
 
             //The button will have the cancel (X) symbol.
             deleteButton.Content = new SymbolIcon(Symbol.Cancel);
@@ -161,7 +162,7 @@ namespace NotesOnBand
             Storyboard.SetTargetProperty(myDoubleAnimation, "Opacity");
             myDoubleAnimation.From = 0.0;
             myDoubleAnimation.To = 1.0;
-            myDoubleAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 400));   //400ms
+            myDoubleAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 300));   //300ms
             myStoryBoard.Children.Add(myDoubleAnimation);
 
             //Add them onto the main stack panel.
@@ -187,13 +188,55 @@ namespace NotesOnBand
 
 
         /// <summary>
-        /// Event handler for clicking the button.
+        /// Event handler for clicking the delete button for individual note
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="sender">The delete button that the user pressed.</param>
         /// <param name="e"></param>
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            //Find out the actual note that we are deleting
+            //string noteToDeleteString = (sender as Button).Tag as string;
+            int noteToDeleteNumber = (int)(sender as Button).Tag;
+
+            //Now we get the actual note to delete, remember, that in the mainStack , every note is staying on their corresponded index
+            //I.E : Note1 is at index 1 of the MainStack's Children list, Note 2 is at index 2 of the MainStack's Children list...
+            //Because we have the header stuffs as index 0 on the main stack.
+
+            //Now, get the note's stackpanel.
+            StackPanel noteStackPanel = MainStackPanel.Children[noteToDeleteNumber] as StackPanel;
+
+            if (noteStackPanel == null)
+            {
+                //Something went wrong again, noteStackPanel was not pulled out correctly.
+                //C# 6 syntax for string interpolation
+                await CreatePopupMessage($"Can't convert MainStackPanel.Children[{noteToDeleteNumber}] to a StackPanel", "Whoops, something went wrong :(");
+
+                return;
+            }
+
+            //We animate the hiding.
+            Storyboard myStoryBoard = new Storyboard();
+            DoubleAnimation hidingDoubleAnimation = new DoubleAnimation();
+            Storyboard.SetTarget(hidingDoubleAnimation, noteStackPanel);
+            Storyboard.SetTargetProperty(hidingDoubleAnimation, "Opacity");
+
+            //We animate it to run for 0.4ms
+            hidingDoubleAnimation.From = 1.0;
+            hidingDoubleAnimation.To = 0.0;
+            hidingDoubleAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 400));
+
+            //Add it to the storyboard
+            myStoryBoard.Children.Add(hidingDoubleAnimation);
+
+            //Begin animate
+            myStoryBoard.Begin();
+
+            //Wait for the animation to complete
+            await Task.Delay(400);
+
+            //remove the thing
+            MainStackPanel.Children.Remove(noteStackPanel);         
+
         }
 
 
@@ -297,17 +340,17 @@ namespace NotesOnBand
             Storyboard.SetTarget(myAnimation, (StackPanel)MainStackPanel.Children.Last());
             Storyboard.SetTargetProperty(myAnimation, "Opacity");
 
-            //Set the animation to run from fully visible to not visible in 0.4 sec
+            //Set the animation to run from fully visible to not visible in 0.3 sec
             myAnimation.From = 1.0;
             myAnimation.To = 0.0;
-            myAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 400));
+            myAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 300));
 
             //Now run.
             myStoryBoard.Children.Add(myAnimation);
             myStoryBoard.Begin();
 
             //Because StoryBoard.Begin() is a fire and forget, delay the removal for 400ms so the animation can be shown.
-            await Task.Delay(400);
+            await Task.Delay(300);
 
             //Reset the note first.
             (((MainStackPanel.Children.Last() as StackPanel).Children[1] as Grid).Children[0] as TextBox).Text = "";
