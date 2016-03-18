@@ -5,7 +5,7 @@
     xmlns:local="using:NotesOnBand.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="Page_Loaded">
 
     <Grid x:Name="ContentGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -21,7 +21,7 @@
 
                 <!--Setting Item 1 : Theme switcher-->
                 <!--Margin is Left, Top, Right, Bottom-->
-                <ToggleSwitch x:Name="ThemeSettingToggleSwitch" Header="Theme" Margin="10 10 0 0" OffContent="Dark" OnContent="Light" Toggled="ThemeSettingToggleSwitch_Toggled"  ></ToggleSwitch>
+                <ToggleSwitch x:Name="ThemeSettingToggleSwitch" Header="Theme" Margin="10 10 0 0" OffContent="Dark" OnContent="Light" Toggled="ThemeSettingToggleSwitch_Toggled" Loaded="ThemeSettingToggleSwitch_Loaded"  ></ToggleSwitch>
 
                 <!--About section-->
                 <TextBlock x:Name="AboutLabelTextBlock" Text="About" Margin="10 10 0 0"></TextBlock>

@@ -42,21 +42,8 @@ namespace NotesOnBand.Views
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //base.OnNavigatedTo(e);
-
-            //Ask what kind of theme are we in and then set the correct toggle status
-            var currentTheme = Application.Current.RequestedTheme;
-
-            if (currentTheme == ApplicationTheme.Light)
-            {
-                ThemeSettingToggleSwitch.IsOn = true;
-            }
-
-            else
-            {
-                ThemeSettingToggleSwitch.IsOn = false;
-            }
-
+            base.OnNavigatedTo(e);      
+             
         }
 
         /// <summary>
@@ -95,22 +82,31 @@ namespace NotesOnBand.Views
         private async void ThemeSettingToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             //On indicate light theme
-            if(ThemeSettingToggleSwitch.IsOn == true)
+            if(ThemeSettingToggleSwitch.IsOn == true && (int)ThemeSettingToggleSwitch.Tag == 1)
             {
-                MessageDialog myPopUp = new MessageDialog("Restart the app now?");
-                myPopUp.Commands.Add(new UICommand("Yep", this.AppKillIUICommandEventHandler));
-                await myPopUp.ShowAsync();
+                //Save the setting
+                var localSttings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                localSttings.Values["UserRequestedTheme"] = "Light";
+                
             }
              
             //Not on is dark.
-            else
+            else if (ThemeSettingToggleSwitch.IsOn == false && (int)ThemeSettingToggleSwitch.Tag == 1)
+            {
+                //Save the setting
+                var localSttings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                localSttings.Values["UserRequestedTheme"] = "Dark";
+                
+            }
+
+            if ((int)ThemeSettingToggleSwitch.Tag == 1)
             {
                 MessageDialog myPopUp = new MessageDialog("Restart the app now?");
                 myPopUp.Commands.Add(new UICommand("Yep", this.AppKillIUICommandEventHandler));
                 myPopUp.Commands.Add(new UICommand("Nope"));
                 await myPopUp.ShowAsync();
             }
-
+           
             
         }
 
@@ -122,6 +118,32 @@ namespace NotesOnBand.Views
         private void AppKillIUICommandEventHandler(IUICommand command)
         {
             Application.Current.Exit();
+        }
+
+        private void ThemeSettingToggleSwitch_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            //Ask what kind of theme are we in and then set the correct toggle status
+            var currentTheme = Application.Current.RequestedTheme;
+            ThemeSettingToggleSwitch.Tag = 0;
+
+            if (currentTheme == ApplicationTheme.Light)
+            {
+                ThemeSettingToggleSwitch.IsOn = true;
+
+            }
+
+            else
+            {
+                ThemeSettingToggleSwitch.IsOn = false;
+
+            }
+
+            ThemeSettingToggleSwitch.Tag = 1;
         }
     }
 }

@@ -32,6 +32,10 @@ namespace NotesOnBand
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
+
+            //Set the theme.
+            this.SetThemeFromSetting();
+
             this.Suspending += OnSuspending;
         }
 
@@ -42,7 +46,7 @@ namespace NotesOnBand
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
+            
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -103,6 +107,35 @@ namespace NotesOnBand
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        /// <summary>
+        /// Set the theme of the application, default to dark, the setting can be changed in the setting page of the application
+        /// </summary>
+        private void SetThemeFromSetting()
+        {
+            //Get the local setting
+            Windows.Storage.ApplicationDataContainer localSetting = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+            //check if we have the setting
+            if(localSetting.Values.ContainsKey("UserRequestedTheme") == false)
+            {
+                //setting not exist, default it to dark.
+                localSetting.Values["UserRequestedTheme"] = "Dark";
+            }
+
+            //get the theme setting.
+            string requestedTheme = (string)localSetting.Values["UserRequestedTheme"];
+
+            if(requestedTheme == "Light")
+            {
+                App.Current.RequestedTheme = ApplicationTheme.Light;
+            }
+
+            else 
+            {
+                App.Current.RequestedTheme = ApplicationTheme.Dark;
+            }
         }
     }
 }

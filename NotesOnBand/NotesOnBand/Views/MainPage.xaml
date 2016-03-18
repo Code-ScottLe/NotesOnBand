@@ -52,8 +52,7 @@
                             <ColumnDefinition Width="0.1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>-->
 
-                        <TextBox x:Name="Note1TextBox" Height="Auto" Width="Auto" 
-                         Foreground="White" 
+                        <TextBox x:Name="Note1TextBox" Height="Auto" Width="Auto"                         
                          Text="{Binding Path=Note1, Mode=TwoWay}" 
                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True"
                              Grid.Column="0" Tag="1"></TextBox>
