@@ -47,10 +47,10 @@
 
                     <!--Margin is Left, Top, Right, Bottom-->
                     <Grid x:Name="Note1Grid" Margin="10 5 10 0" Tag="1">
-                        <Grid.ColumnDefinitions>
+                        <!--<Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.9*"></ColumnDefinition>
                             <ColumnDefinition Width="0.1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
+                        </Grid.ColumnDefinitions>-->
 
                         <TextBox x:Name="Note1TextBox" Height="Auto" Width="Auto" 
                          Foreground="White" 
@@ -58,11 +58,11 @@
                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True"
                              Grid.Column="0" Tag="1"></TextBox>
 
-                        <Button x:Name="Note1DeleteButton" Height="Auto" Width="Auto" Margin="0" Padding="0" 
+                        <!--<Button x:Name="Note1DeleteButton" Height="Auto" Width="Auto" Margin="0" Padding="0" 
                             Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Click="DeleteButton_Click"
                             IsEnabled="False" Tag="1">
                             <SymbolIcon Height="Auto" Width="Auto" Symbol="Cancel"></SymbolIcon>
-                        </Button>
+                        </Button>-->
                     </Grid>
                 </StackPanel>
                          

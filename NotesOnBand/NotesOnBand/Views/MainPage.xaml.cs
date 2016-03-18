@@ -107,19 +107,19 @@ namespace NotesOnBand
             
 
             //Create the delete button.
-            Button deleteButton = new Button();
-            deleteButton.Name = "Note" + (notesCount + 1).ToString() + "DeleteButton";
-            deleteButton.Margin = new Thickness(0);
-            deleteButton.Padding = new Thickness(0);
-            deleteButton.HorizontalAlignment = HorizontalAlignment.Right;
-            deleteButton.VerticalAlignment = VerticalAlignment.Center;
-            deleteButton.Tag = (notesCount + 1);
+            //Button deleteButton = new Button();
+            //deleteButton.Name = "Note" + (notesCount + 1).ToString() + "DeleteButton";
+            //deleteButton.Margin = new Thickness(0);
+            //deleteButton.Padding = new Thickness(0);
+            //deleteButton.HorizontalAlignment = HorizontalAlignment.Right;
+            //deleteButton.VerticalAlignment = VerticalAlignment.Center;
+            //deleteButton.Tag = (notesCount + 1);
 
-            //The button will have the cancel (X) symbol.
-            deleteButton.Content = new SymbolIcon(Symbol.Cancel);
+            ////The button will have the cancel (X) symbol.
+            //deleteButton.Content = new SymbolIcon(Symbol.Cancel);
 
-            //Add in the event handler for the click event
-            deleteButton.Click += DeleteButton_Click;
+            ////Add in the event handler for the click event
+            //deleteButton.Click += DeleteButton_Click;
 
 
             //Create the Grid for the note and the button.
@@ -129,23 +129,23 @@ namespace NotesOnBand
 
             //Create 2 column definitions to hold the textbox and the button
             //We reuse the one that was defined in the XAML for ease of access.
-            ColumnDefinition noteColumnDefinition = new ColumnDefinition() { Width = Note1Grid.ColumnDefinitions[0].Width };
+            //ColumnDefinition noteColumnDefinition = new ColumnDefinition() { Width = Note1Grid.ColumnDefinitions[0].Width };
 
-            ColumnDefinition noteDeleteButtonColumnDefinition = new ColumnDefinition() { Width = Note1Grid.ColumnDefinitions[1].Width };
+            //ColumnDefinition noteDeleteButtonColumnDefinition = new ColumnDefinition() { Width = Note1Grid.ColumnDefinitions[1].Width };
 
             //Add them on to the ColumnsDefinition of the new grid
-            noteGrid.ColumnDefinitions.Add(noteColumnDefinition);
-            noteGrid.ColumnDefinitions.Add(noteDeleteButtonColumnDefinition);
+            //noteGrid.ColumnDefinitions.Add(noteColumnDefinition);
+            //noteGrid.ColumnDefinitions.Add(noteDeleteButtonColumnDefinition);
 
             //Add the TextBox and the Button to be the child of the note grid
             noteGrid.Children.Add(noteTextBox);
-            noteGrid.Children.Add(deleteButton);
+            //noteGrid.Children.Add(deleteButton);
 
             //Set the column of the note textbox to 0.
             Grid.SetColumn(noteTextBox, 0);
 
             //Set the column of the button to 1
-            Grid.SetColumn(deleteButton, 1);
+            //Grid.SetColumn(deleteButton, 1);
 
 
             //Create a new stack panel to house the label and the actual note grid
@@ -179,10 +179,10 @@ namespace NotesOnBand
 
             //Check if we have more than 2 notes, to re-enable the deleteButton (in app-bar) and delete button right next to the note.
 
-            else if(((MainStackPanel.Children.Count - 1) ) > 1)
+            else if (((MainStackPanel.Children.Count - 1)) > 1)
             {
                 DeleteNote.IsEnabled = true;
-                Note1DeleteButton.IsEnabled = true;
+                //Note1DeleteButton.IsEnabled = true;
             }
         }
 
@@ -361,7 +361,7 @@ namespace NotesOnBand
             if((MainStackPanel.Children.Count - 1)  <= 1)
             {
                 DeleteNote.IsEnabled = false;
-                Note1DeleteButton.IsEnabled = false;
+                //Note1DeleteButton.IsEnabled = false;
             }
 
             //Check if we have less than 8 notes, to enable the add  button. 
