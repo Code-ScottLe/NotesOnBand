@@ -104,7 +104,7 @@ namespace NotesOnBand
             textBind.Source = mainPageViewModel;
             textBind.Mode = BindingMode.TwoWay;
             noteTextBox.SetBinding(TextBox.TextProperty, textBind);
-
+            
 
             //Create the delete button.
             Button deleteButton = new Button();
@@ -195,7 +195,6 @@ namespace NotesOnBand
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             //Find out the actual note that we are deleting
-            //string noteToDeleteString = (sender as Button).Tag as string;
             int noteToDeleteNumber = (int)(sender as Button).Tag;
 
             //Now we get the actual note to delete, remember, that in the mainStack , every note is staying on their corresponded index
