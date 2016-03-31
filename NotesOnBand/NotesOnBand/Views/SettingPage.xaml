@@ -29,6 +29,8 @@
                     <TextBlock x:Name="AppnameTextBlock" Text="Notes on Band" Foreground="Gray" FontSize="13" Margin="10 5 0 0"></TextBlock>
                     <TextBlock x:Name="VersionTextBlock" Text="Version: " Foreground="Gray" FontSize="13" Margin="10 5 0 0"></TextBlock>
                     <TextBlock x:Name="NotesTextBlock" Foreground="Gray" FontSize="13" Margin="10 5 0 0" TextWrapping="WrapWholeWords"> Please don't cheat in school (or anywhere). It's not cool.</TextBlock>
+                    <TextBlock x:Name="AuthorTwitterTextBlock" Text="Twitter: @CodeScottLe" Foreground="Gray" FontSize="13" Margin="10 5 0 0"></TextBlock>
+                    <TextBlock x:Name="AuthorRedditTextBlock" Text="Reddit: /u/AMRAAM_Missiles" Foreground="Gray" FontSize="13" Margin="10 5 0 0"></TextBlock>
                     <TextBlock x:Name="AuthorTextBlock" Text="© 2016 Code.ScottLe" Foreground="Gray" FontSize="13" Margin="10 5 0 0"></TextBlock>
                 </StackPanel>
             </StackPanel>
