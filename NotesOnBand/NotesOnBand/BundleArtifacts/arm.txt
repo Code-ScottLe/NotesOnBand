@@ -1,0 +1,2 @@
+MainPackage=C:\Users\amraa\Source\Repos\Notes on Band\NotesOnBand\NotesOnBand\bin\ARM\Release\NotesOnBand_1.1.3.0_ARM.appx
+SymbolPackage=C:\Users\amraa\Source\Repos\Notes on Band\NotesOnBand\NotesOnBand\AppPackages\NotesOnBand_1.1.3.0_Test\NotesOnBand_1.1.3.0_ARM.appxsym
