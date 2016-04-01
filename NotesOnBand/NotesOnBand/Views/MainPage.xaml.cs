@@ -70,6 +70,9 @@ namespace NotesOnBand
         /// <param name="e"></param>
         private async void AddNote_Click(object sender, RoutedEventArgs e)
         {
+            //temporary disable the button
+            AddNote.IsEnabled = false;
+
             //Ask how many notes we have so far.
             int notesCount = MainStackPanel.Children.Count -1;
 
@@ -177,13 +180,19 @@ namespace NotesOnBand
                 AddNote.IsEnabled = false;
             }
 
+            else
+            {
+                AddNote.IsEnabled = true;
+            }
+
             //Check if we have more than 2 notes, to re-enable the deleteButton (in app-bar) and delete button right next to the note.
 
-            else if (((MainStackPanel.Children.Count - 1)) > 1)
+            if (((MainStackPanel.Children.Count - 1)) > 1)
             {
                 DeleteNote.IsEnabled = true;
                 //Note1DeleteButton.IsEnabled = true;
             }
+
         }
 
 
@@ -194,6 +203,7 @@ namespace NotesOnBand
         /// <param name="e"></param>
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+
             //Find out the actual note that we are deleting
             int noteToDeleteNumber = (int)(sender as Button).Tag;
 
@@ -234,7 +244,7 @@ namespace NotesOnBand
             await Task.Delay(400);
 
             //remove the thing
-            MainStackPanel.Children.Remove(noteStackPanel);         
+            MainStackPanel.Children.Remove(noteStackPanel);
 
         }
 
@@ -323,6 +333,9 @@ namespace NotesOnBand
         /// <param name="e"></param>
         private async void DeleteNote_Click(object sender, RoutedEventArgs e)
         {
+            //Temporary remove the delete button
+            DeleteNote.IsEnabled = false;
+
             //we only remove up to the first note.
             if (MainStackPanel.Children.Count == 2)
             {
@@ -364,8 +377,13 @@ namespace NotesOnBand
                 //Note1DeleteButton.IsEnabled = false;
             }
 
+            else
+            {
+                DeleteNote.IsEnabled = true;
+            }
+
             //Check if we have less than 8 notes, to enable the add  button. 
-            else if ((MainStackPanel.Children.Count -1)  < 8)
+            if ((MainStackPanel.Children.Count -1)  < 8)
             {
                 AddNote.IsEnabled = true;
             }
