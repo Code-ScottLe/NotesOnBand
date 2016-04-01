@@ -262,7 +262,7 @@ namespace NotesOnBand
             }
 
             //Get the number of notes.
-            int notesCount = (MainStackPanel.Children.Count - 1) / 2;
+            int notesCount = MainStackPanel.Children.Count - 1;
 
             //Enable the progressbar
             SyncProgressBar.Visibility = Visibility.Visible;
