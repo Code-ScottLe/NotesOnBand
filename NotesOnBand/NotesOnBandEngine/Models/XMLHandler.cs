@@ -50,7 +50,7 @@ namespace NotesOnBandEngine.Models
         protected XMLHandler()
         {
             syncedNotesXDocument = new XDocument();
-            savedFileName = Windows.ApplicationModel.Package.Current.PublisherDisplayName + Windows.ApplicationModel.Package.Current.DisplayName + Windows.ApplicationModel.Package.Current.Id.Version + ".xml";
+            savedFileName = "NotesOnBandSyncedNotes.xml";
         }
 
         #endregion
@@ -74,7 +74,34 @@ namespace NotesOnBandEngine.Models
         /// <returns></returns>
         public async Task<List<string>> LoadFromXMLAsync()
         {
-            throw new NotImplementedException();
+            //Trying to load from local folder
+            Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            Windows.Storage.StorageFile myXMLStorageFile = await localFolder.TryGetItemAsync(savedFileName) as Windows.Storage.StorageFile;
+
+            XDocument myDoc = null;
+
+            if (myXMLStorageFile == null)
+            {
+                //not exists. Create them.
+                myDoc = CreateNewXML();
+            }
+
+            else
+            {
+                //File exist, load it.
+                string xml = await Windows.Storage.FileIO.ReadTextAsync(myXMLStorageFile);
+                myDoc = XDocument.Parse(xml);
+            }
+
+
+            List<string> notes = new List<string>();
+
+            foreach(XElement element in myDoc.Descendants())
+            {
+                notes.Add(element.Value);
+            }
+
+            return notes;
         }
 
 
