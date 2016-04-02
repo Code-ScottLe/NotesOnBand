@@ -96,7 +96,7 @@ namespace NotesOnBandEngine.Models
 
             List<string> notes = new List<string>();
 
-            foreach(XElement element in myDoc.Descendants())
+            foreach(XElement element in myDoc.Descendants().First().Descendants())
             {
                 notes.Add(element.Value);
             }

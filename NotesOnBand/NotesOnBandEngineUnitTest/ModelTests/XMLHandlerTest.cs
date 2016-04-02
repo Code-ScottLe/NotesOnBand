@@ -17,13 +17,13 @@ namespace NotesOnBandEngineUnitTest.ModelTests
     public class XMLHandlerTest
     {
         [TestMethod]
-        public async void LoadTest()
+        public void LoadTest()
         {
             var instance = XMLHandler.Instance;
 
-            var returned = await instance.LoadFromXMLAsync();
+            var returned = instance.LoadFromXMLAsync().Result;
 
-            Assert.Equals(returned.Count, 8);
+            Assert.AreEqual(returned.Count, 8);
         }
     }
 }
