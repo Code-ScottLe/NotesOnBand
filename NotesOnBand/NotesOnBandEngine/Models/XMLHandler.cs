@@ -64,6 +64,24 @@ namespace NotesOnBandEngine.Models
         /// <returns></returns>
         public async Task SaveToXMLAsync(List<string> notes)
         {
+            //Get the XDoc from List
+            XDocument myDoc = CreateNewXML(notes);
+
+            //Trying to load from local folder
+            Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            Windows.Storage.StorageFile myXMLStorageFile = await localFolder.TryGetItemAsync(savedFileName) as Windows.Storage.StorageFile;
+          
+            if (myXMLStorageFile == null)
+            {
+                //not exists. Create them.
+                myXMLStorageFile = await localFolder.CreateFileAsync(savedFileName);
+            }
+
+            //get xml without any formatting
+            string xml = myDoc.ToString(SaveOptions.DisableFormatting);
+
+            await Windows.Storage.FileIO.WriteTextAsync(myXMLStorageFile, xml);
+
 
         }
 
@@ -102,6 +120,37 @@ namespace NotesOnBandEngine.Models
             }
 
             return notes;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="notes"></param>
+        /// <returns></returns>
+        private XDocument CreateNewXML(List<string> notes)
+        {
+            XDocument myDocument = new XDocument();
+
+            //Add the root notes.
+            myDocument.Add(new XElement("Notes"));
+
+            //get the root element.
+            var rootElement = myDocument.Descendants().First();
+
+            for (int i = 0; i < 8; i++)
+            {
+                //create a new element
+                XElement noteElement = new XElement("Note");
+                noteElement.SetAttributeValue("index", i);
+                noteElement.SetValue(notes[i]);
+
+                //Add that to the root node
+                rootElement.Add(noteElement);
+            }
+
+            //Done adding basics, return it.
+            return myDocument;
         }
 
 

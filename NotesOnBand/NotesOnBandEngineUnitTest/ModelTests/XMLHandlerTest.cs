@@ -25,5 +25,22 @@ namespace NotesOnBandEngineUnitTest.ModelTests
 
             Assert.AreEqual(returned.Count, 8);
         }
+
+        [TestMethod]
+        public void SaveTest()
+        {
+            var instance = XMLHandler.Instance;
+
+            List<string> notes = new List<string>() { "What the hell", "this sucks", "gives me some good stuffs", "Nope", "Dope", "Yep", "Bruh", "Dep" };
+
+            instance.SaveToXMLAsync(notes).Wait();
+
+            var lol = instance.LoadFromXMLAsync().Result;
+
+            for(int i = 0; i < lol.Count; i++)
+            {
+                Assert.AreEqual(notes[i], lol[i]);
+            }
+        }
     }
 }
