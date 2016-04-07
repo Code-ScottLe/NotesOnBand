@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:NotesOnBand"
     xmlns:viewModel="using:NotesOnBandEngine.ViewModels"
+    xmlns:models="using:NotesOnBandEngine.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -38,7 +39,32 @@
                     </StackPanel>
                 </Grid>
 
-                
+                <!--This is the list view to view all of the Band Notes.-->
+                <ListView ItemsSource="{Binding Notes}" HorizontalAlignment="Stretch">
+                     
+                    <!--Define a Data Template so XAML can understand how to display the BandNote object-->
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Title}" Foreground="Gray" Margin="10 5 0 0"></TextBlock>
+                                <TextBox Height="Auto" Width="Auto" 
+                                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                         TextWrapping="Wrap" AcceptsReturn="True"
+                                         Text="{Binding Content}"
+                                         Margin="10 5 10 0"></TextBox>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+
+                    <!--From StackOverFlow:http://stackoverflow.com/questions/18626696/listview-itemtemplate-100-width -->
+                    <!-- This enable the Item Template to have HorizontalAlignment to be stretch-->
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
                          
             </StackPanel>
         </ScrollViewer>
@@ -47,9 +73,9 @@
     <!--Each page has this and top AppBar as well-->
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="AddNote" Icon="Add" Label="Add Note" Click="AddNote_Click"></AppBarButton>
-            <AppBarButton x:Name="DeleteNote" Icon="Remove" Label="Delete Note" Click="DeleteNote_Click" IsEnabled="False"></AppBarButton>
-            <AppBarButton x:Name="SyncNote" Icon="Sync" Label="Sync" Click="SyncNote_Click"></AppBarButton>
+            <AppBarButton x:Name="AddNote" Icon="Add" Label="Add Note"></AppBarButton>
+            <AppBarButton x:Name="DeleteNote" Icon="Remove" Label="Delete Note" IsEnabled="False"></AppBarButton>
+            <AppBarButton x:Name="SyncNote" Icon="Sync" Label="Sync"></AppBarButton>
             <AppBarButton x:Name="Setting" Icon="Setting" Label="Setting" Click="Setting_Click"></AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>

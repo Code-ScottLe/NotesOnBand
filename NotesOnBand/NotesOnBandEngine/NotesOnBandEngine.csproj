@@ -110,6 +110,7 @@
     <Compile Include="Events\ErrorOccurredEventArgs.cs" />
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\BandConnector.cs" />
+    <Compile Include="Models\BandNote.cs" />
     <Compile Include="Models\BandNoteTileGenerator.cs" />
     <Compile Include="Models\BandVersion.cs" />
     <Compile Include="Models\XMLHandler.cs" />

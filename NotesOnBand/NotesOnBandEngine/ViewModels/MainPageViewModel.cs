@@ -10,6 +10,7 @@ using NotesOnBandEngine.Models;
 using NotesOnBandEngine.Events;
 using Windows.Storage.Streams;
 using Windows.Storage;
+using System.Collections.ObjectModel;
 
 namespace NotesOnBandEngine.ViewModels
 {
@@ -19,7 +20,8 @@ namespace NotesOnBandEngine.ViewModels
     public class MainPageViewModel : INotifyPropertyChanged
     {
         #region Fields
-
+        private ObservableCollection<BandNote> notes;
+        private BandVersion currentBandVersion;
         #endregion
 
         #region events
@@ -33,6 +35,32 @@ namespace NotesOnBandEngine.ViewModels
 
         #region Properties
 
+        /// <summary>
+        /// Get the List of notes.
+        /// </summary>
+        public ObservableCollection<BandNote> Notes
+        {
+            get
+            {
+                return this.notes;
+            }
+        }
+        
+
+        public BandVersion CurrentBandVersion
+        {
+            get
+            {
+                return currentBandVersion;
+            }
+
+            set
+            {
+                currentBandVersion = value;
+                OnPropertyChanged("CurrentBandVersion");
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -42,7 +70,7 @@ namespace NotesOnBandEngine.ViewModels
         /// </summary>
         public MainPageViewModel()
         {
-
+            notes = new ObservableCollection<BandNote>();
         }
 
         #endregion
