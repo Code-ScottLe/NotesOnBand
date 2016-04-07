@@ -147,11 +147,6 @@ namespace NotesOnBandEngine.Models
         /// <returns></returns>
         public async Task AddTileToBandAsync(Microsoft.Band.Tiles.BandTile tile)
         {
-            if (tile == null)
-            {
-                throw new ArgumentNullException("tile", "given tile can't be null!. Please pass in a valid Band Tile!");
-            }
-
             //Because we are adding in new tiles. Remove the old one, just in case that we do have one.
             await RemoveTileFromBandAsync(tile);
 
