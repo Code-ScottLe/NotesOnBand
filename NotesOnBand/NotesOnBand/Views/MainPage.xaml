@@ -10,15 +10,24 @@
     mc:Ignorable="d" Loaded="Page_Loaded">
 
     <Grid x:Name="ContentGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!--Declare the viewModel for data binding-->
+        <Grid.DataContext>
+            <viewModel:MainPageViewModel x:Name="mainPageViewModel"></viewModel:MainPageViewModel>
+        </Grid.DataContext>
 
-        <ProgressBar x:Name="SyncProgressBar" Height="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="Collapsed" IsIndeterminate="False"/>
+        <StackPanel>
+            <!--Top of the page. The progress bar-->
+            <ProgressBar x:Name="SyncProgressBar" Height="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" 
+                         Visibility="Visible" IsIndeterminate="False" Maximum="100" Minimum="0"
+                         Value="{Binding CompletionPercentage}" ValueChanged="SyncProgressBar_ValueChanged"/>
+            <TextBlock x:Name="SyncProgressBarIndicator" HorizontalAlignment="Right" 
+                       FontFamily="Segoe UI Light" TextAlignment="Right"
+                       Text="{Binding CompletionStatus}" FontSize="11"
+                       Margin="0,0,15,0"></TextBlock>
+        </StackPanel>
 
-        <StackPanel x:Name="MainStackPanel">
-            <!--Declare the viewModel for data binding-->
-            <StackPanel.DataContext>
-                <viewModel:MainPageViewModel x:Name="mainPageViewModel"></viewModel:MainPageViewModel>
-            </StackPanel.DataContext>
-
+        <StackPanel x:Name="MainStackPanel" Margin="0, 5, 0, 0">
+            
             <!-- This is the header-->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -74,7 +83,11 @@
             <AppBarButton x:Name="AddNote" Icon="Add" Label="Add Note" Click="AddNote_Click"></AppBarButton>
             <AppBarButton x:Name="DeleteNote" Icon="Remove" Label="Delete Note" IsEnabled="False" Click="DeleteNote_Click"></AppBarButton>
             <AppBarButton x:Name="SyncNote" Icon="Sync" Label="Sync" Click="SyncNote_Click"></AppBarButton>
-            <AppBarButton x:Name="Setting" Icon="Setting" Label="Setting" Click="Setting_Click"></AppBarButton>
+
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="FAQ" Icon="Help" Label="FAQ" Click="FAQ_Click"></AppBarButton>
+                <AppBarButton x:Name="Setting" Icon="Setting" Label="Setting" Click="Setting_Click"></AppBarButton>
+            </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

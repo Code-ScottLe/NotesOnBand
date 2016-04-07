@@ -24,6 +24,8 @@ namespace NotesOnBandEngine.ViewModels
         private ObservableCollection<BandNote> notes;
         private BandVersion currentBandVersion;
         private string uniqueIDString = "b40d28db-a774-4b6f-a97a-76272146a174";
+        private double completionPercentage = 0.0;
+        private string completionStatus;
         #endregion
 
         #region events
@@ -62,6 +64,33 @@ namespace NotesOnBandEngine.ViewModels
             }
         }
 
+        public double CompletionPercentage
+        {
+            get
+            {
+                return completionPercentage;
+            }
+
+            set
+            {
+                completionPercentage = value;
+                OnPropertyChanged("CompletionPercentage");
+            }
+        }
+
+        public string CompletionStatus
+        {
+            get
+            {
+                return completionStatus;
+            }
+
+            set
+            {
+                completionStatus = value;
+                OnPropertyChanged("CompletionStatus");
+            }
+        }
         #endregion
 
         #region Constructors
@@ -73,6 +102,7 @@ namespace NotesOnBandEngine.ViewModels
         {
             notes = new ObservableCollection<BandNote>();
             connector = new BandConnector();
+            completionStatus = string.Empty;
 
         }
 
@@ -86,6 +116,8 @@ namespace NotesOnBandEngine.ViewModels
         /// <returns></returns>
         public async Task SyncNotesToBandAsync()
         {
+            //Starting.
+            CompletionPercentage = 0;
             //Check if we have notes to sync
             if(Notes.Count == 0)
             {
@@ -98,17 +130,29 @@ namespace NotesOnBandEngine.ViewModels
                 return;
             }
 
+            //We have notes to sync.
+            CompletionPercentage = 5;
 
             //Save it to XML
             Task t = Task.Run(async () => await XMLHandler.Instance.SaveToXMLAsync(Notes.ConvertToList()));
 
-            //If we reach here. Then we have some notes to sync
             //Make the BandTile
+            CompletionStatus = "Generating Band Tile...";
             var myBandTile = await BandNoteTileGenerator.Instance.GenerateBandTileAsync(CurrentBandVersion);
+            CompletionPercentage = 30;
+
 
             //Sync the band tile.
+            CompletionStatus = "Syncing...";
+           
+
+            //Connect to Band
             await connector.ConnectToBandAsync();
+            CompletionPercentage = 50;
+
+            //Try to add Tile
             await connector.AddTileToBandAsync(myBandTile);
+            CompletionPercentage = 75;
 
             //Generate the data from the notes.
             var listy = Notes.ConvertToList();
@@ -119,9 +163,12 @@ namespace NotesOnBandEngine.ViewModels
 
             //Sync the data over.
             await connector.SyncDataToBandAsync(myBandTile, pagesData);
+            CompletionPercentage = 95;
 
             //After we are done. Wait for the t if it hasn't done already
             await t;
+            CompletionPercentage = 100;
+            CompletionStatus = "Done.";
 
         }
 
@@ -133,13 +180,23 @@ namespace NotesOnBandEngine.ViewModels
         public async Task LoadPreviousSyncedNotesAsync()
         {
             //Try to load.
+            CompletionStatus = "Loading Previous Notes...";
+            CompletionPercentage = 0;
+
             var previousSyncedNotes = await XMLHandler.Instance.LoadFromXMLAsync();
+
+            //Half way.
+            CompletionPercentage = 50;
 
             //And save that to the list.
             foreach(var item in previousSyncedNotes)
             {
                 Notes.Add(item);
             }
+
+            //Done
+            CompletionPercentage = 100;
+            CompletionStatus = "Done.";
         }
 
         /// <summary>

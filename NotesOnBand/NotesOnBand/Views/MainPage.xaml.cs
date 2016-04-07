@@ -173,9 +173,10 @@ namespace NotesOnBand
             SyncNote.IsEnabled = false;
             Setting.IsEnabled = false;
 
-            //enable the progress bar.
+            //Reset progress bar.
             SyncProgressBar.Visibility = Visibility.Visible;
-            SyncProgressBar.IsIndeterminate = true;
+            mainPageViewModel.CompletionStatus = "";
+            SyncProgressBarIndicator.Visibility = Visibility.Visible;
 
             //Sync it over.
             try
@@ -197,11 +198,7 @@ namespace NotesOnBand
                 }
 
                 await CreatePopupMessage(message, title);
-            }
-
-            //Done.
-            SyncProgressBar.Visibility = Visibility.Collapsed;
-            SyncProgressBar.IsIndeterminate = false;           
+            }    
 
             //Enable all button.
             if (mainPageViewModel.Notes.Count < 8)
@@ -231,17 +228,8 @@ namespace NotesOnBand
             SyncNote.IsEnabled = false;
             Setting.IsEnabled = false;
 
-            //try to load
-            //enable the progress bar.
-            SyncProgressBar.Visibility = Visibility.Visible;
-            SyncProgressBar.IsIndeterminate = true;
-
             //try to load from XML
             await mainPageViewModel.LoadPreviousSyncedNotesAsync();
-
-            //Done.
-            SyncProgressBar.Visibility = Visibility.Collapsed;
-            SyncProgressBar.IsIndeterminate = false;
 
             //Enable all button.
             if (mainPageViewModel.Notes.Count < 8)
@@ -255,6 +243,63 @@ namespace NotesOnBand
             }
             SyncNote.IsEnabled = true;
             Setting.IsEnabled = true;
+        }
+
+        private void FAQ_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SyncProgressBar_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+
+            //100, then animate hiding.
+            if ((sender as ProgressBar).Value == 100)
+            {
+                Storyboard myStoryBoard = new Storyboard();
+
+                //Ref: http://stackoverflow.com/questions/5495446/setting-the-visibility-of-an-element-to-collapsed-when-storyboard-completes-usin
+                ObjectAnimationUsingKeyFrames myKeyFrameProgressBar = new ObjectAnimationUsingKeyFrames()
+                {
+                    BeginTime = new TimeSpan(0,0,0)
+                                        
+                };
+
+                //Add in key frames.
+                myKeyFrameProgressBar.KeyFrames.Add(new DiscreteObjectKeyFrame() { KeyTime = new TimeSpan(0, 0, 0), Value = Visibility.Visible });
+                myKeyFrameProgressBar.KeyFrames.Add(new DiscreteObjectKeyFrame() { KeyTime = new TimeSpan(0, 0, 5), Value = Visibility.Collapsed });
+                //Set aim at the Sync Progressbar.
+                Storyboard.SetTarget(myKeyFrameProgressBar, SyncProgressBar);
+                Storyboard.SetTargetProperty(myKeyFrameProgressBar, "Visibility");
+
+                //Ref: http://stackoverflow.com/questions/5495446/setting-the-visibility-of-an-element-to-collapsed-when-storyboard-completes-usin
+                ObjectAnimationUsingKeyFrames myKeyFrameProgressStatus = new ObjectAnimationUsingKeyFrames()
+                {
+                    BeginTime = new TimeSpan(0, 0, 0)
+
+                };
+
+                //Add in key frames.
+                myKeyFrameProgressStatus.KeyFrames.Add(new DiscreteObjectKeyFrame() { KeyTime = new TimeSpan(0, 0, 0), Value = Visibility.Visible });
+                myKeyFrameProgressStatus.KeyFrames.Add(new DiscreteObjectKeyFrame() { KeyTime = new TimeSpan(0, 0, 5), Value = Visibility.Collapsed });
+
+                //Set aim at the sync progress status
+                Storyboard.SetTarget(myKeyFrameProgressStatus, SyncProgressBarIndicator);
+                Storyboard.SetTargetProperty(myKeyFrameProgressStatus, "Visibility");
+
+                //Add them all on to the storyboard
+                myStoryBoard.Children.Add(myKeyFrameProgressBar);
+                myStoryBoard.Children.Add(myKeyFrameProgressStatus);
+
+                //Animate
+                myStoryBoard.Begin();
+            }
         }
     }
 }
