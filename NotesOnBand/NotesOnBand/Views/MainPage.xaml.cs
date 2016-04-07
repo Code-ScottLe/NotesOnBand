@@ -159,5 +159,62 @@ namespace NotesOnBand
                 (sender as AppBarButton).IsEnabled = true;
             }
         }
+
+        /// <summary>
+        /// Event Handler for the Sync AppBar Button. Sync the notes to the Band
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void SyncNote_Click(object sender, RoutedEventArgs e)
+        {
+            //Disable all button.
+            AddNote.IsEnabled = false;
+            DeleteNote.IsEnabled = false;
+            SyncNote.IsEnabled = false;
+            Setting.IsEnabled = false;
+
+            //enable the progress bar.
+            SyncProgressBar.Visibility = Visibility.Visible;
+            SyncProgressBar.IsIndeterminate = true;
+
+            //Sync it over.
+            try
+            {
+                await mainPageViewModel.SyncNotesToBandAsync();
+            }
+            
+            catch (Exception ex)
+            {
+                //Something is wrong. Display message
+                string title = "Whoops :( Something is wrong";
+                string message = ex.Message;
+
+                if (ex.InnerException != null)
+                {
+                    message += System.Environment.NewLine;
+                    message += "Inner Exception:";
+                    message += ex.InnerException.Message;
+                }
+
+                await CreatePopupMessage(message, title);
+            }
+
+            //Done.
+            SyncProgressBar.Visibility = Visibility.Collapsed;
+            SyncProgressBar.IsIndeterminate = false;           
+
+            //Enable all button.
+            if (mainPageViewModel.Notes.Count < 8)
+            {
+                AddNote.IsEnabled = true;
+            }
+            
+            if (mainPageViewModel.Notes.Count > 0)
+            {
+                DeleteNote.IsEnabled = true;
+            }           
+            SyncNote.IsEnabled = true;
+            Setting.IsEnabled = true;
+        }
     }
 }

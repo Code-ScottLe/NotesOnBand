@@ -46,7 +46,6 @@ namespace NotesOnBandEngine.ViewModels
             }
         }
         
-
         public BandVersion CurrentBandVersion
         {
             get
@@ -77,6 +76,10 @@ namespace NotesOnBandEngine.ViewModels
 
         #region Methods
            
+        public Task SyncNotesToBandAsync()
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Fire up the PropertyChanged event and notify all the listener about the changed property.

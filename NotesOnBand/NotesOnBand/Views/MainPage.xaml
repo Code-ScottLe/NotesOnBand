@@ -75,7 +75,7 @@
         <CommandBar>
             <AppBarButton x:Name="AddNote" Icon="Add" Label="Add Note" Click="AddNote_Click"></AppBarButton>
             <AppBarButton x:Name="DeleteNote" Icon="Remove" Label="Delete Note" IsEnabled="False" Click="DeleteNote_Click"></AppBarButton>
-            <AppBarButton x:Name="SyncNote" Icon="Sync" Label="Sync"></AppBarButton>
+            <AppBarButton x:Name="SyncNote" Icon="Sync" Label="Sync" Click="SyncNote_Click"></AppBarButton>
             <AppBarButton x:Name="Setting" Icon="Setting" Label="Setting" Click="Setting_Click"></AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
