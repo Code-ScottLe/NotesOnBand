@@ -13,10 +13,10 @@ namespace NotesOnBandEngine.Models
     /// <summary>
     /// Enum representing the version of band that we are dealing with.
     /// </summary>
-    public enum BandVersion
-    {
-        MicrosoftBand1 = 1, MicrosoftBand2 = 2
-    }
+    //public enum BandVersion
+    //{
+    //    MicrosoftBand1 = 1, MicrosoftBand2 = 2
+    //}
 
     /// <summary>
     /// Represent a Microsoft Band

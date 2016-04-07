@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using NotesOnBand.Views;
+using NotesOnBandEngine.ViewModels;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Popups;
 
@@ -196,59 +197,6 @@ namespace NotesOnBand
         }
 
 
-        /// <summary>
-        /// Event handler for clicking the delete button for individual note
-        /// </summary>
-        /// <param name="sender">The delete button that the user pressed.</param>
-        /// <param name="e"></param>
-        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-
-            //Find out the actual note that we are deleting
-            int noteToDeleteNumber = (int)(sender as Button).Tag;
-
-            //Now we get the actual note to delete, remember, that in the mainStack , every note is staying on their corresponded index
-            //I.E : Note1 is at index 1 of the MainStack's Children list, Note 2 is at index 2 of the MainStack's Children list...
-            //Because we have the header stuffs as index 0 on the main stack.
-
-            //Now, get the note's stackpanel.
-            StackPanel noteStackPanel = MainStackPanel.Children[noteToDeleteNumber] as StackPanel;
-
-            if (noteStackPanel == null)
-            {
-                //Something went wrong again, noteStackPanel was not pulled out correctly.
-                //C# 6 syntax for string interpolation
-                await CreatePopupMessage($"Can't convert MainStackPanel.Children[{noteToDeleteNumber}] to a StackPanel", "Whoops, something went wrong :(");
-
-                return;
-            }
-
-            //We animate the hiding.
-            Storyboard myStoryBoard = new Storyboard();
-            DoubleAnimation hidingDoubleAnimation = new DoubleAnimation();
-            Storyboard.SetTarget(hidingDoubleAnimation, noteStackPanel);
-            Storyboard.SetTargetProperty(hidingDoubleAnimation, "Opacity");
-
-            //We animate it to run for 0.4ms
-            hidingDoubleAnimation.From = 1.0;
-            hidingDoubleAnimation.To = 0.0;
-            hidingDoubleAnimation.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 400));
-
-            //Add it to the storyboard
-            myStoryBoard.Children.Add(hidingDoubleAnimation);
-
-            //Begin animate
-            myStoryBoard.Begin();
-
-            //Wait for the animation to complete
-            await Task.Delay(400);
-
-            //remove the thing
-            MainStackPanel.Children.Remove(noteStackPanel);
-
-        }
-
-
 
         /// <summary>
         /// Sync the Notes to the band
@@ -262,22 +210,12 @@ namespace NotesOnBand
             DeleteNote.IsEnabled = false;
             SyncNote.IsEnabled = false;
 
-            //Disable changing text on every textBox
-            foreach( var element in MainStackPanel.Children)
-            {
-                if(element is TextBox)
-                {
-                    ((TextBox)element).IsReadOnly = true;
-                }
-            }
-
             //Get the number of notes.
             int notesCount = MainStackPanel.Children.Count - 1;
 
             //Enable the progressbar
             SyncProgressBar.Visibility = Visibility.Visible;
             SyncProgressBar.IsIndeterminate = true;
-
 
             //Sync it over.
             try
@@ -311,16 +249,6 @@ namespace NotesOnBand
             DeleteNote.IsEnabled = true;
             SyncNote.IsEnabled = true;
 
-            //Re-enable the textbox for editing
-
-            //Disable changing text on every textBox
-            foreach (var element in MainStackPanel.Children)
-            {
-                if (element is TextBox)
-                {
-                    ((TextBox)element).IsReadOnly = false;
-                }
-            }
         }
 
 

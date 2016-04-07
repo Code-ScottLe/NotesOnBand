@@ -109,6 +109,9 @@
   <ItemGroup>
     <Compile Include="Events\ErrorOccurredEventArgs.cs" />
     <Compile Include="Models\Band.cs" />
+    <Compile Include="Models\BandConnector.cs" />
+    <Compile Include="Models\BandNoteTileGenerator.cs" />
+    <Compile Include="Models\BandVersion.cs" />
     <Compile Include="Models\XMLHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
