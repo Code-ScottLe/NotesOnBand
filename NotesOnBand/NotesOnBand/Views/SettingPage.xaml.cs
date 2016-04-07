@@ -145,5 +145,43 @@ namespace NotesOnBand.Views
 
             ThemeSettingToggleSwitch.Tag = 1;
         }
+
+
+        /// <summary>
+        /// Event handler for clicking the delete cache button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void DeleteCacheButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Disable the button to prevent multiple clicking
+            (sender as Button).IsEnabled = false;
+
+            //Set the progress ring to be active.
+            DeleteCacheProgressRing.IsActive = true;
+
+
+            MessageDialog myPopUp = new MessageDialog("Delete the cached notes? This will remove any previously saved notes on the phone only (you will still have them on the Band)");
+            myPopUp.Commands.Add(new UICommand("Yep", async (command) => {
+                //try to delete the file.
+                Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+                Windows.Storage.StorageFile myXMLStorageFile = await localFolder.TryGetItemAsync("NotesOnBandSyncedNotes.xml") as Windows.Storage.StorageFile;
+
+                if (myXMLStorageFile != null)
+                {
+                    await myXMLStorageFile.DeleteAsync();
+                }
+            }));
+
+            myPopUp.Commands.Add(new UICommand("Nope"));
+
+            await myPopUp.ShowAsync();
+
+            //disable the ring
+            DeleteCacheProgressRing.IsActive = false;
+
+            //re-enable the button
+            (sender as Button).IsEnabled = true;
+        }
     }
 }

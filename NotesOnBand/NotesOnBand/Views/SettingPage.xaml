@@ -22,7 +22,20 @@
                 <!--Setting Item 1 : Theme switcher-->
                 <!--Margin is Left, Top, Right, Bottom-->
                 <ToggleSwitch x:Name="ThemeSettingToggleSwitch" Header="Theme" Margin="10 10 0 0" OffContent="Dark" OnContent="Light" Toggled="ThemeSettingToggleSwitch_Toggled" Loaded="ThemeSettingToggleSwitch_Loaded"  ></ToggleSwitch>
-
+                
+                <!--Setting Item 2: Delete The cache notes-->
+                <TextBlock x:Name="DeleteCacheHeaderTextBlock" Margin="10 10 0 0"> Delete Text Cache</TextBlock>
+                <Grid Margin="10 10 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="DeleteCacheButton" Grid.Column="0" Click="DeleteCacheButton_Click">Delete</Button>
+                    <ProgressRing x:Name="DeleteCacheProgressRing" Grid.Column="1" HorizontalAlignment="Left"></ProgressRing>
+                </Grid>
+                
+                
                 <!--About section-->
                 <TextBlock x:Name="AboutLabelTextBlock" Text="About" Margin="10 10 0 0"></TextBlock>
                 <StackPanel x:Name="AboutStackPanel">
