@@ -13,61 +13,59 @@
 
         <ProgressBar x:Name="SyncProgressBar" Height="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="Collapsed" IsIndeterminate="False"/>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel x:Name="MainStackPanel">
-                <!--Declare the viewModel for data binding-->
-                <StackPanel.DataContext>
-                    <viewModel:MainPageViewModel x:Name="mainPageViewModel"></viewModel:MainPageViewModel>
-                </StackPanel.DataContext>
-                
-                <!-- This is the header-->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.5*"/>
-                        <ColumnDefinition Width="0.5*"/>
-                    </Grid.ColumnDefinitions>
-                    <!--Header-->
-                    <TextBlock x:Name="AppHeaderTextBlock" Grid.Column="0" Height="Auto" Width="Auto" FontSize="21.333" Margin="10 15 10 0" FontFamily="Segoe WP Semibold">
+        <StackPanel x:Name="MainStackPanel">
+            <!--Declare the viewModel for data binding-->
+            <StackPanel.DataContext>
+                <viewModel:MainPageViewModel x:Name="mainPageViewModel"></viewModel:MainPageViewModel>
+            </StackPanel.DataContext>
+
+            <!-- This is the header-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <!--Header-->
+                <TextBlock x:Name="AppHeaderTextBlock" Grid.Column="0" Height="Auto" Width="Auto" FontSize="21.333" Margin="10 15 10 0" FontFamily="Segoe WP Semibold">
                 Notes on Band
-                    </TextBlock>
+                </TextBlock>
 
-                    <!--The Toggle for Band version-->
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <!--Margin is Left, Top, Right, Bottom-->
-                        <TextBlock x:Name="BandVersionTextBlock" Text="Band 2" Foreground="DeepSkyBlue" Margin="0 15 20 0"></TextBlock>
-                        <ToggleButton x:Name="BandChoiceToggleButton" Grid.Column="1" Height="Auto" Width="Auto" Margin="0 8 20 0" IsChecked="True" Checked="BandChoiceToggleButton_Checked" Unchecked="BandChoiceToggleButton_Unchecked"></ToggleButton>
-                    </StackPanel>
-                </Grid>
+                <!--The Toggle for Band version-->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <!--Margin is Left, Top, Right, Bottom-->
+                    <TextBlock x:Name="BandVersionTextBlock" Text="Band 2" Foreground="DeepSkyBlue" Margin="0 15 20 0"></TextBlock>
+                    <ToggleButton x:Name="BandChoiceToggleButton" Grid.Column="1" Height="Auto" Width="Auto" Margin="0 8 20 0" IsChecked="True" Checked="BandChoiceToggleButton_Checked" Unchecked="BandChoiceToggleButton_Unchecked"></ToggleButton>
+                </StackPanel>
+            </Grid>
 
-                <!--This is the list view to view all of the Band Notes.-->
-                <ListView ItemsSource="{Binding Notes, Mode=TwoWay}" HorizontalAlignment="Stretch" SelectionMode="None">
-                     
-                    <!--Define a Data Template so XAML can understand how to display the BandNote object-->
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{Binding Title}" Foreground="Gray" Margin="10 5 0 0"></TextBlock>
-                                <TextBox Height="Auto" Width="Auto" 
+            <!--This is the list view to view all of the Band Notes.-->
+            <ListView ItemsSource="{Binding Notes, Mode=TwoWay}" HorizontalAlignment="Stretch" SelectionMode="None">
+
+                <!--Define a Data Template so XAML can understand how to display the BandNote object-->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Title}" Foreground="Gray" Margin="10 5 0 0"></TextBlock>
+                            <TextBox Height="Auto" Width="Auto" 
                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                          TextWrapping="Wrap" AcceptsReturn="True"
                                          Text="{Binding Content, Mode=TwoWay}"
                                          Margin="10 5 10 0"></TextBox>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
 
 
-                    <!--From StackOverFlow:http://stackoverflow.com/questions/18626696/listview-itemtemplate-100-width -->
-                    <!-- This enable the Item Template to have HorizontalAlignment to be stretch-->
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
-                         
-            </StackPanel>
-        </ScrollViewer>
+                <!--From StackOverFlow:http://stackoverflow.com/questions/18626696/listview-itemtemplate-100-width -->
+                <!-- This enable the Item Template to have HorizontalAlignment to be stretch-->
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+
+        </StackPanel>
     </Grid>
 
     <!--Each page has this and top AppBar as well-->
