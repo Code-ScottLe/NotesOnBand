@@ -216,5 +216,45 @@ namespace NotesOnBand
             SyncNote.IsEnabled = true;
             Setting.IsEnabled = true;
         }
+
+        
+        /// <summary>
+        /// Event handler for the event that the page was successfully loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            //Disable all button.
+            AddNote.IsEnabled = false;
+            DeleteNote.IsEnabled = false;
+            SyncNote.IsEnabled = false;
+            Setting.IsEnabled = false;
+
+            //try to load
+            //enable the progress bar.
+            SyncProgressBar.Visibility = Visibility.Visible;
+            SyncProgressBar.IsIndeterminate = true;
+
+            //try to load from XML
+            await mainPageViewModel.LoadPreviousSyncedNotesAsync();
+
+            //Done.
+            SyncProgressBar.Visibility = Visibility.Collapsed;
+            SyncProgressBar.IsIndeterminate = false;
+
+            //Enable all button.
+            if (mainPageViewModel.Notes.Count < 8)
+            {
+                AddNote.IsEnabled = true;
+            }
+
+            if (mainPageViewModel.Notes.Count > 0)
+            {
+                DeleteNote.IsEnabled = true;
+            }
+            SyncNote.IsEnabled = true;
+            Setting.IsEnabled = true;
+        }
     }
 }

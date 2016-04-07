@@ -62,7 +62,7 @@ namespace NotesOnBandEngine.Models
         /// </summary>
         /// <param name="notes"></param>
         /// <returns></returns>
-        public async Task SaveToXMLAsync(List<string> notes)
+        public async Task SaveToXMLAsync(List<BandNote> notes)
         {
             //Get the XDoc from List
             XDocument myDoc = CreateNewXML(notes);
@@ -90,7 +90,7 @@ namespace NotesOnBandEngine.Models
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<List<string>> LoadFromXMLAsync()
+        public async Task<List<BandNote>> LoadFromXMLAsync()
         {
             //Trying to load from local folder
             Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
@@ -111,15 +111,27 @@ namespace NotesOnBandEngine.Models
                 myDoc = XDocument.Parse(xml);
             }
 
-
-            List<string> notes = new List<string>();
-
-            foreach(XElement element in myDoc.Descendants().First().Descendants())
+            try
             {
-                notes.Add(element.Value);
+                List<BandNote> notes = new List<BandNote>();
+
+                foreach (XElement element in myDoc.Descendants().First().Descendants())
+                {
+                    int noteNum = 0;
+                    int.TryParse(element.FirstAttribute.Value, out noteNum);
+                    notes.Add(new BandNote() { Content = element.Value, Title = $"Note #{noteNum + 1}" });
+                }
+
+                return notes;
             }
 
-            return notes;
+            catch
+            {
+                //Remove the old file as we have some corruption.
+                await myXMLStorageFile.DeleteAsync();
+                return new List<BandNote>();
+            }
+            
         }
 
 
@@ -128,7 +140,7 @@ namespace NotesOnBandEngine.Models
         /// </summary>
         /// <param name="notes"></param>
         /// <returns></returns>
-        private XDocument CreateNewXML(List<string> notes)
+        private XDocument CreateNewXML(List<BandNote> notes)
         {
             XDocument myDocument = new XDocument();
 
@@ -138,12 +150,12 @@ namespace NotesOnBandEngine.Models
             //get the root element.
             var rootElement = myDocument.Descendants().First();
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < notes.Count; i++)
             {
                 //create a new element
                 XElement noteElement = new XElement("Note");
                 noteElement.SetAttributeValue("index", i);
-                noteElement.SetValue(notes[i]);
+                noteElement.SetValue(notes[i].Content);
 
                 //Add that to the root node
                 rootElement.Add(noteElement);
@@ -168,16 +180,16 @@ namespace NotesOnBandEngine.Models
             //get the root element.
             var rootElement = myDocument.Descendants().First();
 
-            for(int i = 0; i < 8; i++)
-            {
-                //create a new element
-                XElement noteElement = new XElement("Note");
-                noteElement.SetAttributeValue("index", i);
-                noteElement.SetValue($"Notes #{i+1}");
+            //for(int i = 0; i < 8; i++)
+            //{
+            //    //create a new element
+            //    XElement noteElement = new XElement("Note");
+            //    noteElement.SetAttributeValue("index", i);
+            //    noteElement.SetValue($"Notes #{i+1}");
 
-                //Add that to the root node
-                rootElement.Add(noteElement);
-            }
+            //    //Add that to the root node
+            //    rootElement.Add(noteElement);
+            //}
 
             //Done adding basics, return it.
             return myDocument;

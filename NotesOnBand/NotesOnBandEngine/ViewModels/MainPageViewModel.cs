@@ -73,6 +73,7 @@ namespace NotesOnBandEngine.ViewModels
         {
             notes = new ObservableCollection<BandNote>();
             connector = new BandConnector();
+
         }
 
         #endregion
@@ -91,9 +92,15 @@ namespace NotesOnBandEngine.ViewModels
                 //Empty note. Just remove the Tile.
                 await connector.RemoveTileFromBandAsync(new Guid(uniqueIDString));
 
+                //write empty XML.
+                await XMLHandler.Instance.SaveToXMLAsync(Notes.ConvertToList());
+
                 return;
             }
 
+
+            //Save it to XML
+            Task t = Task.Run(async () => await XMLHandler.Instance.SaveToXMLAsync(Notes.ConvertToList()));
 
             //If we reach here. Then we have some notes to sync
             //Make the BandTile
@@ -113,9 +120,27 @@ namespace NotesOnBandEngine.ViewModels
             //Sync the data over.
             await connector.SyncDataToBandAsync(myBandTile, pagesData);
 
+            //After we are done. Wait for the t if it hasn't done already
+            await t;
+
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task LoadPreviousSyncedNotesAsync()
+        {
+            //Try to load.
+            var previousSyncedNotes = await XMLHandler.Instance.LoadFromXMLAsync();
+
+            //And save that to the list.
+            foreach(var item in previousSyncedNotes)
+            {
+                Notes.Add(item);
+            }
+        }
 
         /// <summary>
         /// Fire up the PropertyChanged event and notify all the listener about the changed property.

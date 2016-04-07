@@ -31,7 +31,7 @@ namespace NotesOnBandEngineUnitTest.ModelTests
         {
             var instance = XMLHandler.Instance;
 
-            List<string> notes = new List<string>() { "What the hell", "this sucks", "gives me some good stuffs", "Nope", "Dope", "Yep", "Bruh", "Dep" };
+            List<BandNote> notes = new List<BandNote>() { };
 
             instance.SaveToXMLAsync(notes).Wait();
 
