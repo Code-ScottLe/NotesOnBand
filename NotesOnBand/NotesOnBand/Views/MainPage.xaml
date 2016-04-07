@@ -40,7 +40,7 @@
                 </Grid>
 
                 <!--This is the list view to view all of the Band Notes.-->
-                <ListView ItemsSource="{Binding Notes, Mode=TwoWay}" HorizontalAlignment="Stretch">
+                <ListView ItemsSource="{Binding Notes, Mode=TwoWay}" HorizontalAlignment="Stretch" SelectionMode="None">
                      
                     <!--Define a Data Template so XAML can understand how to display the BandNote object-->
                     <ListView.ItemTemplate>
