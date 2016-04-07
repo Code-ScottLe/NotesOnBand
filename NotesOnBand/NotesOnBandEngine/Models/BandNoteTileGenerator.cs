@@ -13,13 +13,13 @@ namespace NotesOnBandEngine.Models
     {
 
         #region Fields
-        private BandNoteTileGenerator instance;
+        private static BandNoteTileGenerator instance;
         private string uniqueIDString = "b40d28db-a774-4b6f-a97a-76272146a174";
         #endregion
 
 
         #region Properties
-        public BandNoteTileGenerator Instance
+        public static BandNoteTileGenerator Instance
         {
             get
             {
@@ -158,7 +158,7 @@ namespace NotesOnBandEngine.Models
         /// </summary>
         /// <param name="notes"></param>
         /// <returns></returns>
-        public PageData[] GenerateDataFromNotes(List<string> notes)
+        public PageData[] GenerateDataFromNotes(List<BandNote> notes)
         {           
             string headerPrefix = "Note #";
             PageData[] pagesData = new PageData[notes.Count];
@@ -170,7 +170,7 @@ namespace NotesOnBandEngine.Models
                 TextBlockData headerText = new TextBlockData(1, headerPrefix + (notes.Count - i).ToString());
 
                 //Create the note text.
-                WrappedTextBlockData noteText = new WrappedTextBlockData(2, notes[i]);
+                WrappedTextBlockData noteText = new WrappedTextBlockData(2, notes[i].Content);
 
                 //Wrap them in a page data.
                 //the pageLayoutIndex is the layout index that will be used to create this page with the given data. the layout the blueprint for a page, not an actual page.

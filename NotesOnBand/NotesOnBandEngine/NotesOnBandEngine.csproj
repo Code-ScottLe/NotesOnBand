@@ -113,6 +113,7 @@
     <Compile Include="Models\BandNote.cs" />
     <Compile Include="Models\BandNoteTileGenerator.cs" />
     <Compile Include="Models\BandVersion.cs" />
+    <Compile Include="Models\ExtensionsMethods.cs" />
     <Compile Include="Models\XMLHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
