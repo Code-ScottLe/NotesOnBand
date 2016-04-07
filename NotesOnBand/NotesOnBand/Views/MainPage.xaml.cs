@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using NotesOnBand.Views;
 using NotesOnBandEngine.ViewModels;
+using NotesOnBandEngine.Models;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Popups;
 
@@ -98,6 +99,65 @@ namespace NotesOnBand
         private void Setting_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(SettingPage));
+        }
+
+        /// <summary>
+        /// Click Event handler for the Add AppBar Button. Add a new note
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddNote_Click(object sender, RoutedEventArgs e)
+        {
+            //Temporary disable the button
+            (sender as AppBarButton).IsEnabled = false;
+
+            //Make a new note.
+            BandNote newBandNote = new BandNote()
+            {
+                Title = $"Note #{mainPageViewModel.Notes.Count + 1}", Content = $"Note #{mainPageViewModel.Notes.Count + 1}"
+            };
+
+            //Add a new note
+            mainPageViewModel.Notes.Add(newBandNote);
+
+            //Check if we have to re-enable the delete button
+            if(mainPageViewModel.Notes.Count > 0)
+            {
+                DeleteNote.IsEnabled = true;
+            }
+
+            if (mainPageViewModel.Notes.Count < 8)
+            {
+                //re-enable the button if we haven't use all the spaces.
+                (sender as AppBarButton).IsEnabled = true;
+            }
+            
+        }
+
+        /// <summary>
+        /// Click event handler for the Remove AppBar Button. Remove the last note.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteNote_Click(object sender, RoutedEventArgs e)
+        {
+            //Temporary disable the button
+            (sender as AppBarButton).IsEnabled = false;
+
+            //By Default, remove the last one.
+            mainPageViewModel.Notes.RemoveAt(mainPageViewModel.Notes.Count - 1);
+
+            //See if we have to re-enable the add button
+            if(mainPageViewModel.Notes.Count < 8)
+            {
+                AddNote.IsEnabled = true;
+            }
+
+            if(mainPageViewModel.Notes.Count > 0)
+            {
+                //re-enable the button if we haven't deleted all of the notes
+                (sender as AppBarButton).IsEnabled = true;
+            }
         }
     }
 }
