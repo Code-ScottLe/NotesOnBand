@@ -245,14 +245,9 @@ namespace NotesOnBand
             Setting.IsEnabled = true;
         }
 
-        private void FAQ_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
 
         /// <summary>
-        /// 
+        /// Event handler for the Value Changed Event for the Progress bar. Hide progress bar and indicator at 100%
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

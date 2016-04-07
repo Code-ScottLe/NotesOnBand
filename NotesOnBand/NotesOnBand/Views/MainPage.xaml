@@ -22,8 +22,8 @@
                          Value="{Binding CompletionPercentage}" ValueChanged="SyncProgressBar_ValueChanged"/>
             <TextBlock x:Name="SyncProgressBarIndicator" HorizontalAlignment="Right" 
                        FontFamily="Segoe UI Light" TextAlignment="Right"
-                       Text="{Binding CompletionStatus}" FontSize="11"
-                       Margin="0,0,15,0"></TextBlock>
+                       Text="{Binding CompletionStatus}" FontSize="12"
+                       Margin="0,0,20,0"></TextBlock>
         </StackPanel>
 
         <StackPanel x:Name="MainStackPanel" Margin="0, 5, 0, 0">
@@ -85,7 +85,6 @@
             <AppBarButton x:Name="SyncNote" Icon="Sync" Label="Sync" Click="SyncNote_Click"></AppBarButton>
 
             <CommandBar.SecondaryCommands>
-                <AppBarButton x:Name="FAQ" Icon="Help" Label="FAQ" Click="FAQ_Click"></AppBarButton>
                 <AppBarButton x:Name="Setting" Icon="Setting" Label="Setting" Click="Setting_Click"></AppBarButton>
             </CommandBar.SecondaryCommands>
         </CommandBar>
