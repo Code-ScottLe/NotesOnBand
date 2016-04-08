@@ -26,6 +26,7 @@ namespace NotesOnBandEngine.ViewModels
         private string uniqueIDString = "b40d28db-a774-4b6f-a97a-76272146a174";
         private double completionPercentage = 0.0;
         private string completionStatus;
+        private bool isInitialized = false;
         #endregion
 
         #region events
@@ -89,6 +90,19 @@ namespace NotesOnBandEngine.ViewModels
             {
                 completionStatus = value;
                 OnPropertyChanged("CompletionStatus");
+            }
+        }
+
+        public bool IsInitialized
+        {
+            get
+            {
+                return isInitialized;
+            }
+
+            set
+            {
+                isInitialized = value;
             }
         }
         #endregion

@@ -222,27 +222,35 @@ namespace NotesOnBand
         /// <param name="e"></param>
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            //Disable all button.
-            AddNote.IsEnabled = false;
-            DeleteNote.IsEnabled = false;
-            SyncNote.IsEnabled = false;
-            Setting.IsEnabled = false;
-
-            //try to load from XML
-            await mainPageViewModel.LoadPreviousSyncedNotesAsync();
-
-            //Enable all button.
-            if (mainPageViewModel.Notes.Count < 8)
+            //Only do this if we have not had anything loaded in. 
+            if(mainPageViewModel.IsInitialized == false)
             {
-                AddNote.IsEnabled = true;
-            }
+                //Flip the bool
+                mainPageViewModel.IsInitialized = true;
 
-            if (mainPageViewModel.Notes.Count > 0)
-            {
-                DeleteNote.IsEnabled = true;
+                //Disable all button.
+                AddNote.IsEnabled = false;
+                DeleteNote.IsEnabled = false;
+                SyncNote.IsEnabled = false;
+                Setting.IsEnabled = false;
+
+                //try to load from XML
+                await mainPageViewModel.LoadPreviousSyncedNotesAsync();
+
+                //Enable all button.
+                if (mainPageViewModel.Notes.Count < 8)
+                {
+                    AddNote.IsEnabled = true;
+                }
+
+                if (mainPageViewModel.Notes.Count > 0)
+                {
+                    DeleteNote.IsEnabled = true;
+                }
+                SyncNote.IsEnabled = true;
+                Setting.IsEnabled = true;
             }
-            SyncNote.IsEnabled = true;
-            Setting.IsEnabled = true;
+            
         }
 
 
