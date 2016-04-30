@@ -213,6 +213,41 @@ namespace NotesOnBandEngine.ViewModels
             CompletionStatus = "Done.";
         }
 
+
+        /// <summary>
+        /// Method for sending back the exception detail for bug fixes
+        /// </summary>
+        /// <param name="e"></param>
+        public async Task SendCrashReport(Exception e)
+        {
+            //Create the email to be sent.
+            Windows.ApplicationModel.Email.EmailMessage emailMessage = new Windows.ApplicationModel.Email.EmailMessage();
+
+            //Get the current app version
+            var packageVersion = Windows.ApplicationModel.Package.Current.Id.Version;
+            string version = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
+
+            //Build the body.
+            StringBuilder emailMessageBodyBuilder = new StringBuilder();
+            emailMessageBodyBuilder.AppendLine($"Exception Type: {e.GetType().FullName}");
+            emailMessageBodyBuilder.AppendLine($"Message: {e.Message}");
+            emailMessageBodyBuilder.AppendLine($"App version: {version}");
+            emailMessageBodyBuilder.AppendLine($"Detail: {e.ToString()}");
+
+            //set the body:       
+            emailMessage.Body = emailMessageBodyBuilder.ToString();
+
+            //format the subject of the email (for inbox filtering)
+            emailMessage.Subject = $"[NoB][v{version}]{e.GetType().FullName} ";
+
+            //set the sender.
+            emailMessage.To.Add(new Windows.ApplicationModel.Email.EmailRecipient("code.scottle@outlook.com"));
+
+            //send it to the default mail application.
+            await Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(emailMessage);
+
+        }
+
         /// <summary>
         /// Fire up the PropertyChanged event and notify all the listener about the changed property.
         /// </summary>
