@@ -32,7 +32,7 @@ namespace NotesOnBand.Views
 
             //Grab the version of the application
             var packageVersion = Windows.ApplicationModel.Package.Current.Id.Version;
-            string version = string.Format("{0}.{1}.{2}.{3}", packageVersion.Major, packageVersion.Minor, packageVersion.Build, packageVersion.Revision);
+            string version = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
             VersionTextBlock.Text += version;
         }
 
