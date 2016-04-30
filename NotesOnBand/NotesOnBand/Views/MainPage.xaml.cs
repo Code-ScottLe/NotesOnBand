@@ -182,6 +182,8 @@ namespace NotesOnBand
             try
             {
                 await mainPageViewModel.SyncNotesToBandAsync();
+
+                //throw new InvalidOperationException("This is a test exception");
             }
             
             catch (Exception ex)
@@ -214,6 +216,9 @@ namespace NotesOnBand
                     //call the whoever in the view model for this shit.
                     await mainPageViewModel.SendCrashReport(ex);
                 };
+
+                //Show the dialog
+                await dialog.ShowAsync();
                 
             }
             
