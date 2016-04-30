@@ -72,7 +72,7 @@ namespace NotesOnBandEngine.Models
             //Band 2 Workable Width : 258px
             //Band 1 Workable Height: 106px;
             //Band 2 Workable Height: 128px;
-            myHeaderTextBlock.Rect = new PageRect(0, 0, 200, 25);       //Because we have to store everything in a ScrollFlowPanel, we leave the offset (x,y) to the scroll panel.
+            myHeaderTextBlock.Rect = new PageRect(0, 0, 200, 26);       //Because we have to store everything in a ScrollFlowPanel, we leave the offset (x,y) to the scroll panel.
 
 
             //Color of the header will match with the color theme of the band for consistency. This will change with the user choice of color.
