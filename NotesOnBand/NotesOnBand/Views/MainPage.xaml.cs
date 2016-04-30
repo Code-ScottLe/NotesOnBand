@@ -197,21 +197,43 @@ namespace NotesOnBand
                     message += ex.InnerException.Message;
                 }
 
-                await CreatePopupMessage(message, title);
-            }    
+                //await CreatePopupMessage(message, title);
 
-            //Enable all button.
-            if (mainPageViewModel.Notes.Count < 8)
-            {
-                AddNote.IsEnabled = true;
+                //Build the popup. 
+                ContentDialog dialog = new ContentDialog()
+                {
+                    Title = title,
+                    Content = message,
+                    PrimaryButtonText = "Send Report",
+                    SecondaryButtonText = "Dismiss"
+                };
+
+                //Handle the first button click.
+                dialog.PrimaryButtonClick += async (contentDialog, contentDialogClickEventArg) => 
+                {
+                    //call the whoever in the view model for this shit.
+                    await mainPageViewModel.SendCrashReport(ex);
+                };
+                
             }
             
-            if (mainPageViewModel.Notes.Count > 0)
+            finally
             {
-                DeleteNote.IsEnabled = true;
-            }           
-            SyncNote.IsEnabled = true;
-            Setting.IsEnabled = true;
+                //Enable all button.
+                if (mainPageViewModel.Notes.Count < 8)
+                {
+                    AddNote.IsEnabled = true;
+                }
+
+                if (mainPageViewModel.Notes.Count > 0)
+                {
+                    DeleteNote.IsEnabled = true;
+                }
+                SyncNote.IsEnabled = true;
+                Setting.IsEnabled = true;
+            }    
+
+            
         }
 
         
