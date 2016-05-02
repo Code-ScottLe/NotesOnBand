@@ -331,5 +331,27 @@ namespace NotesOnBand
                 myStoryBoard.Begin();
             }
         }
+
+
+        /// <summary>
+        /// Event handler for the double tab on the TextBlock of Note Title.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void TextBlock_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            //We call in the pop up for the Title editor with the old title
+            TitleEditorContentDialog contentDialog = new TitleEditorContentDialog((sender as TextBlock).Text);
+
+            //Show the thing
+            await contentDialog.ShowAsync();
+
+            //After this, check if the title has been changed
+            if(contentDialog.TitleChanged == true)
+            {
+                mainPageViewModel.Notes.Where(n => n.Title == (sender as TextBlock).Text).
+                    Select(n => n).FirstOrDefault().Title = contentDialog.NewTitle;
+            }
+        }
     }
 }
