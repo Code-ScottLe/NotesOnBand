@@ -1,0 +1,2 @@
+﻿- User can send error report through email now.
+- Double tap to edit title is enabled. 

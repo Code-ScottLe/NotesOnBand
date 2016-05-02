@@ -209,7 +209,7 @@ namespace NotesOnBand
                     PrimaryButtonText = "Send Report",
                     SecondaryButtonText = "Dismiss"
                 };
-
+                
                 //Handle the first button click.
                 dialog.PrimaryButtonClick += async (contentDialog, contentDialogClickEventArg) => 
                 {
@@ -352,6 +352,34 @@ namespace NotesOnBand
                 mainPageViewModel.Notes.Where(n => n.Title == (sender as TextBlock).Text).
                     Select(n => n).FirstOrDefault().Title = contentDialog.NewTitle;
             }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void VersionInfo_Click(object sender, RoutedEventArgs e)
+        {
+            //Get the update file.
+            var versionUpdateText = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Documents/VersionUpdate.txt"));
+            //Read as string
+            string versionUpdate = await Windows.Storage.FileIO.ReadTextAsync(versionUpdateText);
+
+
+            //Create the popup.
+            ContentDialog updateDialog = new ContentDialog()
+            {
+                Title = $"What is new in v{Windows.ApplicationModel.Package.Current.Id.Version.Major}.{Windows.ApplicationModel.Package.Current.Id.Version.Minor}.{Windows.ApplicationModel.Package.Current.Id.Version.Build}.{Windows.ApplicationModel.Package.Current.Id.Version.Revision}",
+                Content = versionUpdate
+            };
+
+            updateDialog.FullSizeDesired = true;
+            updateDialog.PrimaryButtonText = "Dismiss";
+            updateDialog.IsSecondaryButtonEnabled = false;
+
+            await updateDialog.ShowAsync();
         }
     }
 }
