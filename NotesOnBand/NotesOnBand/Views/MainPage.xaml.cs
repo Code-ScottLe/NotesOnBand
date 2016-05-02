@@ -375,7 +375,7 @@ namespace NotesOnBand
                 Content = versionUpdate
             };
 
-            updateDialog.FullSizeDesired = true;
+            //updateDialog.FullSizeDesired = true;
             updateDialog.PrimaryButtonText = "Dismiss";
             updateDialog.IsSecondaryButtonEnabled = false;
 
