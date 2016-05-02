@@ -12,7 +12,11 @@
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
-    <TextBox x:Name="TitleEditorContentDialogTextBox">
+    <StackPanel>
+        <TextBlock Foreground="Gray" Text="Please enter a new title (max 20 char.)" Margin="0,5"></TextBlock>
+        <TextBox x:Name="TitleEditorContentDialogTextBox" MaxLength="20">
 
-    </TextBox>
+        </TextBox>
+    </StackPanel>
+    
 </ContentDialog>
