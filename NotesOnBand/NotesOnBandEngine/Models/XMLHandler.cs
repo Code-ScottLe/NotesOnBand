@@ -58,7 +58,7 @@ namespace NotesOnBandEngine.Models
         #region Methods
 
         /// <summary>
-        /// 
+        /// Save the given list of notes into the backup XML File
         /// </summary>
         /// <param name="notes"></param>
         /// <returns></returns>
@@ -87,7 +87,7 @@ namespace NotesOnBandEngine.Models
 
 
         /// <summary>
-        /// 
+        /// Loading the previous notes from the backup XML File.
         /// </summary>
         /// <returns></returns>
         public async Task<List<BandNote>> LoadFromXMLAsync()
@@ -119,7 +119,7 @@ namespace NotesOnBandEngine.Models
                 {
                     int noteNum = 0;
                     int.TryParse(element.FirstAttribute.Value, out noteNum);
-                    notes.Add(new BandNote() { Content = element.Value, Title = $"Note #{noteNum + 1}" });
+                    notes.Add(new BandNote() { Content = element.Value, Title = element.Attribute("title").Value });
                 }
 
                 return notes;
@@ -136,7 +136,7 @@ namespace NotesOnBandEngine.Models
 
 
         /// <summary>
-        /// 
+        /// Create a new XDocument instance with the given notes
         /// </summary>
         /// <param name="notes"></param>
         /// <returns></returns>
@@ -155,6 +155,7 @@ namespace NotesOnBandEngine.Models
                 //create a new element
                 XElement noteElement = new XElement("Note");
                 noteElement.SetAttributeValue("index", i);
+                noteElement.SetAttributeValue("title", notes[i].Title);
                 noteElement.SetValue(notes[i].Content);
 
                 //Add that to the root node
@@ -167,7 +168,7 @@ namespace NotesOnBandEngine.Models
 
 
         /// <summary>
-        /// Create new XDocument that can be saved as new XML for storing notes. 
+        /// Create new and blank XDocument that can be saved as new XML for storing notes. 
         /// </summary>
         /// <returns></returns>
         private XDocument CreateNewXML()
