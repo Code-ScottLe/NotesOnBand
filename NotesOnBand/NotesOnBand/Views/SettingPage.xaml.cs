@@ -42,6 +42,10 @@ namespace NotesOnBand.Views
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+#if DEBUG
+            //Only Debug mode.
+            System.Diagnostics.Debug.WriteLine("OnNavigatedTo()");
+#endif
             base.OnNavigatedTo(e);      
              
         }
@@ -127,6 +131,11 @@ namespace NotesOnBand.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+
+#if DEBUG
+            //Only Debug mode.
+            System.Diagnostics.Debug.WriteLine("PageLoaded()");
+#endif
             //Ask what kind of theme are we in and then set the correct toggle status
             var currentTheme = Application.Current.RequestedTheme;
             ThemeSettingToggleSwitch.Tag = 0;
