@@ -160,14 +160,14 @@ namespace NotesOnBandEngine.Models
         /// <returns></returns>
         public PageData[] GenerateDataFromNotes(List<BandNote> notes)
         {           
-            string headerPrefix = "Note #";
+            //string headerPrefix = "Note #";
             PageData[] pagesData = new PageData[notes.Count];
 
             for (int i = 0; i < notes.Count; i++)
             {
 
                 //Create the header. Remember that the notes list are backward (as how the band display them), so the title with note number will be backward as well.
-                TextBlockData headerText = new TextBlockData(1, headerPrefix + (notes.Count - i).ToString());
+                TextBlockData headerText = new TextBlockData(1, notes[i].Title);
 
                 //Create the note text.
                 WrappedTextBlockData noteText = new WrappedTextBlockData(2, notes[i].Content);
