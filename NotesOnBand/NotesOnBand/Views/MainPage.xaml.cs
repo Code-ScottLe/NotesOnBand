@@ -356,7 +356,7 @@ namespace NotesOnBand
 
 
         /// <summary>
-        /// 
+        /// Event handler for the Version Info Button click on the AppBar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
