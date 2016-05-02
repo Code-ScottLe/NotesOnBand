@@ -54,7 +54,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding Title, Mode=TwoWay}" Foreground="Gray" Margin="10 5 0 0" DoubleTapped="TextBlock_DoubleTapped"></TextBlock>
+                            <TextBlock Text="{Binding Title, Mode=TwoWay}" Foreground="Gray" Margin="10,10,0,0" DoubleTapped="TextBlock_DoubleTapped"></TextBlock>
                             <TextBox Height="Auto" Width="Auto" 
                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                          TextWrapping="Wrap" AcceptsReturn="True"
