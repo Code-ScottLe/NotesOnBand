@@ -177,6 +177,7 @@ namespace NotesOnBand
             SyncProgressBar.Visibility = Visibility.Visible;
             mainPageViewModel.CompletionStatus = "";
             SyncProgressBarIndicator.Visibility = Visibility.Visible;
+            mainPageViewModel.IsFaulted = false;
 
             //Sync it over.
             try
@@ -189,6 +190,8 @@ namespace NotesOnBand
             catch (Exception ex)
             {
                 //Something is wrong. Display message
+                mainPageViewModel.IsFaulted = true;
+                mainPageViewModel.CompletionStatus = "Failure";
                 string title = "Whoops :( Something is wrong";
                 string message = ex.Message;
 

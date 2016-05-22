@@ -19,7 +19,7 @@
             <!--Top of the page. The progress bar-->
             <ProgressBar x:Name="SyncProgressBar" Height="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" 
                          Visibility="Visible" IsIndeterminate="False" Maximum="100" Minimum="0"
-                         Value="{Binding CompletionPercentage}" ValueChanged="SyncProgressBar_ValueChanged"/>
+                         Value="{Binding CompletionPercentage}" ValueChanged="SyncProgressBar_ValueChanged" ShowError="{Binding IsFaulted}"/>
             <TextBlock x:Name="SyncProgressBarIndicator" HorizontalAlignment="Right" 
                        FontFamily="Segoe UI Light" TextAlignment="Right"
                        Text="{Binding CompletionStatus}" FontSize="12"

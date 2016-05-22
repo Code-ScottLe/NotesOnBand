@@ -27,6 +27,7 @@ namespace NotesOnBandEngine.ViewModels
         private double completionPercentage = 0.0;
         private string completionStatus;
         private bool isInitialized = false;
+        private bool isFaulted = false;
         #endregion
 
         #region events
@@ -105,6 +106,21 @@ namespace NotesOnBandEngine.ViewModels
                 isInitialized = value;
             }
         }
+
+        public bool IsFaulted
+        {
+            get
+            {
+                return isFaulted;
+            }
+
+            set
+            {
+                isFaulted = false;
+                OnPropertyChanged("IsFaulted");
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -135,6 +151,9 @@ namespace NotesOnBandEngine.ViewModels
             //Check if we have notes to sync
             if(Notes.Count == 0)
             {
+                //Connect to Band
+                await connector.ConnectToBandAsync();
+
                 //Empty note. Just remove the Tile.
                 await connector.RemoveTileFromBandAsync(new Guid(uniqueIDString));
 
@@ -173,7 +192,30 @@ namespace NotesOnBandEngine.ViewModels
             //Try to add Tile if we haven't already.
             if(tileExisted == false)
             {
-               await connector.AddTileToBandAsync(myBandTile);
+                try
+                {
+                    await connector.AddTileToBandAsync(myBandTile);
+                }
+               
+                catch (InvalidOperationException e)
+                {
+                    //Invalid operation is expected to be thrown on certain case.
+                    if(e.Message.Contains("AddTileAsync()"))
+                    {
+                        //Can't add tile
+                        CompletionStatus = "Tile didn't sync";
+                        IsFaulted = true;
+                        return;
+                    }
+
+                    else
+                    {
+                        //Can't add tile due to no slot available
+                        CompletionStatus = "Full slot";
+                        IsFaulted = true;
+                        return;
+                    }
+                }
             }
            
             CompletionPercentage = 75;
