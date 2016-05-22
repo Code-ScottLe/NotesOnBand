@@ -141,6 +141,9 @@ namespace NotesOnBandEngine.ViewModels
                 //write empty XML.
                 await XMLHandler.Instance.SaveToXMLAsync(Notes.ConvertToList());
 
+                //Set the value to 100 to hide away the progress bar
+                CompletionPercentage = 100;
+                CompletionStatus = "Done.";
                 return;
             }
 
@@ -149,6 +152,7 @@ namespace NotesOnBandEngine.ViewModels
 
             //Save it to XML
             Task t = Task.Run(async () => await XMLHandler.Instance.SaveToXMLAsync(Notes.ConvertToList()));
+           
 
             //Make the BandTile
             CompletionStatus = "Generating Band Tile...";
@@ -164,8 +168,14 @@ namespace NotesOnBandEngine.ViewModels
             await connector.ConnectToBandAsync();
             CompletionPercentage = 50;
 
-            //Try to add Tile
-            await connector.AddTileToBandAsync(myBandTile);
+            bool tileExisted = await connector.IsTileSyncedAsync(myBandTile.TileId);
+
+            //Try to add Tile if we haven't already.
+            if(tileExisted == false)
+            {
+               await connector.AddTileToBandAsync(myBandTile);
+            }
+           
             CompletionPercentage = 75;
 
             //Generate the data from the notes.
@@ -176,6 +186,13 @@ namespace NotesOnBandEngine.ViewModels
             var pagesData = BandNoteTileGenerator.Instance.GenerateDataFromNotes(listy);
 
             //Sync the data over.
+
+            //if the tile was previously synced, remove all the previous notes.
+            if(tileExisted == true)
+            {
+                await connector.RemoveAllPagesFromBandTileAsync(myBandTile.TileId);
+            }
+
             await connector.SyncDataToBandAsync(myBandTile, pagesData);
             CompletionPercentage = 95;
 
