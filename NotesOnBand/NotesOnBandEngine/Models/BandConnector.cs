@@ -84,6 +84,41 @@ namespace NotesOnBandEngine.Models
 
 
         /// <summary>
+        /// Remove all the data pages of the tile
+        /// </summary>
+        /// <param name="tileID">The tileID of the tile.</param>
+        /// <returns></returns>
+        public async Task RemoveAllPagesFromBandTileAsync(Guid tileID)
+        {
+            //remove all pages data.
+            await currentBandClient.TileManager.RemovePagesAsync(tileID);
+            
+        }
+
+
+
+        /// <summary>
+        /// Check wheather if we have synced the given tile to the Band
+        /// </summary>
+        /// <param name="tileID">the TileID of the Tile</param>
+        /// <returns></returns>
+        public async Task<bool> IsTileSyncedAsync(Guid tileID)
+        {
+            //Get the list of all the tiles on the Band
+            var tiles = await currentBandClient.TileManager.GetTilesAsync();
+
+            foreach(var tile in tiles)
+            {
+                if(tile.TileId == tileID)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Remove a tile from the Microsoft Band
         /// </summary>
         /// <param name="tile">The "to-be-removed" Band Tile</param>
