@@ -4,12 +4,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:NotesOnBand"
     xmlns:viewModel="using:NotesOnBandEngine.ViewModels"
+    xmlns:design="using:NotesOnBand.DesignData"
     xmlns:models="using:NotesOnBandEngine.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Loaded="Page_Loaded">
+    mc:Ignorable="d" Loaded="Page_Loaded" d:DataContext="{d:DesignData /SampleData/MainPageViewModelSampleData.xaml}">
+    <Page.Resources>
+        <DataTemplate x:Key="BandNoteTemplate">
+            <Grid Height="110" Width="480" Margin="10" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="110" Height="110">
+                    <Image Height="110" Width="110"/>
+                </Border>
+                <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                    <TextBlock Text="{Binding Content}" Style="{StaticResource TitleTextBlockStyle}"/>
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
 
-    <Grid x:Name="ContentGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="ContentGrid" 
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <!--Declare the viewModel for data binding-->
         <Grid.DataContext>
             <viewModel:MainPageViewModel x:Name="mainPageViewModel"></viewModel:MainPageViewModel>
@@ -26,8 +45,8 @@
                        Margin="0,0,20,0"></TextBlock>
         </StackPanel>
 
-        <StackPanel x:Name="MainStackPanel" Margin="0, 5, 0, 0">
-            
+        <StackPanel x:Name="MainStackPanel" Margin="0, 5, 0, 0" d:DataContext="{d:DesignData /SampleData/MainPageViewModelSampleData.xaml}">
+
             <!-- This is the header-->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -48,7 +67,7 @@
             </Grid>
 
             <!--This is the list view to view all of the Band Notes.-->
-            <ListView ItemsSource="{Binding Notes, Mode=TwoWay}" HorizontalAlignment="Stretch" SelectionMode="None">
+            <ListView ItemsSource="{Binding Notes}" HorizontalAlignment="Stretch" SelectionMode="None">
 
                 <!--Define a Data Template so XAML can understand how to display the BandNote object-->
                 <ListView.ItemTemplate>
@@ -63,7 +82,6 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-
 
                 <!--From StackOverFlow:http://stackoverflow.com/questions/18626696/listview-itemtemplate-100-width -->
                 <!-- This enable the Item Template to have HorizontalAlignment to be stretch-->

@@ -50,6 +50,7 @@ namespace NotesOnBandEngine.ViewModels
             {
                 return this.notes;
             }
+
         }
         
         public BandVersion CurrentBandVersion
@@ -133,6 +134,15 @@ namespace NotesOnBandEngine.ViewModels
             notes = new ObservableCollection<BandNote>();
             connector = new BandConnector();
             completionStatus = string.Empty;
+
+            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                // Load design-time books.
+                notes.Add(new BandNote()
+                {
+                    Content = "TestContent", Title = "Test Title"
+                });
+            }
 
         }
 

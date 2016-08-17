@@ -1,0 +1,21 @@
+﻿<ViewModels:MainPageViewModel 
+    xmlns:ViewModels="using:NotesOnBandEngine.ViewModels" 
+    xmlns:Models="using:NotesOnBandEngine.Models" 
+    CompletionStatus="Vel nam cursus" 
+    CurrentBandVersion="MicrosoftBand2" 
+    CompletionPercentage="110.01" 
+    IsFaulted="False" 
+    IsInitialized="True">
+	<ViewModels:MainPageViewModel.Notes>
+		<Models:BandNote Content="Nam sed" Title="Cras dis"/>
+		<Models:BandNote Content="Est duis" Title="Aliquam hac"/>
+		<Models:BandNote Content="Class nunc" Title="Leo curabitur"/>
+		<Models:BandNote Content="Maecenas praesent aenean vestibulum" Title="Integer accumsan"/>
+		<Models:BandNote Content="Quisque phasellus mauris" Title="Nullam adipiscing"/>
+		<Models:BandNote Content="Curae amet" Title="Mus nec donec ante etiam"/>
+		<Models:BandNote Content="Non bibendum fusce consequat" Title="Convallis lorem per arcu"/>
+		<Models:BandNote Content="Morbi dignissim nulla" Title="Aptent diam eget proin vivamus"/>
+		<Models:BandNote Content="Elit sed aliquam elementum" Title="Auctor congue sem aliquet"/>
+		<Models:BandNote Content="Enim blandit erat parturient" Title="Vestibulum vestibulum sit eros facilisis"/>
+	</ViewModels:MainPageViewModel.Notes>
+</ViewModels:MainPageViewModel>
