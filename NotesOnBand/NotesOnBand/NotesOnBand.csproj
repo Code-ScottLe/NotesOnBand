@@ -124,6 +124,7 @@
     <None Include="NotesOnBand_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Band1.png" />
     <Content Include="Assets\Band2.png" />
     <Content Include="Assets\Documents\VersionUpdate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
