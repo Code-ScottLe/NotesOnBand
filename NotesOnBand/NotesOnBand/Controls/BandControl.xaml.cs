@@ -57,7 +57,14 @@ namespace NotesOnBand.Controls
         public BandVersion Version
         {
             get { return _version; }
-            set { _version = value;  OnPropertyChanged(nameof(Version)); }
+            set
+            {
+                _version = value;
+                OnPropertyChanged(nameof(Version));
+
+                BandImage = (value == BandVersion.MicrosoftBand2) ? new BitmapImage(new Uri("/Assets/Band2.png", UriKind.Relative)) 
+                    : new BitmapImage(new Uri("/Assets/Band1.png", UriKind.Relative));
+            }
         }
 
 
