@@ -1,0 +1,10 @@
+﻿<Controls:BandControlViewModel
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:Controls="using:NotesOnBand.Controls" 
+    Version="MicrosoftBand1">
+
+    <Controls:BandControlViewModel.BandImage>
+        <BitmapImage UriSource="/Assets/Band2.png"></BitmapImage>
+    </Controls:BandControlViewModel.BandImage>
+    
+</Controls:BandControlViewModel>

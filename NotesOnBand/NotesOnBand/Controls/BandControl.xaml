@@ -1,0 +1,20 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NotesOnBand.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Converters="using:NotesOnBand.Converters"
+    x:Class="NotesOnBand.Controls.BandControl"
+    mc:Ignorable="d"
+    Height="200"
+    Width="360" 
+    x:Name="this_" d:DataContext="{d:DesignData /SampleData/BandControlViewModelSampleData.xaml}">
+    <UserControl.DataContext>
+        <local:BandControlViewModel/>
+    </UserControl.DataContext>
+
+    <Grid>
+        <Image Source="{Binding BandImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+</UserControl>
