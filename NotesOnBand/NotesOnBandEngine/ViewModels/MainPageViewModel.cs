@@ -37,6 +37,11 @@ namespace NotesOnBandEngine.ViewModels
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// This event will fire up in the case of something went wrong during the process of doing its job
+        /// </summary>
+        public event EventHandler<AggregateException> ErrorOccured;
+
         #endregion
 
         #region Properties
@@ -49,6 +54,12 @@ namespace NotesOnBandEngine.ViewModels
             get
             {
                 return this.notes;
+            }
+
+            private set
+            {
+                notes = value;
+                OnPropertyChanged(nameof(Notes));
             }
 
         }
@@ -133,22 +144,48 @@ namespace NotesOnBandEngine.ViewModels
         {
             notes = new ObservableCollection<BandNote>();
             connector = new BandConnector();
-            completionStatus = string.Empty;
-
-            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-            {
-                // Load design-time books.
-                notes.Add(new BandNote()
-                {
-                    Content = "TestContent", Title = "Test Title"
-                });
-            }
+            completionStatus = string.Empty;          
 
         }
 
         #endregion
 
         #region Methods         
+
+        public async Task RemoveTileFromBandAsync()
+        {
+            //Starting.
+            CompletionPercentage = 0;
+
+            //Connect to Band
+            await connector.ConnectToBandAsync();
+
+            //Empty note. Just remove the Tile.
+            await connector.RemoveTileFromBandAsync(new Guid(uniqueIDString));
+
+            //write empty XML.
+            await XMLHandler.Instance.SaveToXMLAsync(Notes.ConvertToList());
+
+            //Set the value to 100 to hide away the progress bar
+            CompletionPercentage = 100;
+            CompletionStatus = "Tile Removed!";
+            return;
+        }
+
+        public void AddNote(BandNote note)
+        {
+            Notes.Add(note);
+        }
+
+        public void AddNote()
+        {
+            AddNote(new BandNote() { Title = $"Note #{Notes.Count + 1}", Content = "Custom Note" });
+        }
+
+        public void RemoveNote(BandNote note)
+        {
+            Notes.Remove(note);
+        }
 
         /// <summary>
         /// Sync the given notes to the Band asynchronously.
@@ -161,18 +198,7 @@ namespace NotesOnBandEngine.ViewModels
             //Check if we have notes to sync
             if(Notes.Count == 0)
             {
-                //Connect to Band
-                await connector.ConnectToBandAsync();
-
-                //Empty note. Just remove the Tile.
-                await connector.RemoveTileFromBandAsync(new Guid(uniqueIDString));
-
-                //write empty XML.
-                await XMLHandler.Instance.SaveToXMLAsync(Notes.ConvertToList());
-
-                //Set the value to 100 to hide away the progress bar
-                CompletionPercentage = 100;
-                CompletionStatus = "Done.";
+                await RemoveTileFromBandAsync();
                 return;
             }
 
@@ -321,14 +347,18 @@ namespace NotesOnBandEngine.ViewModels
         /// Fire up the PropertyChanged event and notify all the listener about the changed property.
         /// </summary>
         /// <param name="propertyName">Name of the property that was changed.</param>
-        public void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged(string propertyName)
         {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
-            //Make sure we do have a listener.
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+        /// <summary>
+        /// Fire up the ErrorOccured event that notify about the failure of the given task.
+        /// </summary>
+        /// <param name="innerException"></param>
+        private void OnErrorOccured(Exception innerException)
+        {
+            ErrorOccured?.Invoke(this, new AggregateException(innerException));
         }
 
         #endregion
