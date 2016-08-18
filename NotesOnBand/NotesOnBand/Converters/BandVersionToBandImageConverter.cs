@@ -4,30 +4,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace NotesOnBand.Converters
 {
-    public class BandVersionToBandImageConverter : IValueConverter
+    public class BandTwoPageVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            BitmapImage bandImage = new BitmapImage(new Uri("/Assets/Band1.png", UriKind.Relative));
 
-            if(value != null)
-            {
-                return null;
-            }
+            var me = (BandVersion) value;
 
-            BandVersion bandVersion = (BandVersion)value;
+            return (me == BandVersion.MicrosoftBand2) ? Visibility.Visible : Visibility.Collapsed;
 
-            if(bandVersion == BandVersion.MicrosoftBand2)
-            {
-                bandImage = new BitmapImage(new Uri("/Assets/Band2.png", UriKind.Relative));
-            }
 
-            return bandImage;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class BandOnePageVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+
+            var me = (BandVersion)value;
+
+            return (me == BandVersion.MicrosoftBand1) ? Visibility.Visible : Visibility.Collapsed;
+
 
         }
 

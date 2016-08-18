@@ -4,7 +4,7 @@
     Version="MicrosoftBand2">
 
     <Controls:BandControlViewModel.BandImage>
-        <BitmapImage UriSource="/Assets/Band2.png"></BitmapImage>
+        <BitmapImage UriSource="/Assets/Band1.png"></BitmapImage>
     </Controls:BandControlViewModel.BandImage>
     
 </Controls:BandControlViewModel>

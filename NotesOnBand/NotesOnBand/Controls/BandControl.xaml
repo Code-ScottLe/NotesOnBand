@@ -10,11 +10,30 @@
     Height="200"
     Width="360" 
     x:Name="this_" d:DataContext="{d:DesignData /SampleData/BandControlViewModelSampleData.xaml}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Converters:BandTwoPageVisibilityConverter x:Key="Two"></Converters:BandTwoPageVisibilityConverter>
+            <Converters:BandOnePageVisibilityConverter x:Key="One"></Converters:BandOnePageVisibilityConverter>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <UserControl.DataContext>
         <local:BandControlViewModel/>
     </UserControl.DataContext>
 
     <Grid>
-        <Image Source="{Binding BandImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Grid 
+            HorizontalAlignment="Left" 
+            Height="70" 
+            Margin="100,85,0,0" 
+            VerticalAlignment="Top" 
+            Width="167"
+            Background="White"/>
+
+        <Grid>
+            <Image Source="{Binding BandImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+
     </Grid>
 </UserControl>
