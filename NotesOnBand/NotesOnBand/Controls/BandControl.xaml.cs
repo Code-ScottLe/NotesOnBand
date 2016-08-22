@@ -26,59 +26,10 @@ namespace NotesOnBand.Controls
     /// </summary>
     public sealed partial class BandControl : UserControl
     {
-        public readonly static DependencyProperty VersionProperty =
-            DependencyProperty.Register(nameof(Version), typeof(BandVersion), typeof(BandControl), new PropertyMetadata(BandVersion.MicrosoftBand2, (s, e) =>
-            {
-                DependencyChanged?.Invoke(null, "Version");
-            }));
-       
-        public BandVersion Version
-        {
-            get { return (BandVersion)GetValue(VersionProperty); }
-            set { SetValue(VersionProperty, value);}
-        }
-
-        public static readonly DependencyProperty NotesProperty =
-            DependencyProperty.Register(nameof(Notes), typeof(ObservableCollection<BandNote>), typeof(BandControl), new PropertyMetadata(new ObservableCollection<BandNote>(), (s, e) =>
-            {
-                DependencyChanged?.Invoke(null, "Notes");
-            }));
-
-        public ObservableCollection<BandNote> Notes
-        {
-            get { return (ObservableCollection<BandNote>)GetValue(NotesProperty); }
-            set { SetValue(NotesProperty, value); }
-        }
-
-        private static EventHandler<string> DependencyChanged;        
-
         public BandControl()
         {
             this.InitializeComponent();
 
-            //event stuffs
-            DependencyChanged += OnVersionPropertyChanged;
-
-            //binding stuffs
-            Binding myBinding = new Binding();
-            myBinding.Path = new PropertyPath("Notes");
-            myBinding.Source = (DataContext as BandControlViewModel);
-            myBinding.Mode = BindingMode.TwoWay;
-            this.SetBinding(NotesProperty, myBinding);
-
-        }
-
-        private void OnVersionPropertyChanged(object sender, string arg)
-        {
-            if(arg == "Version")
-            {
-                (DataContext as BandControlViewModel).Version = Version;
-            }
-
-            else if(arg == "Notes")
-            {
-                (DataContext as BandControlViewModel).Notes = new ObservableCollection<BandNote>(Notes);
-            }
         }
     }
 

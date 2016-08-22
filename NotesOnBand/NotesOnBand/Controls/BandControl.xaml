@@ -47,7 +47,7 @@
                                 <ColumnDefinition Width="5"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <RelativePanel Grid.Column="0" 
-                                           Padding="5,0,0,0">
+                                           Padding="7,0,0,0">
                                 <TextBlock Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Name="TitleTextBlock"                            
                                            RelativePanel.AlignTopWithPanel="True"           
                                            RelativePanel.AlignLeftWithPanel="True"                
