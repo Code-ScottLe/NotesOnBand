@@ -11,13 +11,7 @@
     Height="200"
     Width="360" 
     x:Name="this_" d:DataContext="{d:DesignData /SampleData/BandControlViewModelSampleData.xaml}">
-
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Converters:BandTwoPageVisibilityConverter x:Key="Two"></Converters:BandTwoPageVisibilityConverter>
-            <Converters:BandOnePageVisibilityConverter x:Key="One"></Converters:BandOnePageVisibilityConverter>
-        </ResourceDictionary>
-    </UserControl.Resources>
+  
     <UserControl.DataContext>
         <local:BandControlViewModel x:Name="viewModel"/>
     </UserControl.DataContext>
@@ -31,18 +25,28 @@
         <!--Band 2 : 99,70,102,67-->
         <!--Band 1 : 99,75,102,72-->
         <Grid x:Name="BandScreenGrid" Background="Black" Margin="{Binding CurrentBandGridMargin, Mode=TwoWay}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="24"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid Background="Black"
+                  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                  BorderThickness="0,0,1,0"></Grid>
+            
             <FlipView ItemsSource="{Binding Notes}"
-                      ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                      Grid.Column="1"
+                      Background="Black">
                 <FlipView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="15"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="5"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-
-                            <RelativePanel Grid.Column="1" BorderThickness="1,0,0,0" 
-                                           BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                            <RelativePanel Grid.Column="0" 
                                            Padding="5,0,0,0">
                                 <TextBlock Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Name="TitleTextBlock"                            
                                            RelativePanel.AlignTopWithPanel="True"           
@@ -53,6 +57,7 @@
                                 <TextBlock RelativePanel.Below="TitleTextBlock"       
                                            RelativePanel.AlignLeftWithPanel="True"    
                                            Text="{Binding Content}"
+                                           TextWrapping="Wrap"
                                            FontSize="11"></TextBlock>
                             </RelativePanel>
                         </Grid>
