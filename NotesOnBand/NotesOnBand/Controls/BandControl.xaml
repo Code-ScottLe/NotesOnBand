@@ -27,7 +27,7 @@
         <Grid x:Name="BandScreenGrid" Background="Black" Margin="{Binding CurrentBandGridMargin, Mode=TwoWay}">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="24"></ColumnDefinition>
+                <ColumnDefinition Width="21"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
@@ -44,22 +44,25 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="5"></ColumnDefinition>
+                                <ColumnDefinition Width="15"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <RelativePanel Grid.Column="0" 
+                            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                          VerticalScrollBarVisibility="Hidden">
+                                <RelativePanel Grid.Column="0" 
                                            Padding="7,0,0,0">
-                                <TextBlock Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Name="TitleTextBlock"                            
+                                    <TextBlock Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Name="TitleTextBlock"                            
                                            RelativePanel.AlignTopWithPanel="True"           
                                            RelativePanel.AlignLeftWithPanel="True"                
                                            Text="{Binding Title}"
                                            FontSize="11"></TextBlock>
 
-                                <TextBlock RelativePanel.Below="TitleTextBlock"       
+                                    <TextBlock RelativePanel.Below="TitleTextBlock"       
                                            RelativePanel.AlignLeftWithPanel="True"    
                                            Text="{Binding Content}"
                                            TextWrapping="Wrap"
                                            FontSize="11"></TextBlock>
-                            </RelativePanel>
+                                </RelativePanel>
+                            </ScrollViewer>
                         </Grid>
                     </DataTemplate>
                 </FlipView.ItemTemplate>
