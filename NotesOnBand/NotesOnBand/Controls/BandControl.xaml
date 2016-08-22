@@ -25,9 +25,34 @@
 
         <!--Band 2 : 99,70,102,67-->
         <!--Band 1 : 99,75,102,72-->
-        <Grid x:Name="BandScreenGrid" Background="White" Margin="{Binding CurrentBandGridMargin, Mode=TwoWay}">
+        <Grid x:Name="BandScreenGrid" Background="Black" Margin="{Binding CurrentBandGridMargin, Mode=TwoWay}">
+            <FlipView ItemsSource="{Binding Notes}">
+                <FlipView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
 
+                            <RelativePanel Grid.Column="1" BorderThickness="1,0,0,0" 
+                                           BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                           Padding="5,0,0,0">
+                                <TextBlock Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Name="TitleTextBlock"                            
+                                           RelativePanel.AlignTopWithPanel="True"           
+                                           RelativePanel.AlignLeftWithPanel="True"                
+                                           Text="{Binding Title}"
+                                           FontSize="11"></TextBlock>
 
+                                <TextBlock RelativePanel.Below="TitleTextBlock"       
+                                           RelativePanel.AlignLeftWithPanel="True"    
+                                           Text="{Binding Content}"
+                                           FontSize="11"></TextBlock>
+                            </RelativePanel>
+                        </Grid>
+                    </DataTemplate>
+                </FlipView.ItemTemplate>
+            </FlipView>
         </Grid>
 
         <Grid x:Name="BandOverlayGrid">

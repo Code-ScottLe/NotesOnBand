@@ -67,11 +67,16 @@
             </Grid>
 
             <control:BandControl 
-                x:Name="testControl"
-                Version="{x:Bind Path=mainPageViewModel.CurrentBandVersion, Mode=OneWay}"></control:BandControl>
+                x:Name="testControl">
+                <control:BandControl.DataContext>
+                    <control:BandControlViewModel 
+                        Version="{x:Bind mainPageViewModel.CurrentBandVersion, Mode=OneWay}"
+                        Notes="{x:Bind mainPageViewModel.Notes, Mode=OneWay}"></control:BandControlViewModel>
+                </control:BandControl.DataContext>
+            </control:BandControl>
 
             <!--This is the list view to view all of the Band Notes.-->
-            <ListView ItemsSource="{Binding Notes}" HorizontalAlignment="Stretch" SelectionMode="None">
+            <ListView x:Name="NotesListView" ItemsSource="{Binding Notes}" HorizontalAlignment="Stretch" SelectionMode="None">
 
                 <!--Define a Data Template so XAML can understand how to display the BandNote object-->
                 <ListView.ItemTemplate>

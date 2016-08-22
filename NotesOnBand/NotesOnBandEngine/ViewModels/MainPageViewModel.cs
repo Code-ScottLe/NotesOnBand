@@ -74,7 +74,7 @@ namespace NotesOnBandEngine.ViewModels
             set
             {
                 currentBandVersion = value;
-                OnPropertyChanged("CurrentBandVersion");
+                OnPropertyChanged(nameof(CurrentBandVersion));
             }
         }
 
@@ -88,7 +88,7 @@ namespace NotesOnBandEngine.ViewModels
             set
             {
                 completionPercentage = value;
-                OnPropertyChanged("CompletionPercentage");
+                OnPropertyChanged(nameof(CompletionPercentage));
             }
         }
 
@@ -102,7 +102,7 @@ namespace NotesOnBandEngine.ViewModels
             set
             {
                 completionStatus = value;
-                OnPropertyChanged("CompletionStatus");
+                OnPropertyChanged(nameof(CompletionStatus));
             }
         }
 
@@ -129,7 +129,7 @@ namespace NotesOnBandEngine.ViewModels
             set
             {
                 isFaulted = false;
-                OnPropertyChanged("IsFaulted");
+                OnPropertyChanged(nameof(IsFaulted));
             }
         }
 
