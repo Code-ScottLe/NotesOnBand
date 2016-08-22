@@ -385,5 +385,31 @@ namespace NotesOnBand
 
             await updateDialog.ShowAsync();
         }
+
+
+        /// <summary>
+        /// Right tapped event handler for the Stack Panel of Flyout.
+        /// Only showing the flyout on non-touch device. Touch device will use hold.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            if (e.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Touch)
+            {
+                FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+            }
+
+        }
+
+        /// <summary>
+        /// Holding event handler for the stack panel of the flyout
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StackPanel_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
     }
 }

@@ -9,22 +9,9 @@
     xmlns:control="using:NotesOnBand.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Loaded="Page_Loaded" d:DataContext="{d:DesignData /SampleData/MainPageViewModelSampleData.xaml}">
+    
     <Page.Resources>
-        <DataTemplate x:Key="BandNoteTemplate">
-            <Grid Height="110" Width="480" Margin="10" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="110" Height="110">
-                    <Image Height="110" Width="110"/>
-                </Border>
-                <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                    <TextBlock Text="{Binding Content}" Style="{StaticResource TitleTextBlockStyle}"/>
-                    <TextBlock Text="{Binding Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
+        
     </Page.Resources>
 
     <Grid x:Name="ContentGrid" 
@@ -81,13 +68,35 @@
                 <!--Define a Data Template so XAML can understand how to display the BandNote object-->
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical" Background="Transparent"
+                                    RightTapped="StackPanel_RightTapped" Holding="StackPanel_Holding">
                             <TextBlock Text="{Binding Title, Mode=TwoWay}" Foreground="Gray" Margin="10,10,0,0" DoubleTapped="TextBlock_DoubleTapped"></TextBlock>
                             <TextBox Height="Auto" Width="Auto" 
                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                          TextWrapping="Wrap" AcceptsReturn="True"
                                          Text="{Binding Content, Mode=TwoWay}"
                                          Margin="10 5 10 0"></TextBox>
+
+                            <!--Curren Item Flyout-->
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <Button x:Name="EditTitleFlyoutButton" Background="Transparent">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="Edit"></SymbolIcon>
+                                                <TextBlock Padding="10,0,0,0" Text="Edit Title"></TextBlock>
+                                            </StackPanel>
+                                        </Button>
+
+                                        <Button x:Name="DeleteNoteFlyoutButton" Background="Transparent">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="Delete"></SymbolIcon>
+                                                <TextBlock Padding="10,0,0,0" Text="Delete This Note"></TextBlock>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
