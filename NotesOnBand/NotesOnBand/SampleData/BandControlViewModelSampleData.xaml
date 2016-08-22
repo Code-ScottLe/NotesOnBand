@@ -1,10 +1,14 @@
 ﻿<Controls:BandControlViewModel
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:Controls="using:NotesOnBand.Controls" 
-    Version="MicrosoftBand2">
+    Version="MicrosoftBand2"
+    CurrentBandGridMargin="99,70,102,67">
+
+    <!--Band 2 : 99,70,102,67-->
+    <!--Band 1 : 99,75,102,72-->
 
     <Controls:BandControlViewModel.BandImage>
-        <BitmapImage UriSource="/Assets/Band1.png"></BitmapImage>
+        <BitmapImage UriSource="/Assets/Band2.png"></BitmapImage>
     </Controls:BandControlViewModel.BandImage>
     
 </Controls:BandControlViewModel>

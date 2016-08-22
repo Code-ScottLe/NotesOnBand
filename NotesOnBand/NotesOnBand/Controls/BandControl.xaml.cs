@@ -20,6 +20,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace NotesOnBand.Controls
 {
+    /// <summary>
+    /// Code behind for the instance of the BandControl
+    /// </summary>
     public sealed partial class BandControl : UserControl
     {
         public readonly static DependencyProperty VersionProperty =
@@ -37,9 +40,27 @@ namespace NotesOnBand.Controls
         }
     }
 
+    /// <summary>
+    /// View Model for the BandControl. 
+    /// </summary>
     public class BandControlViewModel : INotifyPropertyChanged
     {
-        private ImageSource _bandImage = new BitmapImage(new Uri("/Assets/Band2.png", UriKind.Relative));
+        #region Fields
+        public static string DEFAULT_BAND2_BACKGROUND_LOCATION = "/Assets/Band2.png";
+        public static string DEFAULT_BAND1_BACKGROUND_LOCATION = "/Assets/Band1.png";
+
+        private static Thickness _band2ScreenGridMargin = new Thickness(99, 70, 102, 67);
+        private static Thickness _band1ScreenGridMargin = new Thickness(99, 75, 102, 72);
+
+        private ImageSource _bandImage = new BitmapImage(new Uri(DEFAULT_BAND2_BACKGROUND_LOCATION, UriKind.Relative));
+        private BandVersion _version = BandVersion.MicrosoftBand2;
+
+        private Thickness _currentBandGridMargin = _band2ScreenGridMargin;
+
+        #endregion
+
+        #region Properties
+
         public ImageSource BandImage
         {
             get
@@ -53,7 +74,6 @@ namespace NotesOnBand.Controls
             }
         }
 
-        private BandVersion _version = BandVersion.MicrosoftBand2;
         public BandVersion Version
         {
             get { return _version; }
@@ -62,17 +82,47 @@ namespace NotesOnBand.Controls
                 _version = value;
                 OnPropertyChanged(nameof(Version));
 
-                BandImage = (value == BandVersion.MicrosoftBand2) ? new BitmapImage(new Uri("/Assets/Band2.png", UriKind.Relative)) 
+                BandImage = (value == BandVersion.MicrosoftBand2) ? new BitmapImage(new Uri("/Assets/Band2.png", UriKind.Relative))
                     : new BitmapImage(new Uri("/Assets/Band1.png", UriKind.Relative));
+
+                CurrentBandGridMargin = (value == BandVersion.MicrosoftBand2) ? _band2ScreenGridMargin : _band1ScreenGridMargin;
             }
         }
 
+        public Thickness CurrentBandGridMargin
+        {
+            get { return _currentBandGridMargin; }
+
+            set
+            {
+                _currentBandGridMargin = value;
+                OnPropertyChanged(nameof(CurrentBandGridMargin));
+            }
+
+        }
+        #endregion
+
+        #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        #region Constructors
+
+        #endregion
+
+        #region Methods
 
         public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
+
+
+
+
     }
 }
