@@ -2,7 +2,7 @@
     xmlns:ViewModels="using:NotesOnBandEngine.ViewModels" 
     xmlns:Models="using:NotesOnBandEngine.Models" 
     CompletionStatus="Vel nam cursus" 
-    CurrentBandVersion="MicrosoftBand2" 
+    CurrentBandVersion="MicrosoftBand1" 
     CompletionPercentage="110.01" 
     IsFaulted="False" 
     IsInitialized="True">

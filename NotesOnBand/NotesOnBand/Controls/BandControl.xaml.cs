@@ -1,6 +1,7 @@
 ﻿using NotesOnBandEngine.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -26,17 +27,33 @@ namespace NotesOnBand.Controls
     public sealed partial class BandControl : UserControl
     {
         public readonly static DependencyProperty VersionProperty =
-            DependencyProperty.Register("Version", typeof(BandVersion), typeof(BandControl), new PropertyMetadata(BandVersion.MicrosoftBand2));
-        
+            DependencyProperty.Register("Version", typeof(BandVersion), typeof(BandControl), new PropertyMetadata(BandVersion.MicrosoftBand2, (s, e) =>
+            {
+                //DependencyChanged?.Invoke(null, "Version");
+            }));
+       
         public BandVersion Version
         {
             get { return (BandVersion)GetValue(VersionProperty); }
             set { SetValue(VersionProperty, value); (DataContext as BandControlViewModel).Version = value; }
-        }        
+        }
+
+        private static EventHandler<string> DependencyChanged;        
 
         public BandControl()
         {
             this.InitializeComponent();
+
+            //event stuffs
+            DependencyChanged += OnVersionPropertyChanged;
+        }
+
+        private void OnVersionPropertyChanged(object sender, string arg)
+        {
+            if(arg == "Version")
+            {
+                (DataContext as BandControlViewModel).Version = Version;
+            }
         }
     }
 
@@ -46,17 +63,18 @@ namespace NotesOnBand.Controls
     public class BandControlViewModel : INotifyPropertyChanged
     {
         #region Fields
-        public static string DEFAULT_BAND2_BACKGROUND_LOCATION = "/Assets/Band2.png";
-        public static string DEFAULT_BAND1_BACKGROUND_LOCATION = "/Assets/Band1.png";
+        public static string DEFAULT_BAND2_BACKGROUND_LOCATION = "ms-appx:///Assets/Band2.png";
+        public static string DEFAULT_BAND1_BACKGROUND_LOCATION = "ms-appx:///Assets/Band1.png";
 
         private static Thickness _band2ScreenGridMargin = new Thickness(99, 70, 102, 67);
         private static Thickness _band1ScreenGridMargin = new Thickness(99, 75, 102, 72);
 
-        private ImageSource _bandImage = new BitmapImage(new Uri(DEFAULT_BAND2_BACKGROUND_LOCATION, UriKind.Relative));
+        private ImageSource _bandImage = new BitmapImage(new Uri(DEFAULT_BAND2_BACKGROUND_LOCATION));
         private BandVersion _version = BandVersion.MicrosoftBand2;
 
         private Thickness _currentBandGridMargin = _band2ScreenGridMargin;
 
+        private ObservableCollection<BandNote> _notes;
         #endregion
 
         #region Properties
@@ -82,8 +100,8 @@ namespace NotesOnBand.Controls
                 _version = value;
                 OnPropertyChanged(nameof(Version));
 
-                BandImage = (value == BandVersion.MicrosoftBand2) ? new BitmapImage(new Uri("/Assets/Band2.png", UriKind.Relative))
-                    : new BitmapImage(new Uri("/Assets/Band1.png", UriKind.Relative));
+                BandImage = (value == BandVersion.MicrosoftBand2) ? new BitmapImage(new Uri(DEFAULT_BAND2_BACKGROUND_LOCATION))
+                    : new BitmapImage(new Uri(DEFAULT_BAND1_BACKGROUND_LOCATION));
 
                 CurrentBandGridMargin = (value == BandVersion.MicrosoftBand2) ? _band2ScreenGridMargin : _band1ScreenGridMargin;
             }
@@ -100,6 +118,13 @@ namespace NotesOnBand.Controls
             }
 
         }
+
+        public ObservableCollection<BandNote> Notes
+        {
+            get { return _notes; }
+            protected set { _notes = value;  OnPropertyChanged(nameof(Notes)); }
+        }
+
         #endregion
 
         #region Events
@@ -109,6 +134,11 @@ namespace NotesOnBand.Controls
         #endregion
 
         #region Constructors
+
+        public BandControlViewModel()
+        {
+            Notes = new ObservableCollection<BandNote>();
+        }
 
         #endregion
 

@@ -18,7 +18,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <local:BandControlViewModel/>
+        <local:BandControlViewModel x:Name="viewModel"/>
     </UserControl.DataContext>
 
     <Grid>
@@ -31,7 +31,7 @@
         </Grid>
 
         <Grid x:Name="BandOverlayGrid">
-            <Image Source="{Binding BandImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image x:Name="BandOverlayImage" Source="{Binding BandImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
     </Grid>

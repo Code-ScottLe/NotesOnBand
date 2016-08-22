@@ -6,6 +6,7 @@
     xmlns:viewModel="using:NotesOnBandEngine.ViewModels"
     xmlns:models="using:NotesOnBandEngine.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:control="using:NotesOnBand.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Loaded="Page_Loaded" d:DataContext="{d:DesignData /SampleData/MainPageViewModelSampleData.xaml}">
     <Page.Resources>
@@ -64,6 +65,10 @@
                     <ToggleButton x:Name="BandChoiceToggleButton" Grid.Column="1" Height="Auto" Width="Auto" Margin="0 8 20 0" IsChecked="True" Checked="BandChoiceToggleButton_Checked" Unchecked="BandChoiceToggleButton_Unchecked"></ToggleButton>
                 </StackPanel>
             </Grid>
+
+            <control:BandControl 
+                x:Name="testControl"
+                Version="{x:Bind Path=mainPageViewModel.CurrentBandVersion, Mode=OneWay}"></control:BandControl>
 
             <!--This is the list view to view all of the Band Notes.-->
             <ListView ItemsSource="{Binding Notes}" HorizontalAlignment="Stretch" SelectionMode="None">
