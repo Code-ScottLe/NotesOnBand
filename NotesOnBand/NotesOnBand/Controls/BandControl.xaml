@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Converters="using:NotesOnBand.Converters"
     x:Class="NotesOnBand.Controls.BandControl"
+    xmlns:model="using:NotesOnBandEngine.Models"
     mc:Ignorable="d"
     Height="200"
     Width="360" 
@@ -23,10 +24,15 @@
 
     <Grid>
 
+        <Grid x:Name="BandOverlayGrid">
+            <Image x:Name="BandOverlayImage" Source="{Binding BandImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        
         <!--Band 2 : 99,70,102,67-->
         <!--Band 1 : 99,75,102,72-->
         <Grid x:Name="BandScreenGrid" Background="Black" Margin="{Binding CurrentBandGridMargin, Mode=TwoWay}">
-            <FlipView ItemsSource="{Binding Notes}">
+            <FlipView ItemsSource="{Binding Notes}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                 <FlipView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -53,10 +59,6 @@
                     </DataTemplate>
                 </FlipView.ItemTemplate>
             </FlipView>
-        </Grid>
-
-        <Grid x:Name="BandOverlayGrid">
-            <Image x:Name="BandOverlayImage" Source="{Binding BandImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
     </Grid>
