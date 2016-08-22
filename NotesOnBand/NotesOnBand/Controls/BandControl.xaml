@@ -23,13 +23,12 @@
 
     <Grid>
 
-        <Grid 
-            HorizontalAlignment="Left" 
-            Height="70" 
-            Margin="100,85,0,0" 
-            VerticalAlignment="Top" 
-            Width="167"
-            Background="White"/>
+        <!--Band 2 : 99,70,102,67-->
+        <!--Band 1 : 99,75,102,72-->
+        <Grid Background="White" Margin="99,75,102,72">
+
+
+        </Grid>
 
         <Grid>
             <Image Source="{Binding BandImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
