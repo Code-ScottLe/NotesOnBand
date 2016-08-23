@@ -152,19 +152,7 @@ namespace NotesOnBandEngine.ViewModels
             connector = new BandConnector();
             CompletionStatus = string.Empty;
 
-            //Get the band version from the setting if we have them.
-            //CurrentBandVersion = ApplicationData.Current.LocalSettings.Values.ContainsKey("BandVersion") ? (BandVersion)ApplicationData.Current.LocalSettings.Values["BandVersion"]
-            //    : BandVersion.MicrosoftBand2;
-
-            if(ApplicationData.Current.LocalSettings.Values.ContainsKey("BandVersion") == true)
-            {
-                CurrentBandVersion = (BandVersion)Enum.Parse(typeof(BandVersion), (string)ApplicationData.Current.LocalSettings.Values["BandVersion"]);
-            }
-
-            else
-            {
-                CurrentBandVersion = BandVersion.MicrosoftBand2;
-            }
+            CurrentBandVersion = BandVersion.MicrosoftBand2;
 
             IsResumed = false;
 

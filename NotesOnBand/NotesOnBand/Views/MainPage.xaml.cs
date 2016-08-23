@@ -35,6 +35,11 @@ namespace NotesOnBand
 
             //Enable cache.
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
+
+            if (Windows.Storage.ApplicationData.Current.LocalSettings.Values.ContainsKey("BandVersion") == true)
+            {
+                mainPageViewModel.CurrentBandVersion = (BandVersion)Enum.Parse(typeof(BandVersion), (string)Windows.Storage.ApplicationData.Current.LocalSettings.Values["BandVersion"]);
+            }
         }
 
         /// <summary>

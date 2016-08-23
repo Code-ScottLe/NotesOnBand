@@ -72,6 +72,7 @@
                 <ToggleSwitch x:Name="BandVersionSwitch"
                               OnContent="Band 2"
                               OffContent="Band 1"
+                              Margin="0,0,5,0"
                               FlowDirection="RightToLeft"
                               RelativePanel.AlignRightWithPanel="True"
                               IsOn="{Binding CurrentBandVersion, Mode=TwoWay, Converter={StaticResource BandVersionToBool}}"></ToggleSwitch>
