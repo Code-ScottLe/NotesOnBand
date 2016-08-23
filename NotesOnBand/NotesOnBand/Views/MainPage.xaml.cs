@@ -19,6 +19,7 @@ using NotesOnBandEngine.ViewModels;
 using NotesOnBandEngine.Models;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Popups;
+using Windows.UI.Xaml.Media.Imaging;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -40,6 +41,17 @@ namespace NotesOnBand
             {
                 mainPageViewModel.CurrentBandVersion = (BandVersion)Enum.Parse(typeof(BandVersion), (string)Windows.Storage.ApplicationData.Current.LocalSettings.Values["BandVersion"]);
             }
+
+            var localSttings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+            if(localSttings.Values.ContainsKey("UserRequestedTheme") == true)
+            {
+                if((string)localSttings.Values["UserRequestedTheme"] == "Light")
+                {
+                    AppLogo.Source = new BitmapImage(new Uri("ms-appx:///Assets/StoreLogo_WhiteTheme.png"));
+                }
+            }
+
 
             Application.Current.Suspending += mainPageViewModel.OnSuspending;
             Application.Current.Resuming += mainPageViewModel.OnResuming;

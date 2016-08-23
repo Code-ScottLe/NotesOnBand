@@ -1,2 +1,4 @@
-﻿- User can send error report through email now.
-- Double tap to edit title is enabled. 
+﻿- New and improved UI with Notes preview functionality
+- New holding menu context that allow user to edit the title of the note and delete individual note 
+- Bug fixed: crash with ObjectDisposed Exception on app resume. 
+- Bug fixed: user choice of band version was not remembered. 
