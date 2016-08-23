@@ -54,13 +54,14 @@
                                            RelativePanel.AlignTopWithPanel="True"           
                                            RelativePanel.AlignLeftWithPanel="True"                
                                            Text="{Binding Title}"
-                                           FontSize="11"></TextBlock>
+                                           FontSize="12"></TextBlock>
 
                                     <TextBlock RelativePanel.Below="TitleTextBlock"       
                                            RelativePanel.AlignLeftWithPanel="True"    
                                            Text="{Binding Content}"
                                            TextWrapping="Wrap"
-                                           FontSize="11"></TextBlock>
+                                           FontSize="12"
+                                               Foreground="White"></TextBlock>
                                 </RelativePanel>
                             </ScrollViewer>
                         </Grid>
