@@ -44,8 +44,6 @@
                     <TextBlock x:Name="FAQ1Answer" Text="A: Sync 0 note, or go to Microsoft Health app." Foreground="Gray" FontSize="12" Margin="10 5 0 0" TextWrapping="Wrap"></TextBlock>
 
                     <!--FAQ #2-->
-                    <TextBlock x:Name="FAQ2" Text="Q: Why do i have to click OK to sync to Band everytime?" Foreground="Gray" FontSize="12" Margin="10 10 0 0" TextWrapping="Wrap"></TextBlock>
-                    <TextBlock x:Name="FAQ2Answer" Text="A: Send nice DM to /u/devbent on reddit and beg for it. (API limitation and there isn't a workaround) " Foreground="Gray" FontSize="12" Margin="10 5 0 0" TextWrapping="Wrap"></TextBlock>
                     
                     <!--FAQ #3-->
                     <TextBlock x:Name="FAQ3" Text="Q: Help. It crashes!" Foreground="Gray" FontSize="12" Margin="10 10 0 0" TextWrapping="Wrap"></TextBlock>
