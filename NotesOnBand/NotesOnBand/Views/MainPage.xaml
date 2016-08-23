@@ -15,13 +15,12 @@
         <converter:BandVersionToBool x:Key="BandVersionToBool"></converter:BandVersionToBool>
     </Page.Resources>
 
+    <Page.DataContext>
+        <viewModel:MainPageViewModel x:Name="mainPageViewModel"/>
+    </Page.DataContext>
+
     <Grid x:Name="ContentGrid" 
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <!--Declare the viewModel for data binding-->
-        <Grid.DataContext>
-            <viewModel:MainPageViewModel x:Name="mainPageViewModel"></viewModel:MainPageViewModel>
-        </Grid.DataContext>
-        
         <!--Columns and Row Definitions-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

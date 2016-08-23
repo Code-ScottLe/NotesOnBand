@@ -156,13 +156,6 @@ namespace NotesOnBandEngine.ViewModels
 
             IsResumed = false;
 
-
-            //Suspend Handler
-            Windows.UI.Xaml.Application.Current.Suspending += OnSuspending;
-
-            //Resume handler
-            Windows.UI.Xaml.Application.Current.Resuming += OnResuming;
-
         }
 
         #endregion
@@ -392,7 +385,7 @@ namespace NotesOnBandEngine.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnResuming(object sender, object e)
+        public void OnResuming(object sender, object e)
         {
             IsResumed = true;          
         }

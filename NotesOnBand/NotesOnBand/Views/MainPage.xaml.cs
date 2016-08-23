@@ -40,6 +40,9 @@ namespace NotesOnBand
             {
                 mainPageViewModel.CurrentBandVersion = (BandVersion)Enum.Parse(typeof(BandVersion), (string)Windows.Storage.ApplicationData.Current.LocalSettings.Values["BandVersion"]);
             }
+
+            Application.Current.Suspending += mainPageViewModel.OnSuspending;
+            Application.Current.Resuming += mainPageViewModel.OnResuming;
         }
 
         /// <summary>
@@ -360,13 +363,13 @@ namespace NotesOnBand
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void EditTitleFlyoutButton_Click(object sender, RoutedEventArgs e)
-        {
+        {           
             //Take the note out.
             BandNote currentNote = ((sender as Button).Parent as FrameworkElement).DataContext as BandNote;
             string title = currentNote.Title;
 
             TitleEditorContentDialog contentDialog = new TitleEditorContentDialog(title);
-
+          
             //show it
             await contentDialog.ShowAsync();
 
@@ -374,6 +377,9 @@ namespace NotesOnBand
             {
                 currentNote.Title = contentDialog.NewTitle;
             }
+
+            //Make sure the damn thing go away. FUCKING UNBELIEVABLE
+            (((sender as FrameworkElement).Parent as FrameworkElement).Parent as FlyoutPresenter).Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
