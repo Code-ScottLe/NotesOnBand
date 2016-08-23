@@ -138,10 +138,10 @@ namespace NotesOnBandEngine.Models
         /// <summary>
         /// Connect to the Microsoft Band asynchronously. 
         /// </summary>
-        public async Task ConnectToBandAsync()
+        public async Task ConnectToBandAsync(bool resuming = false)
         {
             //Do this only if we haven't connected to a Band.
-            if (currentBandClient != null)
+            if (currentBandClient != null && resuming == false)
             {
                 return;
             }

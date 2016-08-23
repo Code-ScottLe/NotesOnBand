@@ -74,6 +74,8 @@ namespace NotesOnBandEngine.ViewModels
             set
             {
                 currentBandVersion = value;
+                //back up band type to setting
+                ApplicationData.Current.LocalSettings.Values["BandVersion"] = value.ToString();
                 OnPropertyChanged(nameof(CurrentBandVersion));
             }
         }
@@ -133,6 +135,10 @@ namespace NotesOnBandEngine.ViewModels
             }
         }
 
+        public bool IsSyncing { get; set; }
+
+        public bool IsResumed { get; set; }
+
         #endregion
 
         #region Constructors
@@ -144,7 +150,30 @@ namespace NotesOnBandEngine.ViewModels
         {
             notes = new ObservableCollection<BandNote>();
             connector = new BandConnector();
-            completionStatus = string.Empty;          
+            CompletionStatus = string.Empty;
+
+            //Get the band version from the setting if we have them.
+            //CurrentBandVersion = ApplicationData.Current.LocalSettings.Values.ContainsKey("BandVersion") ? (BandVersion)ApplicationData.Current.LocalSettings.Values["BandVersion"]
+            //    : BandVersion.MicrosoftBand2;
+
+            if(ApplicationData.Current.LocalSettings.Values.ContainsKey("BandVersion") == true)
+            {
+                CurrentBandVersion = (BandVersion)Enum.Parse(typeof(BandVersion), (string)ApplicationData.Current.LocalSettings.Values["BandVersion"]);
+            }
+
+            else
+            {
+                CurrentBandVersion = BandVersion.MicrosoftBand2;
+            }
+
+            IsResumed = false;
+
+
+            //Suspend Handler
+            Windows.UI.Xaml.Application.Current.Suspending += OnSuspending;
+
+            //Resume handler
+            Windows.UI.Xaml.Application.Current.Resuming += OnResuming;
 
         }
 
@@ -158,7 +187,7 @@ namespace NotesOnBandEngine.ViewModels
             CompletionPercentage = 0;
 
             //Connect to Band
-            await connector.ConnectToBandAsync();
+            await connector.ConnectToBandAsync(IsResumed);
 
             //Empty note. Just remove the Tile.
             await connector.RemoveTileFromBandAsync(new Guid(uniqueIDString));
@@ -202,6 +231,7 @@ namespace NotesOnBandEngine.ViewModels
         public async Task SyncNotesToBandAsync()
         {
             //Starting.
+            IsSyncing = true;
             CompletionPercentage = 0;
             //Check if we have notes to sync
             if(Notes.Count == 0)
@@ -228,7 +258,7 @@ namespace NotesOnBandEngine.ViewModels
            
 
             //Connect to Band
-            await connector.ConnectToBandAsync();
+            await connector.ConnectToBandAsync(IsResumed);
             CompletionPercentage = 50;
 
             bool tileExisted = await connector.IsTileSyncedAsync(myBandTile.TileId);
@@ -286,6 +316,8 @@ namespace NotesOnBandEngine.ViewModels
             await t;
             CompletionPercentage = 100;
             CompletionStatus = "Done.";
+
+            IsSyncing = false;
 
         }
 
@@ -350,6 +382,33 @@ namespace NotesOnBandEngine.ViewModels
             await Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(emailMessage);
 
         }
+
+        /// <summary>
+        /// Event handler for the event of app suspending
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void OnSuspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
+        {
+            var deferral = e.SuspendingOperation.GetDeferral();
+
+            //Save all notes, in case of lost
+            await XMLHandler.Instance.SaveToXMLAsync(Notes.ConvertToList());
+
+            deferral.Complete();
+
+        }
+
+        /// <summary>
+        /// Event handler for the event of app resuming
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnResuming(object sender, object e)
+        {
+            IsResumed = true;          
+        }
+
 
         /// <summary>
         /// Fire up the PropertyChanged event and notify all the listener about the changed property.
