@@ -106,7 +106,7 @@
     <Compile Include="Controls\BandControl.xaml.cs">
       <DependentUpon>BandControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\BandVersionToBandImageConverter.cs" />
+    <Compile Include="Converters\BandVersionToBool.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

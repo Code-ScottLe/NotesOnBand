@@ -7,11 +7,12 @@
     xmlns:models="using:NotesOnBandEngine.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:control="using:NotesOnBand.Controls"
+    xmlns:converter="using:NotesOnBand.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Loaded="Page_Loaded" d:DataContext="{d:DesignData /SampleData/MainPageViewModelSampleData.xaml}">
     
     <Page.Resources>
-        
+        <converter:BandVersionToBool x:Key="BandVersionToBool"></converter:BandVersionToBool>
     </Page.Resources>
 
     <Grid x:Name="ContentGrid" 
@@ -20,48 +21,76 @@
         <Grid.DataContext>
             <viewModel:MainPageViewModel x:Name="mainPageViewModel"></viewModel:MainPageViewModel>
         </Grid.DataContext>
+        
+        <!--Columns and Row Definitions-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <StackPanel>
-            <!--Top of the page. The progress bar-->
-            <ProgressBar x:Name="SyncProgressBar" Height="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" 
+        <!--Header, non-note stuffs-->
+        <Grid Grid.Row="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <!--Top bar-->
+            <StackPanel x:Name="ProgressReportStackPanel"
+                    Grid.Row="0">
+                <!--Top of the page. The progress bar-->
+                <ProgressBar x:Name="SyncProgressBar" Height="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" 
                          Visibility="Visible" IsIndeterminate="False" Maximum="100" Minimum="0"
                          Value="{Binding CompletionPercentage}" ValueChanged="SyncProgressBar_ValueChanged" ShowError="{Binding IsFaulted}"/>
-            <TextBlock x:Name="SyncProgressBarIndicator" HorizontalAlignment="Right" 
+                <TextBlock x:Name="SyncProgressBarIndicator" HorizontalAlignment="Right" 
                        FontFamily="Segoe UI Light" TextAlignment="Right"
                        Text="{Binding CompletionStatus}" FontSize="12"
                        Margin="0,0,20,0"></TextBlock>
-        </StackPanel>
+            </StackPanel>
 
-        <StackPanel x:Name="MainStackPanel" Margin="0, 5, 0, 0" d:DataContext="{d:DesignData /SampleData/MainPageViewModelSampleData.xaml}">
+            <!--Title and Band Changer-->
+            <RelativePanel Grid.Row="1">
+                <Image x:Name="AppLogo"
+                       Source="/Assets/StoreLogo.png"
+                       Height="24" Width="24"
+                       Margin="5,0,0,0"
+                       RelativePanel.AlignLeftWithPanel="True"
+                       RelativePanel.AlignVerticalCenterWithPanel="True"></Image>
 
-            <!-- This is the header-->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="0.5*"/>
-                </Grid.ColumnDefinitions>
-                <!--Header-->
-                <TextBlock x:Name="AppHeaderTextBlock" Grid.Column="0" Height="Auto" Width="Auto" FontSize="21.333" Margin="10 15 10 0" FontFamily="Segoe WP Semibold">
-                Notes on Band
-                </TextBlock>
+                <TextBlock x:Name="AppTitle"
+                           Text="Notes on Band"
+                           RelativePanel.RightOf="AppLogo"
+                           Margin="5,0,0,0"
+                           Style="{StaticResource  SubtitleTextBlockStyle}"
+                           RelativePanel.AlignVerticalCenterWithPanel="True"></TextBlock>
 
-                <!--The Toggle for Band version-->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <!--Margin is Left, Top, Right, Bottom-->
-                    <TextBlock x:Name="BandVersionTextBlock" Text="Band 2" Foreground="DeepSkyBlue" Margin="0 15 20 0"></TextBlock>
-                    <ToggleButton x:Name="BandChoiceToggleButton" Grid.Column="1" Height="Auto" Width="Auto" Margin="0 8 20 0" IsChecked="True" Checked="BandChoiceToggleButton_Checked" Unchecked="BandChoiceToggleButton_Unchecked"></ToggleButton>
-                </StackPanel>
-            </Grid>
-
+                <ToggleSwitch x:Name="BandVersionSwitch"
+                              OnContent="Band 2"
+                              OffContent="Band 1"
+                              FlowDirection="RightToLeft"
+                              RelativePanel.AlignRightWithPanel="True"
+                              IsOn="{Binding CurrentBandVersion, Mode=TwoWay, Converter={StaticResource BandVersionToBool}}"></ToggleSwitch>
+                
+            </RelativePanel>
+            
+            <!--Band stuffs-->
             <control:BandControl 
-                x:Name="testControl">
+                x:Name="testControl"
+                Grid.Row="2">
                 <control:BandControl.DataContext>
                     <control:BandControlViewModel 
                         Version="{x:Bind mainPageViewModel.CurrentBandVersion, Mode=OneWay}"
                         Notes="{x:Bind mainPageViewModel.Notes, Mode=OneWay}"></control:BandControlViewModel>
                 </control:BandControl.DataContext>
             </control:BandControl>
+        </Grid>
 
+        <!--Main Stack Panel. Notes Stuffs-->
+        <StackPanel x:Name="MainStackPanel" Margin="0, 5, 0, 0" 
+                    Grid.Row="1"
+                    d:DataContext="{d:DesignData /SampleData/MainPageViewModelSampleData.xaml}">
             <!--This is the list view to view all of the Band Notes.-->
             <ListView x:Name="NotesListView" ItemsSource="{Binding Notes}" HorizontalAlignment="Stretch" SelectionMode="None">
 
@@ -109,7 +138,6 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-
         </StackPanel>
     </Grid>
 

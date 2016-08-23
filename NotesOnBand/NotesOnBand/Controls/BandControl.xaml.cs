@@ -42,8 +42,8 @@ namespace NotesOnBand.Controls
         public static string DEFAULT_BAND2_BACKGROUND_LOCATION = "ms-appx:///Assets/Band2.png";
         public static string DEFAULT_BAND1_BACKGROUND_LOCATION = "ms-appx:///Assets/Band1.png";
 
-        private static Thickness _band2ScreenGridMargin = new Thickness(99, 68, 102, 67);
-        private static Thickness _band1ScreenGridMargin = new Thickness(99, 73, 102, 71);
+        private static Thickness _band2ScreenGridMargin = new Thickness(99, 43, 102, 42);
+        private static Thickness _band1ScreenGridMargin = new Thickness(99, 48, 102, 46);
 
         private ImageSource _bandImage = new BitmapImage(new Uri(DEFAULT_BAND2_BACKGROUND_LOCATION));
         private BandVersion _version = BandVersion.MicrosoftBand2;
