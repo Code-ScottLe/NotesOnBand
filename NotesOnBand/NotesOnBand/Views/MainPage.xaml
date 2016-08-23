@@ -29,7 +29,8 @@
         </Grid.RowDefinitions>
 
         <!--Header, non-note stuffs-->
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0"
+              d:DataContext="{d:DesignData /SampleData/MainPageViewModelSampleData.xaml}">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -38,8 +39,9 @@
             </Grid.RowDefinitions>
             
             <!--Top bar-->
-            <StackPanel x:Name="ProgressReportStackPanel"
-                    Grid.Row="0">
+            <StackPanel x:Name="ProgressReportStackPanel"                  
+                        Grid.Row="0"
+                        d:DataContext="{d:DesignData /SampleData/MainPageViewModelSampleData.xaml}">
                 <!--Top of the page. The progress bar-->
                 <ProgressBar x:Name="SyncProgressBar" Height="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch" 
                          Visibility="Visible" IsIndeterminate="False" Maximum="100" Minimum="0"
@@ -51,7 +53,8 @@
             </StackPanel>
 
             <!--Title and Band Changer-->
-            <RelativePanel Grid.Row="1">
+            <RelativePanel Grid.Row="1"
+                           d:DataContext="{d:DesignData /SampleData/MainPageViewModelSampleData.xaml}">
                 <Image x:Name="AppLogo"
                        Source="/Assets/StoreLogo.png"
                        Height="24" Width="24"
@@ -87,58 +90,56 @@
             </control:BandControl>
         </Grid>
 
-        <!--Main Stack Panel. Notes Stuffs-->
-        <StackPanel x:Name="MainStackPanel" Margin="0, 5, 0, 0" 
-                    Grid.Row="1"
-                    d:DataContext="{d:DesignData /SampleData/MainPageViewModelSampleData.xaml}">
-            <!--This is the list view to view all of the Band Notes.-->
-            <ListView x:Name="NotesListView" ItemsSource="{Binding Notes}" HorizontalAlignment="Stretch" SelectionMode="None">
+        <ListView x:Name="NotesListView" ItemsSource="{Binding Notes}"           
+                  HorizontalAlignment="Stretch" SelectionMode="None"
+                  VerticalAlignment="Stretch"
+                  Grid.Row="1"
+                  d:DataContext="{d:DesignData /SampleData/MainPageViewModelSampleData.xaml}">
 
-                <!--Define a Data Template so XAML can understand how to display the BandNote object-->
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical" Background="Transparent"
+            <!--Define a Data Template so XAML can understand how to display the BandNote object-->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Background="Transparent"
                                     RightTapped="StackPanel_RightTapped" Holding="StackPanel_Holding">
-                            <TextBlock Text="{Binding Title, Mode=TwoWay}" Foreground="Gray" Margin="10,10,0,0" DoubleTapped="TextBlock_DoubleTapped"></TextBlock>
-                            <TextBox Height="Auto" Width="Auto" 
+                        <TextBlock Text="{Binding Title, Mode=TwoWay}" Foreground="Gray" Margin="10,10,0,0" DoubleTapped="TextBlock_DoubleTapped"></TextBlock>
+                        <TextBox Height="Auto" Width="Auto" 
                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                          TextWrapping="Wrap" AcceptsReturn="True"
                                          Text="{Binding Content, Mode=TwoWay}"
                                          Margin="10 5 10 0"></TextBox>
 
-                            <!--Curren Item Flyout-->
-                            <FlyoutBase.AttachedFlyout>
-                                <Flyout>
-                                    <StackPanel>
-                                        <Button x:Name="EditTitleFlyoutButton" Background="Transparent">
-                                            <StackPanel Orientation="Horizontal">
-                                                <SymbolIcon Symbol="Edit"></SymbolIcon>
-                                                <TextBlock Padding="10,0,0,0" Text="Edit Title"></TextBlock>
-                                            </StackPanel>
-                                        </Button>
+                        <!--Curren Item Flyout-->
+                        <FlyoutBase.AttachedFlyout>
+                            <Flyout>
+                                <StackPanel>
+                                    <Button x:Name="EditTitleFlyoutButton" Background="Transparent">
+                                        <StackPanel Orientation="Horizontal">
+                                            <SymbolIcon Symbol="Edit"></SymbolIcon>
+                                            <TextBlock Padding="10,0,0,0" Text="Edit Title"></TextBlock>
+                                        </StackPanel>
+                                    </Button>
 
-                                        <Button x:Name="DeleteNoteFlyoutButton" Background="Transparent">
-                                            <StackPanel Orientation="Horizontal">
-                                                <SymbolIcon Symbol="Delete"></SymbolIcon>
-                                                <TextBlock Padding="10,0,0,0" Text="Delete This Note"></TextBlock>
-                                            </StackPanel>
-                                        </Button>
-                                    </StackPanel>
-                                </Flyout>
-                            </FlyoutBase.AttachedFlyout>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                                    <Button x:Name="DeleteNoteFlyoutButton" Background="Transparent">
+                                        <StackPanel Orientation="Horizontal">
+                                            <SymbolIcon Symbol="Delete"></SymbolIcon>
+                                            <TextBlock Padding="10,0,0,0" Text="Delete This Note"></TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Flyout>
+                        </FlyoutBase.AttachedFlyout>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
 
-                <!--From StackOverFlow:http://stackoverflow.com/questions/18626696/listview-itemtemplate-100-width -->
-                <!-- This enable the Item Template to have HorizontalAlignment to be stretch-->
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
-        </StackPanel>
+            <!--From StackOverFlow:http://stackoverflow.com/questions/18626696/listview-itemtemplate-100-width -->
+            <!-- This enable the Item Template to have HorizontalAlignment to be stretch-->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
     </Grid>
 
     <!--Each page has this and top AppBar as well-->
