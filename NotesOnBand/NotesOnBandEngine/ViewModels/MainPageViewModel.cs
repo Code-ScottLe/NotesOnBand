@@ -187,6 +187,14 @@ namespace NotesOnBandEngine.ViewModels
             Notes.Remove(note);
         }
 
+        public void RemoveNote()
+        {
+            if(Notes.Count > 0)
+            {
+                RemoveNote(Notes.Last());
+            }         
+        }
+
         /// <summary>
         /// Sync the given notes to the Band asynchronously.
         /// </summary>

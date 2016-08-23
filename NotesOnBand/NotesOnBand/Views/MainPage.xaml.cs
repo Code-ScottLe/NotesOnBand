@@ -109,8 +109,7 @@ namespace NotesOnBand
             (sender as AppBarButton).IsEnabled = false;
 
             //By Default, remove the last one.
-            var lastOne = mainPageViewModel.Notes.LastOrDefault();
-            mainPageViewModel.Notes.Remove(lastOne);
+            mainPageViewModel.RemoveNote();
 
             //See if we have to re-enable the add button
             if(mainPageViewModel.Notes.Count < 8)
