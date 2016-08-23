@@ -37,8 +37,6 @@ namespace NotesOnBand
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
-
-
         /// <summary>
         ///     Create the popup message for the user.
         /// </summary>
@@ -63,7 +61,6 @@ namespace NotesOnBand
             
         }
       
-
         /// <summary>
         /// Click Event Handler for the Setting AppBar Button. Navigate to the Setting Page
         /// </summary>
@@ -217,8 +214,7 @@ namespace NotesOnBand
 
             
         }
-
-        
+       
         /// <summary>
         /// Event handler for the event that the page was successfully loaded.
         /// </summary>
@@ -256,7 +252,6 @@ namespace NotesOnBand
             }
             
         }
-
 
         /// <summary>
         /// Event handler for the Value Changed Event for the Progress bar. Hide progress bar and indicator at 100%
@@ -307,30 +302,7 @@ namespace NotesOnBand
                 //Animate
                 myStoryBoard.Begin();
             }
-        }
-
-
-        /// <summary>
-        /// Event handler for the double tab on the TextBlock of Note Title.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void TextBlock_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            //We call in the pop up for the Title editor with the old title
-            TitleEditorContentDialog contentDialog = new TitleEditorContentDialog((sender as TextBlock).Text);
-
-            //Show the thing
-            await contentDialog.ShowAsync();
-
-            //After this, check if the title has been changed
-            if(contentDialog.TitleChanged == true)
-            {
-                mainPageViewModel.Notes.Where(n => n.Title == (sender as TextBlock).Text).
-                    Select(n => n).FirstOrDefault().Title = contentDialog.NewTitle;
-            }
-        }
-
+        }      
 
         /// <summary>
         /// Event handler for the Version Info Button click on the AppBar
@@ -359,7 +331,6 @@ namespace NotesOnBand
             await updateDialog.ShowAsync();
         }
 
-
         /// <summary>
         /// Right tapped event handler for the Stack Panel of Flyout.
         /// Only showing the flyout on non-touch device. Touch device will use hold.
@@ -383,6 +354,44 @@ namespace NotesOnBand
         private void StackPanel_Holding(object sender, HoldingRoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+
+
+        /// <summary>
+        /// Event handler for the edit title button on the flyout of the item.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void EditTitleFlyoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Take the note out.
+            BandNote currentNote = ((sender as Button).Parent as FrameworkElement).DataContext as BandNote;
+            string title = currentNote.Title;
+
+            TitleEditorContentDialog contentDialog = new TitleEditorContentDialog(title);
+
+            //show it
+            await contentDialog.ShowAsync();
+
+            if(contentDialog.TitleChanged == true)
+            {
+                currentNote.Title = contentDialog.NewTitle;
+            }
+        }
+
+        /// <summary>
+        /// Event handler for the delete note on the flyout of the item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteNoteFlyoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Take the note out.
+            BandNote currentNote = ((sender as Button).Parent as FrameworkElement).DataContext as BandNote;
+
+            //Remove it
+            mainPageViewModel.Notes.Remove(currentNote);        
+          
         }
     }
 }

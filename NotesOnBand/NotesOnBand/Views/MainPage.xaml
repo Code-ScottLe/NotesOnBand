@@ -101,7 +101,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Vertical" Background="Transparent"
                                     RightTapped="StackPanel_RightTapped" Holding="StackPanel_Holding">
-                        <TextBlock Text="{Binding Title, Mode=TwoWay}" Foreground="Gray" Margin="10,10,0,0" DoubleTapped="TextBlock_DoubleTapped"></TextBlock>
+                        <TextBlock Text="{Binding Title, Mode=TwoWay}" Foreground="Gray" Margin="10,10,0,0"></TextBlock>
                         <TextBox Height="Auto" Width="Auto" 
                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                          TextWrapping="Wrap" AcceptsReturn="True"
@@ -112,14 +112,16 @@
                         <FlyoutBase.AttachedFlyout>
                             <Flyout>
                                 <StackPanel>
-                                    <Button x:Name="EditTitleFlyoutButton" Background="Transparent">
+                                    <Button x:Name="EditTitleFlyoutButton" Background="Transparent" 
+                                            Click="EditTitleFlyoutButton_Click">
                                         <StackPanel Orientation="Horizontal">
                                             <SymbolIcon Symbol="Edit"></SymbolIcon>
                                             <TextBlock Padding="10,0,0,0" Text="Edit Title"></TextBlock>
                                         </StackPanel>
                                     </Button>
 
-                                    <Button x:Name="DeleteNoteFlyoutButton" Background="Transparent">
+                                    <Button x:Name="DeleteNoteFlyoutButton" Background="Transparent"
+                                            Click="DeleteNoteFlyoutButton_Click">
                                         <StackPanel Orientation="Horizontal">
                                             <SymbolIcon Symbol="Delete"></SymbolIcon>
                                             <TextBlock Padding="10,0,0,0" Text="Delete This Note"></TextBlock>
