@@ -179,7 +179,7 @@ namespace NotesOnBandEngine.ViewModels
 
         public void AddNote()
         {
-            AddNote(new BandNote() { Title = $"Note #{Notes.Count + 1}", Content = "Custom Note" });
+            AddNote(new BandNote() { Title = $"Note #{Notes.Count + 1}", Content = $"Note #{Notes.Count + 1}" });
         }
 
         public void RemoveNote(BandNote note)

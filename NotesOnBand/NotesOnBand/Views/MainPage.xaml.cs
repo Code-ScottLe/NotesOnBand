@@ -82,13 +82,7 @@ namespace NotesOnBand
             (sender as AppBarButton).IsEnabled = false;
 
             //Make a new note.
-            BandNote newBandNote = new BandNote()
-            {
-                Title = $"Note #{mainPageViewModel.Notes.Count + 1}", Content = $"Note #{mainPageViewModel.Notes.Count + 1}"
-            };
-
-            //Add a new note
-            mainPageViewModel.Notes.Add(newBandNote);
+            mainPageViewModel.AddNote();
 
             //Check if we have to re-enable the delete button
             if(mainPageViewModel.Notes.Count > 0)
@@ -356,7 +350,6 @@ namespace NotesOnBand
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
 
-
         /// <summary>
         /// Event handler for the edit title button on the flyout of the item.
         /// </summary>
@@ -390,7 +383,7 @@ namespace NotesOnBand
             BandNote currentNote = ((sender as Button).Parent as FrameworkElement).DataContext as BandNote;
 
             //Remove it
-            mainPageViewModel.Notes.Remove(currentNote);        
+            mainPageViewModel.RemoveNote(currentNote);        
           
         }
     }
