@@ -75,8 +75,8 @@ namespace NotesOnBandEngine.Models
             myHeaderTextBlock.Rect = new PageRect(0, 0, 200, 26);       //Because we have to store everything in a ScrollFlowPanel, we leave the offset (x,y) to the scroll panel.
 
 
-            //Color of the header will match with the color theme of the band for consistency. This will change with the user choice of color.
-            myHeaderTextBlock.ColorSource = ElementColorSource.BandBase;
+            //Color of the header will match with the color theme of the band tile for consistency. This will change with the user choice of color.
+            myHeaderTextBlock.ColorSource = ElementColorSource.TileHighlight;
 
 
             //Step 2: Create the WrappedTextBlock below for the note.
