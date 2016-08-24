@@ -40,14 +40,15 @@
                 <TextBlock x:Name="FAQHeader" Margin="10 10 0 0" Text="FAQ"/>
                 <StackPanel x:Name="FAQStackPanel">
                     <!--FAQ #1-->
-                    <TextBlock x:Name="FAQ1" Text="Q: How do i remove the Note On Band Tile off my Band?" Foreground="Gray" FontSize="12" Margin="10 5 0 0" TextWrapping="Wrap"></TextBlock>
-                    <TextBlock x:Name="FAQ1Answer" Text="A: Sync 0 note, or go to Microsoft Health app." Foreground="Gray" FontSize="12" Margin="10 5 0 0" TextWrapping="Wrap"></TextBlock>
+                    <TextBlock x:Name="FAQ1" Text="Q: Does the preview represent exactly what I'm going to get?" Foreground="Gray" FontSize="12" Margin="10 5 0 0" TextWrapping="Wrap"></TextBlock>
+                    <TextBlock x:Name="FAQ1Answer" Text="A: Nope. Your mileage may vary. But it's pretty close." Foreground="Gray" FontSize="12" Margin="10 5 0 0" TextWrapping="Wrap"></TextBlock>
 
                     <!--FAQ #2-->
+                    <TextBlock x:Name="FAQ2" Text="Q: Do I have to choose the type of Band that I'm using?" Foreground="Gray" FontSize="12" Margin="10 10 0 0" TextWrapping="Wrap"></TextBlock>
+                    <TextBlock x:Name="FAQ2Answer" Text="A: Yes, for displaying the note correctly. Your choice will be remembered." Foreground="Gray" FontSize="12" Margin="10 5 0 0" TextWrapping="Wrap"></TextBlock>
                     
                     <!--FAQ #3-->
-                    <TextBlock x:Name="FAQ3" Text="Q: Help. It crashes!" Foreground="Gray" FontSize="12" Margin="10 10 0 0" TextWrapping="Wrap"></TextBlock>
-                    <TextBlock x:Name="FAQ3Answer" Text="A: Apply cold water if necessary. Tweet/DM me at @CodeScottLe (or DM on reddit) with screenshots for bug fixes." Foreground="Gray" FontSize="12" Margin="10 5 0 0" TextWrapping="Wrap"></TextBlock>
+                    
                 </StackPanel>
                 
                 
