@@ -57,6 +57,7 @@ namespace NotesOnBand
             Application.Current.Resuming += mainPageViewModel.OnResuming;
         }
 
+        #region Helper Events Handlers
         /// <summary>
         ///     Create the popup message for the user.
         /// </summary>
@@ -80,7 +81,104 @@ namespace NotesOnBand
             await dialog.ShowAsync();
             
         }
-      
+
+        /// <summary>
+        /// Event handler for the event that the page was successfully loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            //Only do this if we have not had anything loaded in. 
+            if (mainPageViewModel.IsInitialized == false)
+            {
+                //Flip the bool
+                mainPageViewModel.IsInitialized = true;
+
+                //Disable all button.
+                AddNote.IsEnabled = false;
+                DeleteNote.IsEnabled = false;
+                SyncNote.IsEnabled = false;
+                Setting.IsEnabled = false;
+
+                //try to load from XML
+                await mainPageViewModel.LoadPreviousSyncedNotesAsync();
+
+                //try to get the damn color from the band.
+                mainPageViewModel.GetBandTileAccentColorAsync();
+
+                //Enable all button.
+                if (mainPageViewModel.Notes.Count < 8)
+                {
+                    AddNote.IsEnabled = true;
+                }
+
+                if (mainPageViewModel.Notes.Count > 0)
+                {
+                    DeleteNote.IsEnabled = true;
+                }
+
+                SyncNote.IsEnabled = true;
+                Setting.IsEnabled = true;
+            }
+
+        }
+
+        /// <summary>
+        /// Event handler for the Value Changed Event for the Progress bar. Hide progress bar and indicator at 100%
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SyncProgressBar_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+
+            //100, then animate hiding.
+            if ((sender as ProgressBar).Value == 100)
+            {
+                Storyboard myStoryBoard = new Storyboard();
+
+                //Ref: http://stackoverflow.com/questions/5495446/setting-the-visibility-of-an-element-to-collapsed-when-storyboard-completes-usin
+                ObjectAnimationUsingKeyFrames myKeyFrameProgressBar = new ObjectAnimationUsingKeyFrames()
+                {
+                    BeginTime = new TimeSpan(0, 0, 0)
+
+                };
+
+                //Add in key frames.
+                myKeyFrameProgressBar.KeyFrames.Add(new DiscreteObjectKeyFrame() { KeyTime = new TimeSpan(0, 0, 0), Value = Visibility.Visible });
+                myKeyFrameProgressBar.KeyFrames.Add(new DiscreteObjectKeyFrame() { KeyTime = new TimeSpan(0, 0, 5), Value = Visibility.Collapsed });
+                //Set aim at the Sync Progressbar.
+                Storyboard.SetTarget(myKeyFrameProgressBar, SyncProgressBar);
+                Storyboard.SetTargetProperty(myKeyFrameProgressBar, "Visibility");
+
+                //Ref: http://stackoverflow.com/questions/5495446/setting-the-visibility-of-an-element-to-collapsed-when-storyboard-completes-usin
+                ObjectAnimationUsingKeyFrames myKeyFrameProgressStatus = new ObjectAnimationUsingKeyFrames()
+                {
+                    BeginTime = new TimeSpan(0, 0, 0)
+
+                };
+
+                //Add in key frames.
+                myKeyFrameProgressStatus.KeyFrames.Add(new DiscreteObjectKeyFrame() { KeyTime = new TimeSpan(0, 0, 0), Value = Visibility.Visible });
+                myKeyFrameProgressStatus.KeyFrames.Add(new DiscreteObjectKeyFrame() { KeyTime = new TimeSpan(0, 0, 5), Value = Visibility.Collapsed });
+
+                //Set aim at the sync progress status
+                Storyboard.SetTarget(myKeyFrameProgressStatus, SyncProgressBarIndicator);
+                Storyboard.SetTargetProperty(myKeyFrameProgressStatus, "Visibility");
+
+                //Add them all on to the storyboard
+                myStoryBoard.Children.Add(myKeyFrameProgressBar);
+                myStoryBoard.Children.Add(myKeyFrameProgressStatus);
+
+                //Animate
+                myStoryBoard.Begin();
+            }
+        }
+
+        #endregion
+
+        #region AppBar Functionality
+
         /// <summary>
         /// Click Event Handler for the Setting AppBar Button. Navigate to the Setting Page
         /// </summary>
@@ -227,100 +325,22 @@ namespace NotesOnBand
 
             
         }
-       
+
         /// <summary>
-        /// Event handler for the event that the page was successfully loaded.
+        /// Event handler for the remove Tile app bar button click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void RemoveTile_Click(object sender, RoutedEventArgs e)
         {
-            //Only do this if we have not had anything loaded in. 
-            if(mainPageViewModel.IsInitialized == false)
-            {
-                //Flip the bool
-                mainPageViewModel.IsInitialized = true;
+            SyncNote.IsEnabled = false;
+            (sender as AppBarButton).IsEnabled = false;
 
-                //Disable all button.
-                AddNote.IsEnabled = false;
-                DeleteNote.IsEnabled = false;
-                SyncNote.IsEnabled = false;
-                Setting.IsEnabled = false;
+            await mainPageViewModel.RemoveTileFromBandAsync();
 
-               
-                //try to load from XML
-                await mainPageViewModel.LoadPreviousSyncedNotesAsync();
-
-                //try to get the damn color from the band.
-                mainPageViewModel.GetBandTileAccentColorAsync();
-
-                //Enable all button.
-                if (mainPageViewModel.Notes.Count < 8)
-                {
-                    AddNote.IsEnabled = true;
-                }
-
-                if (mainPageViewModel.Notes.Count > 0)
-                {
-                    DeleteNote.IsEnabled = true;
-                }
-
-                SyncNote.IsEnabled = true;
-                Setting.IsEnabled = true;
-            }
-            
+            SyncNote.IsEnabled = true;
+            (sender as AppBarButton).IsEnabled = true;
         }
-
-        /// <summary>
-        /// Event handler for the Value Changed Event for the Progress bar. Hide progress bar and indicator at 100%
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SyncProgressBar_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {
-
-            //100, then animate hiding.
-            if ((sender as ProgressBar).Value == 100)
-            {
-                Storyboard myStoryBoard = new Storyboard();
-
-                //Ref: http://stackoverflow.com/questions/5495446/setting-the-visibility-of-an-element-to-collapsed-when-storyboard-completes-usin
-                ObjectAnimationUsingKeyFrames myKeyFrameProgressBar = new ObjectAnimationUsingKeyFrames()
-                {
-                    BeginTime = new TimeSpan(0,0,0)
-                                        
-                };
-
-                //Add in key frames.
-                myKeyFrameProgressBar.KeyFrames.Add(new DiscreteObjectKeyFrame() { KeyTime = new TimeSpan(0, 0, 0), Value = Visibility.Visible });
-                myKeyFrameProgressBar.KeyFrames.Add(new DiscreteObjectKeyFrame() { KeyTime = new TimeSpan(0, 0, 5), Value = Visibility.Collapsed });
-                //Set aim at the Sync Progressbar.
-                Storyboard.SetTarget(myKeyFrameProgressBar, SyncProgressBar);
-                Storyboard.SetTargetProperty(myKeyFrameProgressBar, "Visibility");
-
-                //Ref: http://stackoverflow.com/questions/5495446/setting-the-visibility-of-an-element-to-collapsed-when-storyboard-completes-usin
-                ObjectAnimationUsingKeyFrames myKeyFrameProgressStatus = new ObjectAnimationUsingKeyFrames()
-                {
-                    BeginTime = new TimeSpan(0, 0, 0)
-
-                };
-
-                //Add in key frames.
-                myKeyFrameProgressStatus.KeyFrames.Add(new DiscreteObjectKeyFrame() { KeyTime = new TimeSpan(0, 0, 0), Value = Visibility.Visible });
-                myKeyFrameProgressStatus.KeyFrames.Add(new DiscreteObjectKeyFrame() { KeyTime = new TimeSpan(0, 0, 5), Value = Visibility.Collapsed });
-
-                //Set aim at the sync progress status
-                Storyboard.SetTarget(myKeyFrameProgressStatus, SyncProgressBarIndicator);
-                Storyboard.SetTargetProperty(myKeyFrameProgressStatus, "Visibility");
-
-                //Add them all on to the storyboard
-                myStoryBoard.Children.Add(myKeyFrameProgressBar);
-                myStoryBoard.Children.Add(myKeyFrameProgressStatus);
-
-                //Animate
-                myStoryBoard.Begin();
-            }
-        }      
 
         /// <summary>
         /// Event handler for the Version Info Button click on the AppBar
@@ -348,6 +368,10 @@ namespace NotesOnBand
 
             await updateDialog.ShowAsync();
         }
+
+        #endregion
+     
+        #region Flyout Functionality
 
         /// <summary>
         /// Right tapped event handler for the Stack Panel of Flyout.
@@ -413,5 +437,9 @@ namespace NotesOnBand
             mainPageViewModel.RemoveNote(currentNote);        
           
         }
+
+        #endregion
+
+
     }
 }

@@ -186,16 +186,19 @@ namespace NotesOnBandEngine.ViewModels
         public async Task RemoveTileFromBandAsync()
         {
             //Starting.
-            CompletionPercentage = 0;
+            CompletionPercentage = 20;
+            CompletionStatus = "Removing tile...";
 
             //Connect to Band
             await connector.ConnectToBandAsync(IsResumed);
+
+            CompletionPercentage = 60;
 
             //Empty note. Just remove the Tile.
             await connector.RemoveTileFromBandAsync(new Guid(uniqueIDString));
 
             //write empty XML.
-            await XMLHandler.Instance.SaveToXMLAsync(Notes.ConvertToList());
+            //await XMLHandler.Instance.SaveToXMLAsync(Notes.ConvertToList());
 
             //Set the value to 100 to hide away the progress bar
             CompletionPercentage = 100;
@@ -235,12 +238,12 @@ namespace NotesOnBandEngine.ViewModels
                 var bandTheme = await connector.GetCurrentBandThemeAsync();
                 var accentColor = Windows.UI.ColorHelper.FromArgb(255, bandTheme.Highlight.R, bandTheme.Highlight.G, bandTheme.Highlight.B);
 
+                //Somehow this has to be tied with the UI.
                 await dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal ,() =>
                {
                    BandHighlightColor = new SolidColorBrush(accentColor);
                    OnBandAccentColorChange();
-               });
-                
+               });                
 
             }
 
@@ -263,7 +266,8 @@ namespace NotesOnBandEngine.ViewModels
             //Check if we have notes to sync
             if(Notes.Count == 0)
             {
-                await RemoveTileFromBandAsync();
+                CompletionStatus = "No notes! Done!";
+                CompletionPercentage = 100;
                 return;
             }
 

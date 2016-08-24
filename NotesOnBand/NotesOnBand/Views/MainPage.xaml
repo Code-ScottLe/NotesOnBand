@@ -151,7 +151,7 @@
             <AppBarButton x:Name="AddNote" Icon="Add" Label="Add Note" Click="AddNote_Click"></AppBarButton>
             <AppBarButton x:Name="DeleteNote" Icon="Remove" Label="Delete Note" IsEnabled="False" Click="DeleteNote_Click"></AppBarButton>
             <AppBarButton x:Name="SyncNote" Icon="Sync" Label="Sync" Click="SyncNote_Click"></AppBarButton>
-
+            <AppBarButton x:Name="RemoveTile" Icon="Delete" Label="Remove Tile" Click="RemoveTile_Click"></AppBarButton>
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Name="VersionInfo" Icon="Help" Label="What's new?" Click="VersionInfo_Click"></AppBarButton>
                 <AppBarButton x:Name="Setting" Icon="Setting" Label="Setting" Click="Setting_Click"></AppBarButton>
