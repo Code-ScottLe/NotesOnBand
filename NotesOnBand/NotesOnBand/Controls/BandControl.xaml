@@ -50,7 +50,7 @@
                                           VerticalScrollBarVisibility="Hidden">
                                 <RelativePanel Grid.Column="0" 
                                            Padding="7,0,0,0">
-                                    <TextBlock Foreground="{Binding TitleColor}" Name="TitleTextBlock"                            
+                                    <TextBlock Foreground="{Binding TitleColor, Mode=OneWay}" Name="TitleTextBlock"                            
                                            RelativePanel.AlignTopWithPanel="True"           
                                            RelativePanel.AlignLeftWithPanel="True"                
                                            Text="{Binding Title}"

@@ -155,7 +155,7 @@ namespace NotesOnBandEngine.ViewModels
             set
             {
                 bandHighLightColor = value;
-                OnBandAccentColorChange();
+                //OnBandAccentColorChange();
                 OnPropertyChanged(nameof(BandHighlightColor));
             }
         }
@@ -224,6 +224,31 @@ namespace NotesOnBandEngine.ViewModels
             {
                 RemoveNote(Notes.Last());
             }         
+        }
+
+        public async void GetBandTileAccentColorAsync()
+        {
+            var dispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
+            try
+            {
+                await connector.ConnectToBandAsync();
+                var bandTheme = await connector.GetCurrentBandThemeAsync();
+                var accentColor = Windows.UI.ColorHelper.FromArgb(255, bandTheme.Highlight.R, bandTheme.Highlight.G, bandTheme.Highlight.B);
+
+                await dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal ,() =>
+               {
+                   BandHighlightColor = new SolidColorBrush(accentColor);
+                   OnBandAccentColorChange();
+               });
+                
+
+            }
+
+            catch
+            {
+
+            }
+
         }
 
         /// <summary>
@@ -431,15 +456,15 @@ namespace NotesOnBandEngine.ViewModels
             ErrorOccured?.Invoke(this, new AggregateException(innerException));
         }
 
-        private async void OnBandAccentColorChange()
+        /// <summary>
+        /// Changing all notes preview colors to match with what was set.
+        /// </summary>
+        private void OnBandAccentColorChange()
         {
-            await Task.Run(() =>
+            foreach(var note in Notes)
             {
-                foreach(var note in Notes)
-                {
-                    note.TitleColor = BandHighlightColor;
-                }
-            });
+                note.TitleColor = BandHighlightColor;
+            }
         }
 
         #endregion

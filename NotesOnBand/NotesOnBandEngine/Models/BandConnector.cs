@@ -257,6 +257,21 @@ namespace NotesOnBandEngine.Models
             }
         }
 
+
+        /// <summary>
+        /// Get the current band theme from the band
+        /// </summary>
+        /// <returns></returns>
+        public async Task<BandTheme> GetCurrentBandThemeAsync()
+        {
+            if(currentBandClient == null)
+            {
+                throw new ArgumentNullException("currentbandClient", "Current Band Client can't be null! Please connect to a Band first");
+            }
+
+            return await currentBandClient.PersonalizationManager.GetThemeAsync();
+        }
+
         #endregion
     }
 }

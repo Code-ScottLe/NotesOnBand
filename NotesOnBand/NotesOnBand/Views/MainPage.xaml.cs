@@ -247,8 +247,12 @@ namespace NotesOnBand
                 SyncNote.IsEnabled = false;
                 Setting.IsEnabled = false;
 
+               
                 //try to load from XML
                 await mainPageViewModel.LoadPreviousSyncedNotesAsync();
+
+                //try to get the damn color from the band.
+                mainPageViewModel.GetBandTileAccentColorAsync();
 
                 //Enable all button.
                 if (mainPageViewModel.Notes.Count < 8)
@@ -260,6 +264,7 @@ namespace NotesOnBand
                 {
                     DeleteNote.IsEnabled = true;
                 }
+
                 SyncNote.IsEnabled = true;
                 Setting.IsEnabled = true;
             }
