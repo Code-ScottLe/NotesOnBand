@@ -1,2 +1,2 @@
-MainPackage=C:\Users\Scotty\Source\Repos\Notes on Band\NotesOnBand\NotesOnBand\bin\ARM\Release\Upload\NotesOnBand_1.2.8.0_ARM.appx
-SymbolPackage=C:\Users\Scotty\Source\Repos\Notes on Band\NotesOnBand\NotesOnBand\AppPackages\NotesOnBand_1.2.8.0\NotesOnBand_1.2.8.0_ARM.appxsym
+MainPackage=C:\Users\Scotty\Source\Repos\Notes on Band\NotesOnBand\NotesOnBand\bin\ARM\Release\Upload\NotesOnBand_1.2.9.0_ARM.appx
+SymbolPackage=C:\Users\Scotty\Source\Repos\Notes on Band\NotesOnBand\NotesOnBand\AppPackages\NotesOnBand_1.2.9.0\NotesOnBand_1.2.9.0_ARM.appxsym
