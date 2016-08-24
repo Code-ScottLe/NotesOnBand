@@ -32,7 +32,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid Background="Black"
-                  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                  BorderBrush="{Binding TileHighlightAccentColor, Mode=TwoWay}"
                   BorderThickness="0,0,1,0"></Grid>
             
             <FlipView ItemsSource="{Binding Notes}"
@@ -50,7 +50,7 @@
                                           VerticalScrollBarVisibility="Hidden">
                                 <RelativePanel Grid.Column="0" 
                                            Padding="7,0,0,0">
-                                    <TextBlock Foreground="{StaticResource SystemControlBackgroundAccentBrush}" Name="TitleTextBlock"                            
+                                    <TextBlock Foreground="{Binding TitleColor}" Name="TitleTextBlock"                            
                                            RelativePanel.AlignTopWithPanel="True"           
                                            RelativePanel.AlignLeftWithPanel="True"                
                                            Text="{Binding Title}"

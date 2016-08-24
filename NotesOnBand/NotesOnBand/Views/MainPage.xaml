@@ -16,7 +16,7 @@
     </Page.Resources>
 
     <Page.DataContext>
-        <viewModel:MainPageViewModel x:Name="mainPageViewModel"/>
+        <viewModel:MainPageViewModel x:Name="mainPageViewModel" BandHighlightColor="{StaticResource SystemControlBackgroundAccentBrush}"/>
     </Page.DataContext>
 
     <Grid x:Name="ContentGrid" 
@@ -85,7 +85,8 @@
                 <control:BandControl.DataContext>
                     <control:BandControlViewModel 
                         Version="{x:Bind mainPageViewModel.CurrentBandVersion, Mode=OneWay}"
-                        Notes="{x:Bind mainPageViewModel.Notes, Mode=OneWay}"></control:BandControlViewModel>
+                        Notes="{x:Bind mainPageViewModel.Notes, Mode=OneWay}"
+                        TileHighlightAccentColor="{x:Bind mainPageViewModel.BandHighlightColor, Mode=OneWay}"></control:BandControlViewModel>
                 </control:BandControl.DataContext>
             </control:BandControl>
         </Grid>

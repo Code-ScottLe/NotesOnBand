@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media;
 
 namespace NotesOnBandEngine.Models
 {
@@ -12,6 +13,7 @@ namespace NotesOnBandEngine.Models
 
         private string content;
         private string title;
+        private Brush titleColor;
 
         public string Content
         {
@@ -38,6 +40,25 @@ namespace NotesOnBandEngine.Models
             {
                 title = value;
                 OnPropertyChanged("Title");
+            }
+        }
+
+        public Brush TitleColor
+        {
+            get
+            {
+               if(titleColor == null)
+                {
+                    titleColor = new SolidColorBrush(Windows.UI.Colors.LightCyan);
+                }
+
+                return titleColor;
+            }
+
+            set
+            {
+                titleColor = value;
+                OnPropertyChanged(nameof(TitleColor));
             }
         }
 

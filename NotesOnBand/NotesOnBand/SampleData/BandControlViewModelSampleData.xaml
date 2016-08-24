@@ -3,7 +3,8 @@
     xmlns:Controls="using:NotesOnBand.Controls"
     xmlns:BandEngine="using:NotesOnBandEngine.Models"
     Version="MicrosoftBand2"
-    CurrentBandGridMargin="99, 43, 102, 41">
+    CurrentBandGridMargin="99, 43, 102, 41"
+    TileHighlightAccentColor="DarkCyan">
 
     <!--Band 2 : 99,70,102,67-->
     <!--Band 1 : 99,75,102,72-->
@@ -13,12 +14,12 @@
     </Controls:BandControlViewModel.BandImage>
 
     <Controls:BandControlViewModel.Notes>
-        <BandEngine:BandNote Content="Nam sed" Title="Cras dis"></BandEngine:BandNote>
-        <BandEngine:BandNote Content="Est duis" Title="Aliquam hac"></BandEngine:BandNote>
-        <BandEngine:BandNote Content="Class nunc" Title="Leo curabitur"></BandEngine:BandNote>
-        <BandEngine:BandNote Content="Maecenas praesent aenean vestibulum" Title="Integer accumsan"></BandEngine:BandNote>
-        <BandEngine:BandNote Content="Quisque phasellus mauris" Title="Nullam adipiscing"></BandEngine:BandNote>
-        <BandEngine:BandNote Content="Curae amet" Title="Mus nec donec ante etiam"></BandEngine:BandNote>
+        <BandEngine:BandNote Content="Nam sed" Title="Cras dis" TitleColor="DarkCyan"></BandEngine:BandNote>
+        <BandEngine:BandNote Content="Est duis" Title="Aliquam hac" TitleColor="DarkCyan"></BandEngine:BandNote>
+        <BandEngine:BandNote Content="Class nunc" Title="Leo curabitur" TitleColor="DarkCyan"></BandEngine:BandNote>
+        <BandEngine:BandNote Content="Maecenas praesent aenean vestibulum" Title="Integer accumsan" TitleColor="DarkCyan"></BandEngine:BandNote>
+        <BandEngine:BandNote Content="Quisque phasellus mauris" Title="Nullam adipiscing" TitleColor="DarkCyan"></BandEngine:BandNote>
+        <BandEngine:BandNote Content="Curae amet" Title="Mus nec donec ante etiam" TitleColor="DarkCyan"></BandEngine:BandNote>
         
     </Controls:BandControlViewModel.Notes>
 </Controls:BandControlViewModel>

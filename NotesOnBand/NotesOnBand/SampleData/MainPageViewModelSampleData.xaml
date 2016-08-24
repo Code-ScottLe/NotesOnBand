@@ -5,17 +5,18 @@
     CurrentBandVersion="MicrosoftBand1" 
     CompletionPercentage="110.01" 
     IsFaulted="False" 
-    IsInitialized="True">
+    IsInitialized="True"
+    BandHighlightColor="DarkCyan">
 	<ViewModels:MainPageViewModel.Notes>
-		<Models:BandNote Content="Nam sed" Title="Cras dis"/>
-		<Models:BandNote Content="Est duis" Title="Aliquam hac"/>
-		<Models:BandNote Content="Class nunc" Title="Leo curabitur"/>
-		<Models:BandNote Content="Maecenas praesent aenean vestibulum" Title="Integer accumsan"/>
-		<Models:BandNote Content="Quisque phasellus mauris" Title="Nullam adipiscing"/>
-		<Models:BandNote Content="Curae amet" Title="Mus nec donec ante etiam"/>
-		<Models:BandNote Content="Non bibendum fusce consequat" Title="Convallis lorem per arcu"/>
-		<Models:BandNote Content="Morbi dignissim nulla" Title="Aptent diam eget proin vivamus"/>
-		<Models:BandNote Content="Elit sed aliquam elementum" Title="Auctor congue sem aliquet"/>
-		<Models:BandNote Content="Enim blandit erat parturient" Title="Vestibulum vestibulum sit eros facilisis"/>
+        <Models:BandNote Content="Nam sed" Title="Cras dis" TitleColor="DarkCyan"/>
+        <Models:BandNote Content="Est duis" Title="Aliquam hac" TitleColor="DarkCyan"/>
+        <Models:BandNote Content="Class nunc" Title="Leo curabitur" TitleColor="DarkCyan"/>
+        <Models:BandNote Content="Maecenas praesent aenean vestibulum" Title="Integer accumsan" TitleColor="DarkCyan"/>
+        <Models:BandNote Content="Quisque phasellus mauris" Title="Nullam adipiscing" TitleColor="DarkCyan"/>
+        <Models:BandNote Content="Curae amet" Title="Mus nec donec ante etiam" TitleColor="DarkCyan"/>
+        <Models:BandNote Content="Non bibendum fusce consequat" Title="Convallis lorem per arcu" TitleColor="DarkCyan"/>
+        <Models:BandNote Content="Morbi dignissim nulla" Title="Aptent diam eget proin vivamus" TitleColor="DarkCyan"/>
+        <Models:BandNote Content="Elit sed aliquam elementum" Title="Auctor congue sem aliquet" TitleColor="DarkCyan"/>
+        <Models:BandNote Content="Enim blandit erat parturient" Title="Vestibulum vestibulum sit eros facilisis" TitleColor="DarkCyan"/>
 	</ViewModels:MainPageViewModel.Notes>
 </ViewModels:MainPageViewModel>

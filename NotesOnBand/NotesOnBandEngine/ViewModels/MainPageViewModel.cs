@@ -11,6 +11,7 @@ using NotesOnBandEngine.Events;
 using Windows.Storage.Streams;
 using Windows.Storage;
 using System.Collections.ObjectModel;
+using Windows.UI.Xaml.Media;
 
 namespace NotesOnBandEngine.ViewModels
 {
@@ -28,6 +29,7 @@ namespace NotesOnBandEngine.ViewModels
         private string completionStatus;
         private bool isInitialized = false;
         private bool isFaulted = false;
+        private Brush bandHighLightColor = new SolidColorBrush(Windows.UI.Colors.LightCyan);
         #endregion
 
         #region events
@@ -139,6 +141,25 @@ namespace NotesOnBandEngine.ViewModels
 
         public bool IsResumed { get; set; }
 
+        public Brush BandHighlightColor
+        {
+            get
+            {
+                if(bandHighLightColor == null)
+                {
+                    bandHighLightColor = new SolidColorBrush(Windows.UI.Colors.LightCyan);
+                }
+                return bandHighLightColor;
+            }
+
+            set
+            {
+                bandHighLightColor = value;
+                OnBandAccentColorChange();
+                OnPropertyChanged(nameof(BandHighlightColor));
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -189,7 +210,7 @@ namespace NotesOnBandEngine.ViewModels
 
         public void AddNote()
         {
-            AddNote(new BandNote() { Title = $"Note #{Notes.Count + 1}", Content = $"Note #{Notes.Count + 1}" });
+            AddNote(new BandNote() { Title = $"Note #{Notes.Count + 1}", Content = $"Note #{Notes.Count + 1}", TitleColor = BandHighlightColor });
         }
 
         public void RemoveNote(BandNote note)
@@ -321,6 +342,7 @@ namespace NotesOnBandEngine.ViewModels
             //And save that to the list.
             foreach(var item in previousSyncedNotes)
             {
+                item.TitleColor = BandHighlightColor;
                 Notes.Add(item);
             }
 
@@ -407,6 +429,17 @@ namespace NotesOnBandEngine.ViewModels
         private void OnErrorOccured(Exception innerException)
         {
             ErrorOccured?.Invoke(this, new AggregateException(innerException));
+        }
+
+        private async void OnBandAccentColorChange()
+        {
+            await Task.Run(() =>
+            {
+                foreach(var note in Notes)
+                {
+                    note.TitleColor = BandHighlightColor;
+                }
+            });
         }
 
         #endregion

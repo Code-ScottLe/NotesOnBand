@@ -51,6 +51,9 @@ namespace NotesOnBand.Controls
         private Thickness _currentBandGridMargin = _band2ScreenGridMargin;
 
         private ObservableCollection<BandNote> _notes;
+
+        private Brush _tileHighlightAccentColor = new SolidColorBrush(Windows.UI.Colors.LightCyan);
+
         #endregion
 
         #region Properties
@@ -100,6 +103,21 @@ namespace NotesOnBand.Controls
             get { return _notes; }
             internal set { _notes = value;  OnPropertyChanged(nameof(Notes)); }
         }
+
+        public Brush TileHighlightAccentColor
+        {
+            get
+            {
+                return _tileHighlightAccentColor;
+            }
+
+            set
+            {
+                _tileHighlightAccentColor = value;
+                OnPropertyChanged(nameof(TileHighlightAccentColor));
+            }
+        }
+
 
         #endregion
 
