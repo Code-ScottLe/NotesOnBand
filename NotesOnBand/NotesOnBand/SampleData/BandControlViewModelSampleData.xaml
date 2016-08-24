@@ -3,7 +3,7 @@
     xmlns:Controls="using:NotesOnBand.Controls"
     xmlns:BandEngine="using:NotesOnBandEngine.Models"
     Version="MicrosoftBand2"
-    CurrentBandGridMargin="99,70,102,67">
+    CurrentBandGridMargin="99, 43, 102, 41">
 
     <!--Band 2 : 99,70,102,67-->
     <!--Band 1 : 99,75,102,72-->
