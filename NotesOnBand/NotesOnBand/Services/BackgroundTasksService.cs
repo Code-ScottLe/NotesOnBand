@@ -96,6 +96,23 @@ namespace NotesOnBand.Services
         {
             return Register(backgroundTaskType, new SystemTrigger(type, isOneTime),true, conditions);
         }
+
+
+        /// <summary>
+        /// Unregister a background task
+        /// </summary>
+        /// <param name="backgroundTaskType">The type of the background task</param>
+        public static void Unregister(Type backgroundTaskType)
+        {
+            if(IsBackgroundTaskRegistered(backgroundTaskType) == false)
+            {
+                return;
+            }
+
+            IBackgroundTaskRegistration tobeUnregister = BackgroundTaskRegistration.AllTasks.Where(t => t.Value.Name == backgroundTaskType.Name).Select(t => t).FirstOrDefault().Value;
+
+            tobeUnregister?.Unregister(true);
+        }
         
     }
 }
