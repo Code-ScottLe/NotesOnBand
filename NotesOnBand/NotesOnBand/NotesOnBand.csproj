@@ -107,6 +107,7 @@
       <DependentUpon>BandControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BandVersionToBool.cs" />
+    <Compile Include="Services\BackgroundTasksService.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
