@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using NotesOnBand.Services;
 
 namespace NotesOnBand
 {
@@ -53,6 +54,14 @@ namespace NotesOnBand
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+
+            //Make sure that the Servicing Background Task is activated
+            bool isServicingHandled = BackgroundTasksService.IsBackgroundTaskRegistered(typeof(NotesOnBand.Background.ServiceCompletedBackgroundTask));
+
+            if(isServicingHandled == false)
+            {
+                BackgroundTasksService.RegisterSystemBackgroundTaskAsync(typeof(Background.ServiceCompletedBackgroundTask), Windows.ApplicationModel.Background.SystemTriggerType.ServicingComplete).Wait();
+            }
 
             Frame rootFrame = Window.Current.Content as Frame;
 

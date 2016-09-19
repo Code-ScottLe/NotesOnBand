@@ -183,6 +183,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NotesOnBand.Background\NotesOnBand.Background.csproj">
+      <Project>{06b5a926-fd5f-42b7-8587-f5712ea6b66e}</Project>
+      <Name>NotesOnBand.Background</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NotesOnBandEngine\NotesOnBandEngine.csproj">
       <Project>{cb4e2d34-f667-4c16-853e-836058569900}</Project>
       <Name>NotesOnBandEngine</Name>
