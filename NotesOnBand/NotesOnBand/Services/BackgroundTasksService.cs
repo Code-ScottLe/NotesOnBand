@@ -138,6 +138,34 @@ namespace NotesOnBand.Services
 
             tobeUnregister?.Unregister(true);
         }
-        
+
+
+        /// <summary>
+        /// Get the given background task
+        /// </summary>
+        /// <param name="taskName">name of the background task.</param>
+        /// <returns></returns>
+        public static IBackgroundTaskRegistration GetBackgroundTask(string taskName)
+        {
+            foreach (var task in BackgroundTaskRegistration.AllTasks)
+            {
+                if (task.Value.Name == taskName)
+                {
+                    return task.Value;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Get the given background task
+        /// </summary>
+        /// <param name="taskType">type of the background task class</param>
+        /// <returns></returns>
+        public static IBackgroundTaskRegistration GetBackgroundTask(Type taskType)
+        {
+            return GetBackgroundTask(taskType.Name);
+        }
     }
 }
