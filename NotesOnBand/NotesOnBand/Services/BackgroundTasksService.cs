@@ -18,19 +18,7 @@ namespace NotesOnBand.Services
         {
             return BackgroundTaskRegistration.AllTasks.Where(t => t.Value.Name == backgroundTaskType.Name).Select(t => t).Count() >= 1 ;
         }
-
-
-        /// <summary>
-        /// Register a background task for the application.
-        /// </summary>
-        /// <param name="backgroundTaskType">The type of the background task</param>
-        /// <param name="trigger">Trigger that indicate when the background task should be invoked</param>
-        /// <returns></returns>
-        public static BackgroundTaskRegistration Register(Type backgroundTaskType, IBackgroundTrigger trigger)
-        {
-            return Register(backgroundTaskType, trigger, true);
-        }
-
+       
 
         /// <summary>
         /// Register a background task for the application with conditions
@@ -40,8 +28,17 @@ namespace NotesOnBand.Services
         /// <param name="enforceConditions">Indicate if the background task should quit if condition is no longer valid</param>
         /// <param name="conditions">Optional conditions for the background task to run with</param>
         /// <returns></returns>
-        public static BackgroundTaskRegistration Register(Type backgroundTaskType, IBackgroundTrigger trigger, bool enforceConditions = true, params IBackgroundCondition[] conditions)
+        public static async Task<BackgroundTaskRegistration> RegisterAsync(Type backgroundTaskType, IBackgroundTrigger trigger, bool enforceConditions = true, params IBackgroundCondition[] conditions)
         {
+            //Verify access
+            BackgroundAccessStatus taskRequired = await BackgroundExecutionManager.RequestAccessAsync();
+
+            if(taskRequired == BackgroundAccessStatus.Denied)
+            {
+                throw new InvalidOperationException("Background access is denied!");
+
+            }
+
             //Get details about the background task
             string backgroundTaskName = backgroundTaskType.Name;
             string backgroundTaskEntryPoint = backgroundTaskType.FullName;
@@ -76,11 +73,25 @@ namespace NotesOnBand.Services
         /// <param name="backgroundTaskType">The type of the background task</param>
         /// <param name="delay">Time, in seconds, that indicates the delay between execution time of the background task</param>
         /// <param name="isOneTime">Indicate whether the background task will run only once</param>
-        /// <param name="conditions">Optional conditions for the background task to run with</param>
         /// <returns></returns>
-        public static BackgroundTaskRegistration RegisterTimedBackgroundTask(Type backgroundTaskType, uint delay, bool isOneTime = false, params IBackgroundCondition[] conditions)
+        public async static Task<BackgroundTaskRegistration> RegisterTimedBackgroundTaskAsync(Type backgroundTaskType, uint delay, bool isOneTime = false)
         {
-            return Register(backgroundTaskType, new TimeTrigger(delay, isOneTime), true ,conditions);
+            return await RegisterAsync(backgroundTaskType, new TimeTrigger(delay, isOneTime));
+        }
+
+
+        /// <summary>
+        /// Register a background ták that ưill be invoked periodically, with conditions
+        /// </summary>
+        /// <param name="backgroundTaskType">The type of the background task</param>
+        /// <param name="delay">Time, in seconds, that indicates the delay between execution time of the background task</param>
+        /// <param name="isOneTime">Indicate whether the background task will run only once</param>
+        /// <param name="enforceCondition">Indicate whether the background task will stop running if the condition is failed, regardless of running status</param>
+        /// <param name="conditions">Optional conditions for the background task</param>
+        /// <returns></returns>
+        public async static Task<BackgroundTaskRegistration> RegisterTimedBackgroundTaskAsync(Type backgroundTaskType, uint delay, bool isOneTime = false, bool enforceCondition = true, params IBackgroundCondition[] conditions)
+        {
+            return await RegisterAsync(backgroundTaskType, new TimeTrigger(delay, isOneTime), enforceCondition, conditions);
         }
 
 
@@ -92,11 +103,25 @@ namespace NotesOnBand.Services
         /// <param name="isOneTime">Indicate whether the background task will run only once</param>
         /// <param name="conditions">Optional conditions for the background task to run with</param>
         /// <returns></returns>
-        public static BackgroundTaskRegistration RegisterSystemBackgroundTask(Type backgroundTaskType, SystemTriggerType type, bool isOneTime = false, params IBackgroundCondition[] conditions)
+        public async static Task<BackgroundTaskRegistration> RegisterSystemBackgroundTaskAsync(Type backgroundTaskType, SystemTriggerType type, bool isOneTime = false)
         {
-            return Register(backgroundTaskType, new SystemTrigger(type, isOneTime),true, conditions);
+            return await RegisterAsync(backgroundTaskType, new SystemTrigger(type, isOneTime));
         }
 
+
+        /// <summary>
+        /// Register a background task that will be invoked with a given system trigger/event, with conditions
+        /// </summary>
+        /// <param name="backgroundTaskType">The type of the background task</param>
+        /// <param name="type">Indicate which system trigger/event type that the background task should be responding to.</param>
+        /// <param name="isOneTime">Indicate whether the background task will run only once</param>
+        /// <param name="enforceCondition">Indicate whether the background task will stop running if the condition is failed, regardless of running status</param>
+        /// <param name="conditions">Optional conditions for the background task to run with</param>
+        /// <returns></returns>
+        public async static Task<BackgroundTaskRegistration> RegisterSystemBackgroundTaskAsync(Type backgroundTaskType, SystemTriggerType type, bool isOnTime = false, bool enforceCondition = true, params IBackgroundCondition[] conditions)
+        {
+            return await RegisterAsync(backgroundTaskType, new SystemTrigger(type, isOnTime), enforceCondition, conditions);
+        }
 
         /// <summary>
         /// Unregister a background task
