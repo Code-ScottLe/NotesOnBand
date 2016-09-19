@@ -106,6 +106,9 @@
     <Compile Include="Controls\BandControl.xaml.cs">
       <DependentUpon>BandControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BandPreview.xaml.cs">
+      <DependentUpon>BandPreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\BandVersionToBool.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -154,6 +157,10 @@
       <SubType>Designer</SubType>
     </DesignData>
     <Page Include="Controls\BandControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\BandPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

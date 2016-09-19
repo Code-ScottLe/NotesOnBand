@@ -108,7 +108,7 @@ namespace NotesOnBandEngine.Models
             myPageScrollFlowPanel.Orientation = FlowPanelOrientation.Vertical;
 
             //Set the color of the scroll bar to match with the theme as well
-            myPageScrollFlowPanel.ScrollBarColorSource = ElementColorSource.BandBase;
+            myPageScrollFlowPanel.ScrollBarColorSource = ElementColorSource.TileHighlight;
 
             //Band 1 Workable Width : 245px;
             //Band 2 Workable Width : 258px
