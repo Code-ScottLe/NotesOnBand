@@ -163,9 +163,9 @@ namespace NotesOnBand.Services
         /// </summary>
         /// <param name="taskType">type of the background task class</param>
         /// <returns></returns>
-        public static IBackgroundTaskRegistration GetBackgroundTask(Type taskType)
+        public static IBackgroundTaskRegistration GetBackgroundTask(Type backgroundTaskType)
         {
-            return GetBackgroundTask(taskType.Name);
+            return BackgroundTaskRegistration.AllTasks.FirstOrDefault(t => t.Value.Name == backgroundTaskType.Name).Value;
         }
     }
 }

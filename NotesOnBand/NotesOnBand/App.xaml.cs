@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using NotesOnBand.Services;
+using NotesOnBand.Background;
+using Windows.ApplicationModel.Background;
 
 namespace NotesOnBand
 {
@@ -56,11 +58,13 @@ namespace NotesOnBand
 #endif
 
             //Make sure that the Servicing Background Task is activated
-            bool isServicingHandled = BackgroundTasksService.IsBackgroundTaskRegistered(typeof(NotesOnBand.Background.ServiceCompletedBackgroundTask));
+            bool isServicingHandled = BackgroundTasksService.IsBackgroundTaskRegistered(typeof(ServiceCompletedBackgroundTask));
+
+            var test = BackgroundTasksService.GetBackgroundTask(typeof(ServiceCompletedBackgroundTask));
 
             if(isServicingHandled == false)
             {
-                BackgroundTasksService.RegisterSystemBackgroundTaskAsync(typeof(Background.ServiceCompletedBackgroundTask), Windows.ApplicationModel.Background.SystemTriggerType.ServicingComplete).Wait();
+                BackgroundTasksService.RegisterSystemBackgroundTaskAsync(typeof(ServiceCompletedBackgroundTask),SystemTriggerType.ServicingComplete).Wait();
             }
 
             Frame rootFrame = Window.Current.Content as Frame;
